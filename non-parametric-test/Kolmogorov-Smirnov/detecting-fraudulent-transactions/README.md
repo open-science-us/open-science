@@ -18,9 +18,55 @@ I decide to choose an alternative solution: use the estimation method “bootstr
 
 (3) [Apache Spark](http://spark.apache.org/docs/latest/) v1.6.0
 
-Built with Apache Commons Math v3.6, instead of v3.4.1, to use the estimation method “bootstrap”.
+(3.a) built with Apache Commons Math v3.6, instead of v3.4.1, to use the estimation method “bootstrap”.
+
+~~~
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /___/ .__/\_,_/_/ /_/\_\   version 1.6.0
+      /_/
+
+Using Scala version 2.10.5 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_66)
+~~~
+
+(3.b) configuration files
+~~~
+conf/spark-env.sh
+
+SPARK_MASTER_IP=localhost
+SPARK_DAEMON_MEMORY=256m
+
+
+conf/slaves
+
+localhost
+~~~
+
+(3.c) bin/spark-shell --master spark://localhost:7077 --packages com.databricks:spark-csv_2.10:1.3.0 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+
 
 (4) [R-CRAN](https://cran.r-project.org) version 3.2.3 (2015-12-10)
+
+~~~
+> R.version
+               _                           
+platform       x86_64-apple-darwin13.4.0   
+arch           x86_64                      
+os             darwin13.4.0                
+system         x86_64, darwin13.4.0        
+status                                     
+major          3                           
+minor          2.3                         
+year           2015                        
+month          12                          
+day            10                          
+svn rev        69752                       
+language       R                           
+version.string R version 3.2.3 (2015-12-10)
+nickname       Wooden Christmas-Tree       
+~~~
 
 
 ## Results from R
@@ -40,6 +86,12 @@ Built with Apache Commons Math v3.6, instead of v3.4.1, to use the estimation me
  559 6199 
  113    4 
 ~~~
+
+
+## Results from Spark
+
+(1) 
+
 
 
 
