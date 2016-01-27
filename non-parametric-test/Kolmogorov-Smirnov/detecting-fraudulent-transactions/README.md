@@ -7,7 +7,7 @@ There are 985 products with very few (< 20) transactions. For each of such produ
 
 I reproduce the result using the R code provided by the author in the book. I also see an interesting thing that the author did not mention in the book. 113 of 117 products have product v559 and 4 of 117 products have product v6199 with the most similar unit price distribution. It is obviously wrong, compared with the visual inspection shown in Figure 4.4 inside the book.
 
-I decide to choose an alternative solution: use the estimation method “bootstrap”, provided by [Apache Commons Math 3.6 API](https://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/stat/inference/KolmogorovSmirnovTest.html), to get top 15 similar ones quickly, then carry out the full Kolmogorov-Smirnov test to get the most similar one out of the top 15 ones. 357 out of 985 products are found.
+I decide to choose an alternative solution: use the estimation method “bootstrap”, provided by [Apache Commons Math 3.6 API](https://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/stat/inference/KolmogorovSmirnovTest.html), to get top 15 similar ones quickly, then carry out the full Kolmogorov-Smirnov test to get the most similar one out of the top 15 ones. 357 out of 985 products are found and have 321 different products with the most similar unit price distribution.
 
 
 ## Test Environment
