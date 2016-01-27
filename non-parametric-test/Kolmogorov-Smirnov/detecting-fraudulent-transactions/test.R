@@ -105,6 +105,8 @@ for (i in seq(along = smalls)) {  d <- scale(nm, nm[smalls[i], ], FALSE)  d2 <
 
 sum(similar[, "ks.p"] >= 0.9)
 
+table(similar[similar[, "ks.p"] >= 0.9, "Simil"])
+
 save(similar, file = "similarProducts.Rdata")
 
 

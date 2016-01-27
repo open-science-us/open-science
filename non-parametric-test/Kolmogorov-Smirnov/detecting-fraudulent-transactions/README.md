@@ -90,7 +90,12 @@ nickname       Wooden Christmas-Tree
 
 ## Results from Spark
 
-(1) 
+It takes 2,033 seconds. 
+
+(1) similar.txt includes all 985 products with < 20 transactions
+
+(2) similar-0.9.txt includes 358 products that pass Kolmogorov-Smirnov test of unit price distribution.
+
 
 
 
