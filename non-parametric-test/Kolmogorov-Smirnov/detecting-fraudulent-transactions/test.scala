@@ -66,8 +66,11 @@ for (i <- 0 to (smalls.size - 1)) {
   result(i) = (smalls(i)._1, ks.top(1).lift(0))
 }
 
-println("total takes " + ((start - start0) / 1000))
+println("Total " + smalls.size + " products take " + ((start - start0) / 1000) + " seconds")
 
+result.filter(t => t._2.get._1 >= 0.9).size
+
+result.filter(t => t._2.get._1 >= 0.9).map(t => t._2.get._2).distinct.size
 
 
 // Saving results in files
