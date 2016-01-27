@@ -6,18 +6,20 @@
 ## [KolmogorovSmirnovTest.java](https://commons.apache.org/proper/commons-math/jacoco/org.apache.commons.math3.stat.inference/KolmogorovSmirnovTest.java.html)
 
 
-## Case One:  Fraud Detection
-
-Carry out Kolmogorov-Smirnov test to compare the two distributions of unit prices in sales data for fraud detection.
+## Case One:  Detecting Fraudulent Transactions
 
 
-**Method 1 estimation method:** Call bootstrap to search for top N products for each of the products that has less than 20 transactions. 
+Section 4.2.3.2 (Few Transactions of Some Products) in Chapter 4 (Detecting Fraudulent Transactions) in [Data Mining with R] (http://www.amazon.com/Data-Mining-Learning-Knowledge-Discovery/dp/1439810184)
 
-**Method 2 kolmogorovSmirnovTest method:** Call kolmogorovSmirnovTest against top N products to find the one with the highest p-value for each of the products that has less than 20 transactions. 
- 
+There are products with very few (< 20) transactions. For each of the products that has less than 20 transactions, we will search for the product with the most similar unit price distribution and then use a Kolmogorov-Smirnov test to check if the similarity is statistically signicant.
+
+Carrying out this task for all combinations of products would be computationally too demanding. Instead, the author searched for the product with the most similar median and IQR. Given this similar product and then carried out a Kolmogorov-Smirnov test between their respective unit price distributions, storing the results of this test. Only 117 out of 985 products with less than 20 transactions were found.
+
+I use an alternative solution. Use an estimation method to get top 15 similar ones quickly, then carried out the full Kolmogorov-Smirnov test to get the most similar one out of the top 15 ones. 358 out of 985 products are found.
 
 
-*** Scala Code
+
+### Scala Code
 ~~~
 import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
