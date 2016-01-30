@@ -2,20 +2,26 @@
 
 ## R package
 
+~~~
 library(ROCR)
+~~~
+
+## Test Data
+
+~~~
+data(ROCR.simple)
+~~~
 
 ## Basic PR curve
 
 ~~~
-data(ROCR.simple)
-
 pred <- prediction(ROCR.simple$predictions, ROCR.simple$labels)
 perf <- performance(pred, "prec", "rec")
 
 plot(perf)
 ~~~
 
-![PR-curve](PR-curve.png)
+![PR curve](PR-curve.png)
 
 
 ## Interpolated PR curve
@@ -30,7 +36,24 @@ IPRcurve <- function(preds, trues, ...) {  require(ROCR, quietly = T)
 IPRcurve(ROCR.simple$predictions, ROCR.simple$labels)
 ~~~
 
-![IPR-curve](IPR-curve.png)
+![IPR curve](IPR-curve.png)
+
+
+## Lift chart
+
+RPP means Rate of Positive Predictions. RPP is the probability that the model predicts a positive class, estimated by the proportion of positive class predictions divided by the total number of test cases.
+
+Lift is recall divided by RPP.
+
+~~~
+pred <- prediction(ROCR.simple$predictions, ROCR.simple$labels)
+perf <- performance(pred, "lift", "rpp")
+
+plot(perf, main = "Lift Chart")
+~~~
+
+![Lift chart](Lift-chart.png)
+
 
 
 ## Reference
