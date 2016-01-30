@@ -55,6 +55,23 @@ plot(perf, main = "Lift Chart")
 ![Lift chart](Lift-chart.png)
 
 
+## Cumulative Recall chart
+
+Cumulative Recall (CR) chart shows recall values in terms of RPP. The near the curve of a model is to the top left corner of the graph, the better.
+
+~~~
+CRchart <- function(preds, trues, ...) {
+  require(ROCR, quietly = T)
+  
+  pd <- prediction(preds, trues)
+  pf <- performance(pd, "rec", "rpp")  plot(pf, ...)
+}
+
+CRchart(ROCR.simple$predictions, ROCR.simple$labels, main='Cumulative Recall Chart')
+~~~
+
+![CR chart](CR-chart.png)
+
 
 ## Reference
 
