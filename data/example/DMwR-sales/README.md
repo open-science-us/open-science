@@ -76,9 +76,14 @@ Our goal is to help in the task of verifying the veracity of these reports given
 
        ok      unkn     fraud 
  3.605171 96.078236  0.316593 
+
+> barplot(table(sales$ID), main="Transactions per salespeople", names.arg="", xlab="Salespeople", ylab="Amount", ylim=c(0,12000))
+
+> barplot(table(sales$Prod), main="Transactions per product", names.arg="", xlab="Products", ylab="Amount", ylim=c(0,4000))
 ~~~
 
-
+![sales_ID](sales_ID.png)
+![sales_Prod](sales_Prod.png)
 
 
 
