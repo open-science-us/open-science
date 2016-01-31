@@ -1,8 +1,9 @@
 # [Normalization](https://en.wikipedia.org/wiki/Normalization_(statistics))
 
 
-## Z-score
+## [Z-score](https://en.wikipedia.org/wiki/Standard_score)
 
+z = (x - µ) / σ,  µ is mean and σ is standard deviation.
 
 
 ## IQR-normalization
