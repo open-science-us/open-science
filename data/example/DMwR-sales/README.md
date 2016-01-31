@@ -1,15 +1,10 @@
-# open-science
+# Sales
 
-Where will Data Science be in 2065?
+Transactions reported by salespeople of some company. These salespeople sell a set of products of the company, are free to set the selling price according their own policy and market, report their sales back to the company at the end of each month.
 
-Answer from David Donoho in his article "50 years of Data Science", published on September 18, 2015:   Open Science takes over.
+## Our Goal
 
-In principle, the purpose of scientic publication is to enable reproducibility of research findings. In absolute terms the amount of essentially non-reproducible research is far larger than ever before. To meet the original goal of scientic publication, one should share the underlying code and data. 
+Our goal is to help in the task of verifying the veracity of these reports given past experience of the company that has detected error and fraud attempts in these transaction reports. The help we provide will take the form of a ranking of the reports according to their probability of being fraudulent. This ranking will allow to allocate the limited inspection resources of the company to the reports that our system signals as being more \suspicious".
 
-Reproducibility of computational experiments is just as important to industrial data science as
-it is to scientic publication. It enables a disciplined approach to proposing and evaluating potential
-system improvements and an easy transition of validated improvements into production use.
-
-
-
+## Exploratory Data Analysis
 
