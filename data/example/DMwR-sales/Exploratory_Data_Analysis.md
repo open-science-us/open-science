@@ -90,7 +90,7 @@
 
 ## Salespeople
 ~~~
-> barplot(table(sales$ID), main="Transactions per Salespeople", names.arg="", xlab="Salespeople", ylab="Amount", ylim=c(0,12000))
+> barplot(table(sales$ID), main="Transactions per Salespeople", names.arg="", xlab="Salespeople", ylab="Transactions", ylim=c(0,12000))
 ~~~
 ![sales_ID](sales_ID.png)
 
@@ -112,16 +112,6 @@
 ![sales](sales.png)
 
 ~~~
-> head(valueByID[order(valueByID$x),])
-
-     Group.1    x
-3342   v3355 1050
-6015   v6069 1080
-5828   v5876 1115
-6004   v6058 1115
-4492   v4515 1125
-4315   v4337 1130
-
 > valueByID[order(valueByID$x, decreasing=TRUE)[1:10],]
 
      Group.1         x
@@ -142,9 +132,30 @@
 
 > topSales$ID.f <- factor(topSales$ID, topIDs)
 
-> boxplot(Val ~ ID.f, data= topSales, ylab="Transaction Value", log="y")
+> boxplot(Val ~ ID.f, data= topSales, main="Transaction Values of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Transaction Value)", log="y")
 ~~~
 ![top_sales](top_sales.png)
+
+~~~
+> head(valueByID[order(valueByID$x),])
+
+     Group.1    x
+3342   v3355 1050
+6015   v6069 1080
+5828   v5876 1115
+6004   v6058 1115
+4492   v4515 1125
+4315   v4337 1130
+
+> bottomIDs <- valueByID[order(valueByID$x)[1:100], "Group.1"]
+
+> bottomSales <- sales[ID %in% bottomIDs, c("ID", "Val")]
+
+> bottomSales$ID.f <- factor(bottomSales$ID, bottomIDs)
+
+> boxplot(Val ~ ID.f, data= bottomSales, main="Transaction Values of 100 Bottom Salespeople", xlab="Salespeople", ylab="Transaction Value")
+~~~
+![bottom_sales](bottom_sales.png)
 
 ~~~
 # Top 100 Sales people account for 38% income
