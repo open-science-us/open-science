@@ -141,7 +141,7 @@
 
 
 ## sales people
-
+~~~
 > valueByID <- aggregate(Val, list(ID), sum, na.rm=TRUE)
 
 > head(valueByID)
