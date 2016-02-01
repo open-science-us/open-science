@@ -309,9 +309,9 @@
     0.00     8.46    11.89    20.30    19.11 26460.00    14136 
 
 
-> MUprice <- aggregate(sales$Uprice, list(Prod), median, na.rm=TRUE)
+> tPrice <- aggregate(sales$Uprice, list(Prod), median, na.rm=TRUE)
 
-> head(MUprice)
+> head(tPrice)
 
   Group.1         x
 1      p1 11.428571
@@ -321,6 +321,11 @@
 5      p5 11.000000
 6      p6 13.270677
 
+> plot(log(tPrice$x) ~ tPrice$Group.1, main="Typical Price per Product", names.arg="", xlab="Products", ylab="Log(Typical Price)")
+~~~
+![Typical Prices](tPrices.png)
+
+~~~
 > head(MUprice[order(MUprice$x),])
 
      Group.1          x
