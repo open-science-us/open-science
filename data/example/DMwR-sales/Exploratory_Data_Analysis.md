@@ -1,18 +1,10 @@
 # Exploratory Data Analysis with R
 
-## data source
+
+## Basic
 ~~~
-> install.packages('DMwR')
-
-> library(DMwR)
-
-> data(sales)
-
 > attach(sales)
-~~~
 
-## basic
-~~~
 > head(sales)
 
   ID Prod Quant   Val Insp
@@ -43,15 +35,49 @@
 [1] 4548
 
 
+> table(sales$Insp) / nrow(sales) * 100 
+
+       ok      unkn     fraud 
+ 3.605171 96.078236  0.316593 
+
+
 > length(which(is.na(sales$Quant) & is.na(sales$Val)))
 [1] 888
+
+> head(sales[which(is.na(sales$Quant) & is.na(sales$Val)),])
+        ID  Prod Quant Val Insp
+3475   v29  p808    NA  NA unkn
+4433  v453  p921    NA  NA unkn
+5393  v431 p1035    NA  NA unkn
+5503  v431    p1    NA  NA unkn
+5505  v431    p1    NA  NA unkn
+5913 v1039 p1101    NA  NA unkn
 
 > length(which(is.na(sales$Quant) & sales$Insp == 'ok'))
 [1] 110
 
+> head(sales[which(is.na(sales$Quant) & sales$Insp == 'ok'),])
+        ID  Prod Quant  Val Insp
+3459  v614  p807    NA 1010   ok
+6450 v1295 p1125    NA 1025   ok
+6516  v950 p1125    NA 1240   ok
+6520 v1158 p1125    NA 1005   ok
+6536   v10 p1125    NA 1445   ok
+6624  v709 p1125    NA   NA   ok
+
 > length(which(is.na(sales$Val) & sales$Insp == 'ok'))
 [1] 8
 
+> sales[which(is.na(sales$Val) & sales$Insp == 'ok'),]
+         ID  Prod Quant Val Insp
+6365  v1039 p1125   100  NA   ok
+6624   v709 p1125    NA  NA   ok
+9346   v796 p1436   100  NA   ok
+9475  v1043 p1437   106  NA   ok
+9804  v1039 p1462   100  NA   ok
+9808  v1109 p1462    NA  NA   ok
+15414 v1158 p1910    NA  NA   ok
+19853 v1958 p2272   101  NA   ok
 
 > length(which(is.na(sales$Quant) & is.na(sales$Val) & sales$Insp == 'ok'))
 [1] 3
@@ -64,17 +90,11 @@
 15414 v1158 p1910    NA  NA   ok
 
 
-> table(sales$Insp) / nrow(sales) * 100 
 
-       ok      unkn     fraud 
- 3.605171 96.078236  0.316593 
-
-> barplot(table(sales$ID), main="Transactions per salespeople", names.arg="", xlab="Salespeople", ylab="Amount", ylim=c(0,12000))
 
 > barplot(table(sales$Prod), main="Transactions per product", names.arg="", xlab="Products", ylab="Amount", ylim=c(0,4000))
 ~~~
 
-![sales_ID](sales_ID.png)
 ![sales_Prod](sales_Prod.png)
 
 
@@ -140,8 +160,13 @@
 ![tops](tops.png)
 
 
-## sales people
+## Salespeople
+~~~
+> barplot(table(sales$ID), main="Transactions per Salespeople", names.arg="", xlab="Salespeople", ylab="Amount", ylim=c(0,12000))
+~~~
+![sales_ID](sales_ID.png)
 
+~~~
 > valueByID <- aggregate(Val, list(ID), sum, na.rm=TRUE)
 
 > head(valueByID)
@@ -154,6 +179,11 @@
 5      v5   59050
 6      v6 1164325
 
+> plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Salespeople", names.arg="", xlab="Salespeople", ylab="Log(Sales)")
+~~~
+![sales](sales.png)
+
+~~~
 > head(valueByID[order(valueByID$x),])
 
      Group.1    x
@@ -194,4 +224,64 @@
 ~~~
 
 ![topIDs](topIDs.png)
+
+
+## quantity
+~~~
+> quantByProd <- aggregate(Quant, list(Prod), sum, na.rm=TRUE)
+
+> head(quantByProd)
+
+  Group.1      x
+1      p1 159111
+2      p2  89456
+3      p3  38471
+4      p4 238431
+5      p5 285615
+6      p6  17104
+
+> head(quantByProd[order(quantByProd $x),])
+
+     Group.1   x
+2442   p2442   0
+2443   p2443   0
+1653   p1653 108
+4101   p4101 202
+3678   p3678 405
+4464   p4464 408
+
+> sales[Prod == "p3678" & !is.na(Quant),]
+
+          ID  Prod Quant  Val Insp   Uprice
+69807  v3664 p3678   100 1205 unkn 12.05000
+167468 v1303 p3678   102 1925 unkn 18.87255
+207387 v1303 p3678   103 2145 unkn 20.82524
+405825 v3664 p3678   100 1135 unkn 11.35000
+
+
+> head(quantByProd[order(quantByProd $x, decreasing=TRUE),])
+
+     Group.1         x
+2516   p2516 535301953
+3599   p3599 474050752
+314     p314 367166615
+569     p569 107686551
+319     p319  86818285
+2477   p2477  42791152
+
+> topQuants <- sales[Prod %in% c("p2516", "p3678") & !is.na(Quant), c("Prod", "Quant")]
+
+# Top 100 products account for 75% quantity
+
+> sum(as.double(quantByProd[order(quantByProd$x, decreasing=T)[1:100], 2])) / sum(as.double(Quant), na.rm=T) * 100
+[1] 74.63478
+
+# Bottom 3000 products account for 2.24% quantity
+
+> sum(as.double(quantByProd[order(quantByProd$x, decreasing=F)[1:3000], 2])) / sum(as.double(Quant), na.rm=T) * 100
+[1] 2.241725
+~~~
+
+
+
 
