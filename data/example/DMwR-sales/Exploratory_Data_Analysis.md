@@ -107,6 +107,11 @@
 5      v5   59050
 6      v6 1164325
 
+> plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Salespeople", names.arg="", xlab="Salespeople", ylab="Log(Sales)")
+~~~
+![sales](sales.png)
+
+~~~
 > head(valueByID[order(valueByID$x),])
 
      Group.1    x
@@ -117,7 +122,7 @@
 4492   v4515 1125
 4315   v4337 1130
 
-> head(valueByID[order(valueByID$x, decreasing=TRUE),])
+> valueByID[order(valueByID$x, decreasing=TRUE)[1:10],]
 
      Group.1         x
 427     v431 211489170
@@ -126,10 +131,20 @@
 4497   v4520  64398195
 949     v955  63182215
 1431   v1437  50013195
+3882   v3901  48769945
+354     v356  42131925
+5050   v5086  41845760
+743     v749  39526285
 
-> plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Salespeople", names.arg="", xlab="Salespeople", ylab="Log(Sales)")
+> topIDs <- valueByID[order(valueByID$x, decreasing=TRUE)[1:10], "Group.1"]
+
+> topSales <- sales[ID %in% topIDs, c("ID", "Val")]
+
+> topSales$ID.f <- factor(topSales$ID, topIDs)
+
+> boxplot(Val ~ ID.f, data= topSales, ylab="Transaction Value", log="y")
 ~~~
-![sales](sales.png)
+![top_sales](top_sales.png)
 
 ~~~
 # Top 100 Sales people account for 38% income
@@ -204,7 +219,7 @@
 
 ![tops](tops.png)
 
-## Quantity
+## Product
 ~~~
 > barplot(table(sales$Prod), main="Transactions per product", names.arg="", xlab="Products", ylab="Amount", ylim=c(0,4000))
 ~~~
