@@ -234,8 +234,26 @@
 
 > boxplot(Val ~ Prod.f, data= topSalesByProd, main="Transaction Values of 10 Top Products", xlab="Products", ylab="Log(Transaction Value)", log="y")
 ~~~
-![top_sales](top_sales.png)
+![top_products](top_products.png)
 
+~~~
+> topSalesByProdID <- aggregate(topSalesByProd$Val, list(topSalesByProd$Prod, topSalesByProd$ID), sum, na.rm=TRUE)
+
+> head(topSalesByProdID)
+
+  Group.1 Group.2      x
+1   p3655      v1   8810
+2   p3774      v1  91785
+3   p3655      v4   2675
+4   p1938      v8  18100
+5   p1214     v10 465405
+6   p3655     v10  41560
+
+> topSalesByProdID$Group.1 <- factor(topSalesByProdID$Group.1, topProds)
+
+> boxplot(log(x) ~ Group.1, data=topSalesByProdID, main="Salespeople Sales of 10 Top Product", xlab="Products", ylab="Log(Salespeople Sales)")
+~~~
+![top_products_ID](top_products_ID.png)
 
 ~~~
 # Top 100 products account for 75% quantity
