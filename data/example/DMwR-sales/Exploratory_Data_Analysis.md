@@ -15,7 +15,6 @@
 5 v3   p1  6164 20260 unkn
 6 v5   p2   104  1155 unkn
 
-
 > summary(sales)
 
        ID              Prod            Quant                Val             Insp       
@@ -33,7 +32,6 @@
 
 > nlevels(Prod)
 [1] 4548
-
 
 > table(sales$Insp) / nrow(sales) * 100 
 
@@ -88,17 +86,64 @@
 6624   v709 p1125    NA  NA   ok
 9808  v1109 p1462    NA  NA   ok
 15414 v1158 p1910    NA  NA   ok
-
-
-
-
-> barplot(table(sales$Prod), main="Transactions per product", names.arg="", xlab="Products", ylab="Amount", ylim=c(0,4000))
 ~~~
 
-![sales_Prod](sales_Prod.png)
+## Salespeople
+~~~
+> barplot(table(sales$ID), main="Transactions per Salespeople", names.arg="", xlab="Salespeople", ylab="Amount", ylim=c(0,12000))
+~~~
+![sales_ID](sales_ID.png)
 
+~~~
+> valueByID <- aggregate(Val, list(ID), sum, na.rm=TRUE)
 
-## unit price
+> head(valueByID)
+
+  Group.1       x
+1      v1  917030
+2      v2 1090375
+3      v3  517490
+4      v4  728880
+5      v5   59050
+6      v6 1164325
+
+> head(valueByID[order(valueByID$x),])
+
+     Group.1    x
+3342   v3355 1050
+6015   v6069 1080
+5828   v5876 1115
+6004   v6058 1115
+4492   v4515 1125
+4315   v4337 1130
+
+> head(valueByID[order(valueByID$x, decreasing=TRUE),])
+
+     Group.1         x
+427     v431 211489170
+54       v54 139322315
+19       v19  71983200
+4497   v4520  64398195
+949     v955  63182215
+1431   v1437  50013195
+
+> plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Salespeople", names.arg="", xlab="Salespeople", ylab="Log(Sales)")
+~~~
+![sales](sales.png)
+
+~~~
+# Top 100 Sales people account for 38% income
+
+> sum(valueByID[order(valueByID$x, decreasing=T)[1:100], 2]) / sum(Val, na.rm=T) * 100
+[1] 38.33277
+
+# Bottom 2000 Sales people account for less than 2% income
+
+> sum(valueByID[order(valueByID $x, decreasing=F)[1:2000], 2]) / sum(Val, na.rm=T) * 100
+[1] 1.988716
+~~~
+
+## Unit Price
 ~~~
 > sales$Uprice <- Val/Quant
 
@@ -159,74 +204,12 @@
 
 ![tops](tops.png)
 
-
-## Salespeople
+## Quantity
 ~~~
-> barplot(table(sales$ID), main="Transactions per Salespeople", names.arg="", xlab="Salespeople", ylab="Amount", ylim=c(0,12000))
+> barplot(table(sales$Prod), main="Transactions per product", names.arg="", xlab="Products", ylab="Amount", ylim=c(0,4000))
 ~~~
-![sales_ID](sales_ID.png)
+![sales_Prod](sales_Prod.png)
 
-~~~
-> valueByID <- aggregate(Val, list(ID), sum, na.rm=TRUE)
-
-> head(valueByID)
-
-  Group.1       x
-1      v1  917030
-2      v2 1090375
-3      v3  517490
-4      v4  728880
-5      v5   59050
-6      v6 1164325
-
-> plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Salespeople", names.arg="", xlab="Salespeople", ylab="Log(Sales)")
-~~~
-![sales](sales.png)
-
-~~~
-> head(valueByID[order(valueByID$x),])
-
-     Group.1    x
-3342   v3355 1050
-6015   v6069 1080
-5828   v5876 1115
-6004   v6058 1115
-4492   v4515 1125
-4315   v4337 1130
-
-> head(valueByID[order(valueByID$x, decreasing=TRUE),])
-
-     Group.1         x
-427     v431 211489170
-54       v54 139322315
-19       v19  71983200
-4497   v4520  64398195
-949     v955  63182215
-1431   v1437  50013195
-
-
-> topIDs <- sales[ID %in% c("v3355", "v431"), c("ID", "Val")]
-
-> topIDs$ID.f <- factor(topIDs$ID)
-
-> boxplot(Val ~ ID.f, data= topIDs, ylab="Transaction Value", log="y")
-
-
-# Top 100 Sales people account for 38% income
-
-> sum(valueByID[order(valueByID$x, decreasing=T)[1:100], 2]) / sum(Val, na.rm=T) * 100
-[1] 38.33277
-
-# Bottom 2000 Sales people account for less than 2% income
-
-> sum(valueByID[order(valueByID $x, decreasing=F)[1:2000], 2]) / sum(Val, na.rm=T) * 100
-[1] 1.988716
-~~~
-
-![topIDs](topIDs.png)
-
-
-## quantity
 ~~~
 > quantByProd <- aggregate(Quant, list(Prod), sum, na.rm=TRUE)
 
