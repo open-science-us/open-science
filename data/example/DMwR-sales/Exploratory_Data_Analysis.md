@@ -128,18 +128,18 @@
 
 > topIDs <- valueByID[order(valueByID$x, decreasing=TRUE)[1:10], "Group.1"]
 
-> topSales <- sales[ID %in% topIDs, c("ID", "Val")]
+> topSalesByID <- sales[ID %in% topIDs, c("ID", "Prod", "Val")]
 
-> topSales$ID.f <- factor(topSales$ID, topIDs)
+> topSalesByID$ID.f <- factor(topSalesByID$ID, topIDs)
 
-> boxplot(Val ~ ID.f, data= topSales, main="Transaction Values of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Transaction Value)", log="y")
+> boxplot(Val ~ ID.f, data= topSalesByID, main="Transaction Values of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Transaction Value)", log="y")
 ~~~
 ![top_sales](top_sales.png)
 
 ~~~
-> topSalesByProd <- aggregate(topSales$Val, list(topSales$ID, topSales$Prod), sum, na.rm=TRUE)
+> topSalesByIDProd <- aggregate(topSalesByID$Val, list(topSalesByID$ID, topSalesByID$Prod), sum, na.rm=TRUE)
 
-> head(topSalesByProd)
+> head(topSalesByIDProd)
 
   Group.1 Group.2       x
 1    v431      p1   60720
@@ -149,9 +149,9 @@
 5    v431      p5    1760
 6     v54     p16 6032990
 
-> topSalesByProd$Group.1 <- factor(topSalesByProd$Group.1, topIDs)
+> topSalesByIDProd$Group.1 <- factor(topSalesByIDProd$Group.1, topIDs)
 
-> boxplot(log(x) ~ Group.1, data=topSalesByProd, main="Product Sales of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Product Sales)")
+> boxplot(log(x) ~ Group.1, data=topSalesByIDProd, main="Product Sales of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Product Sales)")
 ~~~
 ![top_sales_product](top_sales_product.png)
 
@@ -168,29 +168,29 @@
 
 > bottomIDs <- valueByID[order(valueByID$x)[1:100], "Group.1"]
 
-> bottomSales <- sales[ID %in% bottomIDs, c("ID", "Val")]
+> bottomSalesByID <- sales[ID %in% bottomIDs, c("ID", "Prod", "Val")]
 
-> bottomSales$ID.f <- factor(bottomSales$ID, bottomIDs)
+> bottomSalesByID$ID.f <- factor(bottomSalesByID$ID, bottomIDs)
 
-> boxplot(Val ~ ID.f, data= bottomSales, main="Transaction Values of 100 Bottom Salespeople", xlab="Salespeople", ylab="Transaction Value")
+> boxplot(Val ~ ID.f, data= bottomSalesByID, main="Transaction Values of 100 Bottom Salespeople", xlab="Salespeople", ylab="Transaction Value")
 ~~~
 ![bottom_sales](bottom_sales.png)
 
 ~~~
-# Top 100 Sales people account for 38% income
+# Top 100 Salespeople account for 38% income
 
 > sum(valueByID[order(valueByID$x, decreasing=T)[1:100], 2]) / sum(Val, na.rm=T) * 100
 [1] 38.33277
 
-# Bottom 2000 Sales people account for less than 2% income
+# Bottom 2000 Salespeople account for less than 2% income
 
 > sum(valueByID[order(valueByID $x, decreasing=F)[1:2000], 2]) / sum(Val, na.rm=T) * 100
 [1] 1.988716
 ~~~
 
-## Product
+## Products
 ~~~
-> barplot(table(sales$Prod), main="Transactions per product", names.arg="", xlab="Products", ylab="Transactions", ylim=c(0,4000))
+> barplot(table(sales$Prod), main="Transactions per Product", names.arg="", xlab="Products", ylab="Transactions", ylim=c(0,4000))
 ~~~
 ![sales_Prod](sales_Prod.png)
 
@@ -211,7 +211,33 @@
 ~~~
 ![products](products.png)
 
+~~~
+> valueByProd[order(valueByProd$x, decreasing=TRUE)[1:10],]
 
+     Group.1         x
+3738   p3738 102544065
+3735   p3735  93342190
+314     p314  78503390
+3774   p3774  45926100
+1938   p1938  41813875
+1214   p1214  39212400
+3725   p3725  38302795
+3655   p3655  34743160
+2456   p2456  34427235
+3682   p3682  34016270
+
+> topProds <- valueByProd[order(valueByProd$x, decreasing=TRUE)[1:10], "Group.1"]
+
+> topSalesByProd <- sales[Prod %in% topProds, c("ID", "Prod", "Val")]
+
+> topSalesByProd$Prod.f <- factor(topSalesByProd$Prod, topProds)
+
+> boxplot(Val ~ Prod.f, data= topSalesByProd, main="Transaction Values of 10 Top Products", xlab="Products", ylab="Log(Transaction Value)", log="y")
+~~~
+![top_sales](top_sales.png)
+
+
+~~~
 # Top 100 products account for 75% quantity
 
 > sum(as.double(quantByProd[order(quantByProd$x, decreasing=T)[1:100], 2])) / sum(as.double(Quant), na.rm=T) * 100
