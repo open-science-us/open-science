@@ -140,5 +140,58 @@
 ![tops](tops.png)
 
 
+## sales people
 
+> valueByID <- aggregate(Val, list(ID), sum, na.rm=TRUE)
+
+> head(valueByID)
+
+  Group.1       x
+1      v1  917030
+2      v2 1090375
+3      v3  517490
+4      v4  728880
+5      v5   59050
+6      v6 1164325
+
+> head(valueByID[order(valueByID$x),])
+
+     Group.1    x
+3342   v3355 1050
+6015   v6069 1080
+5828   v5876 1115
+6004   v6058 1115
+4492   v4515 1125
+4315   v4337 1130
+
+> head(valueByID[order(valueByID$x, decreasing=TRUE),])
+
+     Group.1         x
+427     v431 211489170
+54       v54 139322315
+19       v19  71983200
+4497   v4520  64398195
+949     v955  63182215
+1431   v1437  50013195
+
+
+> topIDs <- sales[ID %in% c("v3355", "v431"), c("ID", "Val")]
+
+> topIDs$ID.f <- factor(topIDs$ID)
+
+> boxplot(Val ~ ID.f, data= topIDs, ylab="Transaction Value", log="y")
+
+
+# Top 100 Sales people account for 38% income
+
+> sum(valueByID[order(valueByID$x, decreasing=T)[1:100], 2]) / sum(Val, na.rm=T) * 100
+[1] 38.33277
+
+# Bottom 2000 Sales people account for less than 2% income
+
+> sum(valueByID[order(valueByID $x, decreasing=F)[1:2000], 2]) / sum(Val, na.rm=T) * 100
+[1] 1.988716
+~~~
+
+![topIDs](topIDs.png)
 
