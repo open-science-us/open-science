@@ -326,17 +326,7 @@
 ![Typical Prices](tPrices.png)
 
 ~~~
-> head(MUprice[order(MUprice$x),])
-
-     Group.1          x
-560     p560 0.01688455
-559     p559 0.01884438
-4195   p4195 0.03025914
-601     p601 0.05522265
-563     p563 0.05576406
-561     p561 0.09115803
-
-> head(MUprice[order(MUprice$x, decreasing=TRUE),])
+> tPrice[order(tPrice$x, decreasing=TRUE)[1:10],]
 
      Group.1         x
 3689   p3689 9204.1954
@@ -345,6 +335,34 @@
 2456   p2456  304.8515
 2459   p2459  283.8119
 2451   p2451  262.2277
+3581   p3581  183.1237
+3795   p3795  179.9410
+3691   p3691  171.2745
+4354   p4354  158.0660
+
+> expensives <- tPrice[order(tPrice$x, decreasing=TRUE)[1:10], "Group.1"]
+
+> expensiveSales <- sales[Prod %in% expensives, c("ID", "Prod", "Val")]
+
+> boxplot(Val ~ Prod.f, data= expensiveSales, main="Transaction Values of 10 Expensive Products", xlab="Products", ylab="Log(Transaction Value)", log="y")
+~~~
+![Expensive Sales](expensive_sales.png)
+
+~~~
+> tPrice[order(tPrice$x)[1:10],]
+
+     Group.1          x
+560     p560 0.01688455
+559     p559 0.01884438
+4195   p4195 0.03025914
+601     p601 0.05522265
+563     p563 0.05576406
+561     p561 0.09115803
+566     p566 0.13590731
+2330   p2330 0.13886771
+613     p613 0.14521402
+555     p555 0.14972394
+
 
 > tops <- sales[Prod %in% c("p560", "p3689"), c("Prod", "Uprice")]
 
