@@ -137,6 +137,25 @@
 ![top_sales](top_sales.png)
 
 ~~~
+> topSalesByProd <- aggregate(topSales$Val, list(topSales$ID, topSales$Prod), sum, na.rm=TRUE)
+
+> head(topSalesByProd)
+
+  Group.1 Group.2       x
+1    v431      p1   60720
+2    v749      p1  475740
+3    v431      p3   10720
+4    v431      p4       0
+5    v431      p5    1760
+6     v54     p16 6032990
+
+> topSalesByProd$Group.1 <- factor(topSalesByProd$Group.1, topIDs)
+
+> boxplot(log(x) ~ Group.1, data=topSalesByProd, main="Product Sales of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Product Sales)")
+~~~
+![top_sales_product](top_sales_product.png)
+
+~~~
 > head(valueByID[order(valueByID$x),])
 
      Group.1    x
