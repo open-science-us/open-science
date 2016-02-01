@@ -195,3 +195,63 @@
 
 ![topIDs](topIDs.png)
 
+
+## quantity
+~~~
+> quantByProd <- aggregate(Quant, list(Prod), sum, na.rm=TRUE)
+
+> head(quantByProd)
+
+  Group.1      x
+1      p1 159111
+2      p2  89456
+3      p3  38471
+4      p4 238431
+5      p5 285615
+6      p6  17104
+
+> head(quantByProd[order(quantByProd $x),])
+
+     Group.1   x
+2442   p2442   0
+2443   p2443   0
+1653   p1653 108
+4101   p4101 202
+3678   p3678 405
+4464   p4464 408
+
+> sales[Prod == "p3678" & !is.na(Quant),]
+
+          ID  Prod Quant  Val Insp   Uprice
+69807  v3664 p3678   100 1205 unkn 12.05000
+167468 v1303 p3678   102 1925 unkn 18.87255
+207387 v1303 p3678   103 2145 unkn 20.82524
+405825 v3664 p3678   100 1135 unkn 11.35000
+
+
+> head(quantByProd[order(quantByProd $x, decreasing=TRUE),])
+
+     Group.1         x
+2516   p2516 535301953
+3599   p3599 474050752
+314     p314 367166615
+569     p569 107686551
+319     p319  86818285
+2477   p2477  42791152
+
+> topQuants <- sales[Prod %in% c("p2516", "p3678") & !is.na(Quant), c("Prod", "Quant")]
+
+# Top 100 products account for 75% quantity
+
+> sum(as.double(quantByProd[order(quantByProd$x, decreasing=T)[1:100], 2])) / sum(as.double(Quant), na.rm=T) * 100
+[1] 74.63478
+
+# Bottom 3000 products account for 2.24% quantity
+
+> sum(as.double(quantByProd[order(quantByProd$x, decreasing=F)[1:3000], 2])) / sum(as.double(Quant), na.rm=T) * 100
+[1] 2.241725
+~~~
+
+
+
+
