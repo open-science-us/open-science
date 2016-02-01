@@ -256,6 +256,27 @@
 ![top_products_ID](top_products_ID.png)
 
 ~~~
+> head(valueByProd[order(valueByProd$x),])
+
+     Group.1     x
+4491   p4491 10155
+1653   p1653 11295
+4436   p4436 12420
+189     p189 12605
+669     p669 12760
+4172   p4172 12795
+
+> bottomProds <- valueByProd[order(valueByProd$x)[1:100], "Group.1"]
+
+> bottomSalesByProd <- sales[Prod %in% bottomProds, c("ID", "Prod", "Val")]
+
+> bottomSalesByProd$Prod.f <- factor(bottomSalesByProd$Prod, bottomProds)
+
+> boxplot(log(Val) ~ Prod.f, data= bottomSalesByProd, main="Transaction Values of 100 Bottom Products", xlab="Products", ylab="log(Transaction Value)")
+~~~
+![bottom_products](bottom_products.png)
+
+~~~
 # Top 100 products account for 75% quantity
 
 > sum(as.double(quantByProd[order(quantByProd$x, decreasing=T)[1:100], 2])) / sum(as.double(Quant), na.rm=T) * 100
