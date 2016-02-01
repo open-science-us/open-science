@@ -2,9 +2,9 @@
 
 Transactions reported by salespeople of some company. These salespeople sell a set of products of the company, are free to set the selling price according their own policy and market, report their sales back to the company at the end of each month.
 
-## Our Goal
+## Goal
 
-Our goal is to help in the task of verifying the veracity of these reports given past experience of the company that has detected error and fraud attempts in these transaction reports. The help we provide will take the form of a ranking of the reports according to their probability of being fraudulent. This ranking will allow to allocate the limited inspection resources of the company to the reports that our system signals as being more \suspicious".
+The goal is to help in the task of verifying the veracity of these reports given past experience of the company that has detected error and fraud attempts in these transaction reports. The help we provide will take the form of a ranking of the reports according to their probability of being fraudulent. This ranking will allow to allocate the limited inspection resources of the company to the reports that our system signals as being more suspicious.
 
 ## Exploratory Data Analysis with R
 
@@ -85,6 +85,67 @@ Our goal is to help in the task of verifying the veracity of these reports given
 ![sales_ID](sales_ID.png)
 ![sales_Prod](sales_Prod.png)
 
+
+### unit price
+~~~
+> sales$Uprice <- Val/Quant
+
+> head(sales)
+
+  ID Prod Quant   Val Insp    Uprice
+1 v1   p1   182  1665 unkn  9.148352
+2 v2   p1  3072  8780 unkn  2.858073
+3 v3   p1 20393 76990 unkn  3.775315
+4 v4   p1   112  1100 unkn  9.821429
+5 v3   p1  6164 20260 unkn  3.286827
+6 v5   p2   104  1155 unkn 11.105769
+
+> summary(sales$Uprice)
+
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's 
+    0.00     8.46    11.89    20.30    19.11 26460.00    14136 
+
+
+> MUprice <- aggregate(sales$Uprice, list(Prod), median, na.rm=TRUE)
+
+> head(MUprice)
+
+  Group.1         x
+1      p1 11.428571
+2      p2 10.877863
+3      p3 10.000000
+4      p4  9.911243
+5      p5 11.000000
+6      p6 13.270677
+
+> head(MUprice[order(MUprice$x),])
+
+     Group.1          x
+560     p560 0.01688455
+559     p559 0.01884438
+4195   p4195 0.03025914
+601     p601 0.05522265
+563     p563 0.05576406
+561     p561 0.09115803
+
+> head(MUprice[order(MUprice$x, decreasing=TRUE),])
+
+     Group.1         x
+3689   p3689 9204.1954
+2453   p2453  456.0784
+2452   p2452  329.3137
+2456   p2456  304.8515
+2459   p2459  283.8119
+2451   p2451  262.2277
+
+> tops <- sales[Prod %in% c("p560", "p3689"), c("Prod", "Uprice")]
+
+> tops$Prod.f <- factor(tops$Prod)
+ 
+> boxplot(Uprice ~ Prod.f, data=tops, ylab="Uprice", log="y")
+~~~
+
+![tops](tops.png)
 
 
 
