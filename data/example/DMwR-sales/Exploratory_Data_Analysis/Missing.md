@@ -90,8 +90,16 @@
 ~~~
 ![Top Dual Prod Sales](../images/top_dual_Prod_sales.png)
 
+
 ### Quantity Missing
 ~~~
+> length(which(is.na(Quant)))
+[1] 13842
+ 
+> length(which(is.na(Quant) & !is.na(Val)))
+[1] 12954
+
+
 > length(which(is.na(Quant) & Insp == 'ok'))
 [1] 110
 
@@ -105,6 +113,19 @@
 6536   v10 p1125    NA 1445   ok
 6624  v709 p1125    NA   NA   ok
 
+> length(which(is.na(Quant) & Insp == 'fraud'))
+[1] 30
+
+> head(sales[which(is.na(Quant) & Insp == 'fraud'),])
+
+         ID  Prod Quant  Val  Insp
+9111   v731 p1405    NA 3520 fraud
+32582 v2924 p4074    NA 1265 fraud
+33209  v588 p4100    NA 1155 fraud
+58426 v2925 p2443    NA 3610 fraud
+58428 v4355 p2443    NA 1280 fraud
+58435  v890 p2444    NA 2260 fraud
+
 
 > naQByProd <- 100 * table(sales[which(is.na(Quant)), 'Prod']) / table(Prod)
  
@@ -113,18 +134,19 @@
     p2442     p2443     p1653     p4101     p4243      p903     p3678     p4061     p3955     p4313 
 100.00000 100.00000  90.90909  85.71429  68.42105  66.66667  66.66667  66.66667  64.28571  63.63636 
 
+
 > nrow(sales[Prod == "p2442",])
 [1] 38
 
 > sum(sales[Prod == "p2442", "Val"])
 [1] 1679550
 
-> table(sales[Prod=="p2442","Insp"])
+> table(sales[Prod == "p2442", "Insp"])
 
    ok  unkn fraud 
     0    38     0 
 
-> sales[Prod=="p2442", ]
+> sales[Prod == "p2442", ]
           ID  Prod Quant    Val Insp
 21259  v2921 p2442    NA   5715 unkn
 21260  v2922 p2442    NA  21250 unkn
@@ -172,12 +194,12 @@
 > sum(sales[Prod == "p2443", "Val"])
 [1] 81090
 
-> table(sales[Prod=="p2443","Insp"])
+> table(sales[Prod == "p2443", "Insp"])
 
    ok  unkn fraud 
     1    13     2 
 
-> sales[Prod=="p2443", ]
+> sales[Prod == "p2443", ]
 
           ID  Prod Quant   Val  Insp
 21264  v2925 p2443    NA 17155    ok
