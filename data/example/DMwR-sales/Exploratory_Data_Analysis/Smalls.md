@@ -1,0 +1,31 @@
+## Products withe few (<20) transactions
+
+~~~
+> setwd("/work/R/example")
+ 
+> load('salesClean.rdata')
+
+> attach(sales)
+
+> notF <- which(Insp != 'fraud')
+
+> mi <- function(x) { 
++   bp <- boxplot.stats(x)$stats 
++   c(median = bp[3], iqr = bp[4]-bp[2])
++ }
+
+> ms <- tapply(Uprice[notF], list(Prod=Prod[notF]), mi)
+
+> m <- matrix(unlist(ms), length(ms), 2, byrow=T, dimnames=list(names(ms), c('median', 'iqr')))
+
+> par(mfrow= c(1,2))
+
+> plot(m[,1], m[,2], xlab="Median", ylab="IQR", main="")
+ 
+> plot(m[,1], m[,2], xlab="Median", ylab="IQR", main="", col="grey", log="xy")
+
+> smalls <- which(table(Prod) < 20)
+ 
+> points(log(m[smalls, 1]), log(m[smalls, 2]), pch="+")
+~~~
+![Small Products](../images/smalls.png)
