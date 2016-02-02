@@ -47,13 +47,32 @@
     v1237     v4254     v4038     v5248     v3666     v4433     v4170     v4926     v4664     v4642 
 13.793103  9.523810  8.333333  8.333333  6.666667  6.250000  5.555556  5.555556  5.494505  4.761905 
 
+> dualIDs <- rownames(dualByID[order(dualByID, decreasing=T)[1:10]])
 
+> dualSalesUsingID <- sales[ID %in% dualIDs, ]
+
+> dualSalesUsingID$ID.f <- factor(dualSalesUsingID$ID, dualIDs)
+
+> barplot(table(dualSalesUsingID$ID.f), xlab="Salespeople", ylab="Transactions")
+~~~
+![Top Dual ID Transactions](../images/top_dual_ID_txns.png)
+
+~~~
+> dualValueByID <- aggregate(dualSalesUsingID$Val, list(dualSalesUsingID$ID), sum, na.rm=TRUE)
+
+> barplot(log(dualValueByID[,"x"]), names.arg=(dualValueByID[,"Group.1"]), xlab="Salespeople", ylab="Log(Sales)")
+~~~
+![Top Dual ID Sales](../images/top_dual_ID_sales.png)
+
+~~~
 > dualByProd <- 100 * table(sales[which(is.na(Quant) & is.na(Val)),'Prod']) / table(Prod)
 
 > dualByProd[order(dualByProd, decreasing=T)[1:10]]
 
    p2689    p2675    p4061    p2780    p4351    p2686    p2707    p2690    p2691    p2670 
 39.28571 35.41667 25.00000 22.72727 18.18182 16.66667 14.28571 14.08451 12.90323 12.76596 
+
+> dualProds <- rownames(dualByProd[order(dualByProd, decreasing=T)[1:10]])
 
 ~~~
 
