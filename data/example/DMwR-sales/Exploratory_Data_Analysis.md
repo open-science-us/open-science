@@ -342,9 +342,11 @@
 
 > expensives <- tPrice[order(tPrice$x, decreasing=TRUE)[1:10], "Group.1"]
 
-> expensiveSales <- sales[Prod %in% expensives, c("ID", "Prod", "Val")]
+> expensiveSales <- sales[Prod %in% expensives, c("ID", "Prod", "Uprice")]
 
-> boxplot(Val ~ Prod.f, data= expensiveSales, main="Transaction Values of 10 Expensive Products", xlab="Products", ylab="Log(Transaction Value)", log="y")
+> expensiveSales$Prod.f <- factor(expensiveSales$Prod, expensives)
+
+> boxplot(Uprice ~ Prod.f, data= expensiveSales, main="Unit Prices of 10 Expensive Products", xlab="Products", ylab="Log(Unit Prices)", log="y")
 ~~~
 ![Expensive Sales](expensive_sales.png)
 
@@ -363,15 +365,16 @@
 613     p613 0.14521402
 555     p555 0.14972394
 
+> cheaps <- tPrice[order(tPrice$x)[1:10], "Group.1"]
 
-> tops <- sales[Prod %in% c("p560", "p3689"), c("Prod", "Uprice")]
+> cheapSales <- sales[Prod %in% cheaps, c("ID", "Prod", "Uprice")]
 
-> tops$Prod.f <- factor(tops$Prod)
+> cheapSales$Prod.f <- factor(cheapSales$Prod, cheaps)
  
-> boxplot(Uprice ~ Prod.f, data=tops, ylab="Uprice", log="y")
+> boxplot(Uprice ~ Prod.f, data= cheapSales, main="Unit Prices of 10 Cheap Products", xlab="Products", ylab="Log(Unit Prices)", log="y")
 ~~~
 
-![tops](tops.png)
+![Cheap Sales](cheap_sales.png)
 
 
 
