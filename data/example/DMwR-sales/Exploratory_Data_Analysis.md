@@ -92,7 +92,7 @@
 ~~~
 > barplot(table(sales$ID), main="Transactions per Salespeople", names.arg="", xlab="Salespeople", ylab="Transactions", ylim=c(0,12000))
 ~~~
-![sales_ID](sales_ID.png)
+![sales_ID](images/sales_ID.png)
 
 ~~~
 > valueByID <- aggregate(Val, list(ID), sum, na.rm=TRUE)
@@ -109,7 +109,7 @@
 
 > plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Salespeople", names.arg="", xlab="Salespeople", ylab="Log(Sales)")
 ~~~
-![sales](sales.png)
+![sales](images/sales.png)
 
 ~~~
 > valueByID[order(valueByID$x, decreasing=TRUE)[1:10],]
@@ -134,7 +134,7 @@
 
 > boxplot(Val ~ ID.f, data= topSalesByID, main="Transaction Values of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Transaction Value)", log="y")
 ~~~
-![top_sales](top_sales.png)
+![top_sales](images/top_sales.png)
 
 ~~~
 > topSalesByIDProd <- aggregate(topSalesByID$Val, list(topSalesByID$ID, topSalesByID$Prod), sum, na.rm=TRUE)
@@ -153,7 +153,7 @@
 
 > boxplot(log(x) ~ Group.1, data=topSalesByIDProd, main="Product Sales of 10 Top Salespeople", xlab="Salespeople", ylab="Log(Product Sales)")
 ~~~
-![top_sales_product](top_sales_product.png)
+![top_sales_product](images/top_sales_product.png)
 
 ~~~
 > head(valueByID[order(valueByID$x),])
@@ -174,7 +174,7 @@
 
 > boxplot(Val ~ ID.f, data= bottomSalesByID, main="Transaction Values of 100 Bottom Salespeople", xlab="Salespeople", ylab="Transaction Value")
 ~~~
-![bottom_sales](bottom_sales.png)
+![bottom_sales](images/bottom_sales.png)
 
 ~~~
 # Top 100 Salespeople account for 38% income
@@ -192,7 +192,7 @@
 ~~~
 > barplot(table(sales$Prod), main="Transactions per Product", names.arg="", xlab="Products", ylab="Transactions", ylim=c(0,4000))
 ~~~
-![sales_Prod](sales_Prod.png)
+![sales_Prod](images/sales_Prod.png)
 
 ~~~
 > valueByProd <- aggregate(Val, list(Prod), sum, na.rm=TRUE)
@@ -209,7 +209,7 @@
 
 > plot(log(valueByID$x) ~ valueByID$Group.1, main="Sales per Product", names.arg="", xlab="Products", ylab="Log(Sales)")
 ~~~
-![products](products.png)
+![products](images/products.png)
 
 ~~~
 > valueByProd[order(valueByProd$x, decreasing=TRUE)[1:10],]
@@ -234,7 +234,7 @@
 
 > boxplot(Val ~ Prod.f, data= topSalesByProd, main="Transaction Values of 10 Top Products", xlab="Products", ylab="Log(Transaction Value)", log="y")
 ~~~
-![top_products](top_products.png)
+![top_products](images/top_products.png)
 
 ~~~
 > topSalesByProdID <- aggregate(topSalesByProd$Val, list(topSalesByProd$Prod, topSalesByProd$ID), sum, na.rm=TRUE)
@@ -253,7 +253,7 @@
 
 > boxplot(log(x) ~ Group.1, data=topSalesByProdID, main="Salespeople Sales of 10 Top Product", xlab="Products", ylab="Log(Salespeople Sales)")
 ~~~
-![top_products_ID](top_products_ID.png)
+![top_products_ID](images/top_products_ID.png)
 
 ~~~
 > head(valueByProd[order(valueByProd$x),])
@@ -274,7 +274,7 @@
 
 > boxplot(log(Val) ~ Prod.f, data= bottomSalesByProd, main="Transaction Values of 100 Bottom Products", xlab="Products", ylab="log(Transaction Value)")
 ~~~
-![bottom_products](bottom_products.png)
+![bottom_products](images/bottom_products.png)
 
 ~~~
 # Top 100 products account for 75% quantity
@@ -323,7 +323,7 @@
 
 > plot(log(tPrice$x) ~ tPrice$Group.1, main="Typical Price per Product", names.arg="", xlab="Products", ylab="Log(Typical Price)")
 ~~~
-![Typical Prices](tPrices.png)
+![Typical Prices](images/tPrices.png)
 
 ~~~
 > tPrice[order(tPrice$x, decreasing=TRUE)[1:10],]
@@ -348,7 +348,7 @@
 
 > boxplot(Uprice ~ Prod.f, data= expensiveSales, main="Unit Prices of 10 Expensive Products", xlab="Products", ylab="Log(Unit Prices)", log="y")
 ~~~
-![Expensive Sales](expensive_sales.png)
+![Expensive Sales](images/expensive_sales.png)
 
 ~~~
 > tPrice[order(tPrice$x)[1:10],]
@@ -373,7 +373,7 @@
  
 > boxplot(Uprice ~ Prod.f, data= cheapSales, main="Unit Prices of 10 Cheap Products", xlab="Products", ylab="Log(Unit Prices)", log="y")
 ~~~
-![Cheap Sales](cheap_sales.png)
+![Cheap Sales](images/cheap_sales.png)
 
 ~~~
 # outliers:  > Q3 + 1.5 * IQR  or < Q1 - 1.5 * IQR
@@ -391,7 +391,7 @@
 
 > boxplot(Uprice ~ Prod.f, data= outSales, main="Unit Prices of 10 Top Outliers", xlab="Products", ylab="Log(Unit Prices)", log="y")
 ~~~
-![Top 10 outliers](top_outliers.png)
+![Top 10 outliers](images/top_outliers.png)
 
 
 
