@@ -1,9 +1,24 @@
 ## Data Cleansing
 
-### Remove product "p2442" and "p2443"
+### Removing transactions with both Value and Quantity missing
 ~~~
 > nrow(sales)
 [1] 401146
+
+> detach(sales)
+
+> sales <- sales[-which(is.na(sales$Quant) & is.na(sales$Val)),]
+ 
+> attach(sales)
+ 
+> nrow(sales)
+[1] 400258
+~~~
+
+### Removing transactions from product "p2442" and "p2443"
+~~~
+> nrow(sales)
+[1] 400258
 
 > nrow(table(Prod))
 [1] 4548
@@ -22,7 +37,7 @@
 
 
 > nrow(sales)
-[1] 401092
+[1] 400204
  
 > nrow(table(Prod))
 [1] 4546
