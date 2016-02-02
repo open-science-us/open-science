@@ -33,4 +33,4 @@
 ~~~
 ![Small Products](../images/smalls.png)
 
-### [Using Spark with Apache Commons Math 3.6 API](../../../../../methodology/non-parametric-test/Kolmogorov-Smirnov/detecting-fraudulent-transactions/README.md)
+### [Using Spark with Apache Commons Math 3.6 API](/methodology/non-parametric-test/Kolmogorov-Smirnov/detecting-fraudulent-transactions/README.md)
