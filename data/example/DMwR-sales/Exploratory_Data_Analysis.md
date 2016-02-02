@@ -373,8 +373,27 @@
  
 > boxplot(Uprice ~ Prod.f, data= cheapSales, main="Unit Prices of 10 Cheap Products", xlab="Products", ylab="Log(Unit Prices)", log="y")
 ~~~
-
 ![Cheap Sales](cheap_sales.png)
+
+~~~
+# outliers:  > Q3 + 1.5 * IQR  or < Q1 - 1.5 * IQR
+
+> oPrice <- tapply(sales$Uprice, list(Prod), function(x) length(boxplot.stats(x)$out))
+
+> outs <- rownames(oPrice[order(oPrice, decreasing=T)[1:10]])
+
+> outs
+ [1] "p1125" "p1437" "p2273" "p1917" "p1918" "p4089" "p538"  "p3774" "p2742" "p3338"
+
+> outSales <- sales[Prod %in% outs, c("ID", "Prod", "Uprice")]
+
+> outSales$Prod.f <- factor(outSales$Prod, outs)
+
+> boxplot(Uprice ~ Prod.f, data= outSales, main="Unit Prices of 10 Top Outliers", xlab="Products", ylab="Log(Unit Prices)", log="y")
+~~~
+![Top 10 outliers](top_outliers.png)
+
+
 
 
 
