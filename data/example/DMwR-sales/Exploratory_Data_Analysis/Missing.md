@@ -48,20 +48,20 @@
     v1237     v4254     v4038     v5248     v3666     v4433     v4170     v4926     v4664     v4642 
 13.793103  9.523810  8.333333  8.333333  6.666667  6.250000  5.555556  5.555556  5.494505  4.761905 
 
-> dualIDs <- rownames(dualByID[order(dualByID, decreasing=T)[1:10]])
+> dualID10 <- rownames(dualByID[order(dualByID, decreasing=T)[1:10]])
 
-> dualSalesUsingID <- sales[ID %in% dualIDs, ]
+> dualSalesID10 <- sales[ID %in% dualID10, ]
 
-> dualSalesUsingID$ID.f <- factor(dualSalesUsingID$ID, dualIDs)
+> dualSalesID10$ID.f <- factor(dualSalesID10$ID, dualID10)
 
-> barplot(table(dualSalesUsingID$ID.f), xlab="Salespeople", ylab="Transactions")
+> barplot(table(dualSalesID10$ID.f), xlab="Salespeople", ylab="Transactions")
 ~~~
 ![Top Dual ID Transactions](../images/top_dual_ID_txns.png)
 
 ~~~
-> dualValueByID <- aggregate(dualSalesUsingID$Val, list(dualSalesUsingID$ID), sum, na.rm=TRUE)
+> dualValueID10 <- aggregate(dualSalesID10$Val, list(dualSalesID10$ID), sum, na.rm=TRUE)
 
-> barplot(log(dualValueByID[,"x"]), names.arg=(dualValueByID[,"Group.1"]), xlab="Salespeople", ylab="Log(Sales)")
+> barplot(log(dualValueID10[,"x"]), names.arg=(dualValueID10[,"Group.1"]), xlab="Salespeople", ylab="Log(Sales)")
 ~~~
 ![Top Dual ID Sales](../images/top_dual_ID_sales.png)
 
@@ -73,20 +73,20 @@
    p2689    p2675    p4061    p2780    p4351    p2686    p2707    p2690    p2691    p2670 
 39.28571 35.41667 25.00000 22.72727 18.18182 16.66667 14.28571 14.08451 12.90323 12.76596 
 
-> dualProds <- rownames(dualByProd[order(dualByProd, decreasing=T)[1:10]])
+> dualProd10 <- rownames(dualByProd[order(dualByProd, decreasing=T)[1:10]])
 
-> dualSalesUsingProd <- sales[Prod %in% dualProds, ]
+> dualSalesProd10 <- sales[Prod %in% dualProd10, ]
  
-> dualSalesUsingProd$Prod.f <- factor(dualSalesUsingProd$Prod, dualProds)
+> dualSalesProd10$Prod.f <- factor(dualSalesProd10$Prod, dualProd10)
  
-> barplot(table(dualSalesUsingProd$Prod.f), xlab="Products", ylab="Transactions")
+> barplot(table(dualSalesProd10$Prod.f), xlab="Products", ylab="Transactions")
 ~~~
 ![Top Dual Prod Transactions](../images/top_dual_Prod_txns.png)
 
 ~~~
-> dualValueByProd <- aggregate(dualSalesUsingProd$Val, list(dualSalesUsingProd$Prod), sum, na.rm=TRUE)
+> dualValueProd10 <- aggregate(dualSalesProd10$Val, list(dualSalesProd10$Prod), sum, na.rm=TRUE)
 
-> barplot(log(dualValueByProd[,"x"]), names.arg=(dualValueByProd[,"Group.1"]), xlab="Products", ylab="Log(Sales)")
+> barplot(log(dualValueProd10[,"x"]), names.arg=(dualValueProd10[,"Group.1"]), xlab="Products", ylab="Log(Sales)")
 ~~~
 ![Top Dual Prod Sales](../images/top_dual_Prod_sales.png)
 
