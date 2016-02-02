@@ -33,6 +33,6 @@
 ~~~
 ![Small Products](../images/smalls.png)
 
-### [Using Spark with Apache Commons Math 3.6 API for Kolmogorov–Smirnov test](/methodology/non-parametric-test/Kolmogorov-Smirnov/detecting-fraudulent-transactions/README.md)
+### Kolmogorov–Smirnov test
 
-357 out of 985 products are found and have 321 different products with the most similar unit price distribution.
+[Using Spark with Apache Commons Math 3.6 API](/methodology/non-parametric-test/Kolmogorov-Smirnov/detecting-fraudulent-transactions/README.md), 357 out of 985 products are found and have 321 different products with the most similar unit price distribution.
