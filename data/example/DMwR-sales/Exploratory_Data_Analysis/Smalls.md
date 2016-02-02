@@ -25,7 +25,12 @@
 > plot(m[,1], m[,2], xlab="Median", ylab="IQR", main="", col="grey", log="xy")
 
 > smalls <- which(table(Prod) < 20)
+
+> length(smalls)
+[1] 985
  
 > points(log(m[smalls, 1]), log(m[smalls, 2]), pch="+")
 ~~~
 ![Small Products](../images/smalls.png)
+
+### [Using Spark with Apache Commons Math 3.6 API](../../../../../methodology/non-parametric-test/Kolmogorov-Smirnov/detecting-fraudulent-transactions/README.md)
