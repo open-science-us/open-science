@@ -90,6 +90,9 @@
 ~~~
 ![Top Dual Prod Sales](../images/top_dual_Prod_sales.png)
 
+~~~
+# Remove all transactions with both of Value and Quantity missing.
+~~~
 
 ### Quantity Missing
 ~~~
@@ -218,14 +221,33 @@
 325290 v4355 p2443    NA  5260  unkn
 325291 v4355 p2443    NA  1280  unkn
 325292 v2925 p2443    NA  2890  unkn
+
+# Remove both of "p2442" and "p2443".
+
+> naQByID <- 100 * table(sales[which(is.na(Quant)), 'ID']) / table(ID)
+ 
+> naQByID[order(naQByID, decreasing=T)[1:10]]
+
+    v2925     v4356     v5537     v5836     v6044     v6058     v6065     v2923     v4368     v2920 
+100.00000 100.00000 100.00000 100.00000 100.00000 100.00000 100.00000  90.00000  88.88889  85.71429 
+
+# Salesperson "v2925", "v4356", "v5537", "v5836", "v6044", "v6058", and "v6065" have all of their transactions missing the quantity variable. However, as long as we have transactions of the same product by other people, we can use the unit price to calculate the quantity from the present value element.
 ~~~
 
 ### Value Missing
 ~~~
-> length(which(is.na(sales$Val) & sales$Insp == 'ok'))
+> length(which(is.na(Val)))
+[1] 1182
+
+> length(which(is.na(Val) & !is.na(Quant)))
+[1] 294
+
+
+> length(which(is.na(Val) & Insp == 'ok'))
 [1] 8
 
-> sales[which(is.na(sales$Val) & sales$Insp == 'ok'),]
+> sales[which(is.na(Val) & Insp == 'ok'),]
+
          ID  Prod Quant Val Insp
 6365  v1039 p1125   100  NA   ok
 6624   v709 p1125    NA  NA   ok
@@ -235,5 +257,69 @@
 9808  v1109 p1462    NA  NA   ok
 15414 v1158 p1910    NA  NA   ok
 19853 v1958 p2272   101  NA   ok
+
+> length(which(is.na(Val) & Insp == 'fraud'))
+[1] 41
+
+> sales[which(is.na(Val) & Insp == 'fraud'),]
+
+          ID  Prod Quant Val  Insp
+15457   v333 p1910   102  NA fraud
+24759   v614 p2961   136  NA fraud
+37198   v397  p785   200  NA fraud
+78058   v614  p807   120  NA fraud
+83451  v1358 p1212   102  NA fraud
+86376   v260 p1451   107  NA fraud
+106062 v3149 p2870   155  NA fraud
+151474 v2753 p2272   308  NA fraud
+157535 v2811 p2863   388  NA fraud
+160443 v2814 p3088   946  NA fraud
+176365  v564  p777   136  NA fraud
+183346 v1195 p1437   100  NA fraud
+184524 v5290 p1533 17034  NA fraud
+185850 v4297 p1617   102  NA fraud
+186585 v5290 p1678   650  NA fraud
+186762 v2445 p1691   127  NA fraud
+190671 v1210 p1919   286  NA fraud
+202610 v5677 p4471   127  NA fraud
+202612 v5677 p3180   343  NA fraud
+203124 v5677 p3223  1117  NA fraud
+216984  v110  p460 24100  NA fraud
+222599  v260  p871   852  NA fraud
+223605 v5053  p931  2311  NA fraud
+224821 v3984  p993   183  NA fraud
+247266 v1720 p4277   143  NA fraud
+277924 v4960  p146   109  NA fraud
+291178 v5898 p1027 11299  NA fraud
+294303  v672 p1125   125  NA fraud
+298121 v1259 p1259   109  NA fraud
+300534   v18 p1436   130  NA fraud
+308610 v2069 p1761 10084  NA fraud
+329417 v2892 p2742   225  NA fraud
+335346   v39 p3072   259  NA fraud
+358021 v4603  p584   614  NA fraud
+360260 v4832  p838   587  NA fraud
+361117  v805  p888   106  NA fraud
+370942  v747 p1462   176  NA fraud
+391577 v3026 p2532  3427  NA fraud
+396255 v5950 p2937   135  NA fraud
+396410    v4 p2940   101  NA fraud
+402311 v3082 p3366   102  NA fraud
+
+
+> naVByID <- 100 * table(sales[which(is.na(Val)), 'ID']) / table(ID)
+
+> naVByID[order(naVByID, decreasing=T)[1:10]]
+
+    v5647       v74     v5946     v5290     v4022     v1237     v4472      v975     v4254     v2814 
+37.500000 22.222222 20.000000 15.384615 13.953488 13.793103 12.500000  9.574468  9.523810  9.090909 
+
+
+> naVByProd <- 100 * table(sales[which(is.na(Val)), 'Prod']) / table(Prod)
+
+> naVByProd[order(naVByProd, decreasing=T)[1:10]]
+
+   p2689    p2675    p1110    p4061    p2780    p4351    p4491    p2707    p1462    p1022 
+39.28571 35.41667 25.00000 25.00000 22.72727 18.18182 18.18182 17.85714 17.77778 17.64706 
 
 ~~~
