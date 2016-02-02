@@ -61,7 +61,7 @@
 ~~~
 > dualValueID10 <- aggregate(dualSalesID10$Val, list(dualSalesID10$ID), sum, na.rm=TRUE)
 
-> barplot(log(dualValueID10[,"x"]), names.arg=(dualValueID10[,"Group.1"]), xlab="Salespeople", ylab="Log(Sales)")
+> barplot(log(dualValueID10[,"x"]), names.arg=(dualID10), xlab="Salespeople", ylab="Log(Sales)")
 ~~~
 ![Top Dual ID Sales](../images/top_dual_ID_sales.png)
 
@@ -86,7 +86,7 @@
 ~~~
 > dualValueProd10 <- aggregate(dualSalesProd10$Val, list(dualSalesProd10$Prod), sum, na.rm=TRUE)
 
-> barplot(log(dualValueProd10[,"x"]), names.arg=(dualValueProd10[,"Group.1"]), xlab="Products", ylab="Log(Sales)")
+> barplot(log(dualValueProd10[,"x"]), names.arg=(dualProd10), xlab="Products", ylab="Log(Sales)")
 ~~~
 ![Top Dual Prod Sales](../images/top_dual_Prod_sales.png)
 
