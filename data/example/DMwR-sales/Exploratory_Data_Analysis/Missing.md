@@ -74,9 +74,20 @@
 
 > dualProds <- rownames(dualByProd[order(dualByProd, decreasing=T)[1:10]])
 
+> dualSalesUsingProd <- sales[Prod %in% dualProds, ]
+ 
+> dualSalesUsingProd$Prod.f <- factor(dualSalesUsingProd$Prod, dualProds)
+ 
+> barplot(table(dualSalesUsingProd$Prod.f), xlab="Products", ylab="Transactions")
 ~~~
+![Top Dual Prod Transactions](../images/top_dual_Prod_txns.png)
 
+~~~
+> dualValueByProd <- aggregate(dualSalesUsingProd$Val, list(dualSalesUsingProd$Prod), sum, na.rm=TRUE)
 
+> barplot(log(dualValueByProd[,"x"]), names.arg=(dualValueByProd[,"Group.1"]), xlab="Products", ylab="Log(Sales)")
+~~~
+![Top Dual Prod Sales](../images/top_dual_Prod_sales.png)
 
 ### Quantity Missing
 ~~~
