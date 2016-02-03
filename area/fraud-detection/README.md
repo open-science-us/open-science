@@ -3,8 +3,11 @@
 ### Exploratory Data Analysis
 
 
-### Data Cleansing
+### Data Preprocessing
 
+(1) Data Cleansing
+
+(2) Data Encoding
 
 
 ### Machine Learning
@@ -16,7 +19,12 @@
 (3) Deep Learning - Neural Network
 
 
-### Tools
+### Evaluation
+
+(1) [Precision and Recall](/evaluation/precision-recall/README.md)
+
+
+### Open Tools
 
 (1) R
 
