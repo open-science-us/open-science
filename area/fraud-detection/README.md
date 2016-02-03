@@ -38,6 +38,13 @@
 (1) [Sales](/data/example/DMwR-sales/)
 
 
+### Reference
+
+(1) [Fraud Detection](http://www.statsoft.com/textbook/fraud-detection)
+
+(2) [Data Mining with R](http://www.amazon.com/Data-Mining-Learning-Knowledge-Discovery/dp/1439810184)
+
+
 
 
 
