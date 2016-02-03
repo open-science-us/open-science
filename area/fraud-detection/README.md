@@ -1,14 +1,52 @@
-# open-science
+## [Fraud Detection](https://en.wikipedia.org/wiki/Data_analysis_techniques_for_fraud_detection)
 
-Where will Data Science be in 2065?
+### Exploratory Data Analysis
 
-Answer from David Donoho in his article "50 years of Data Science", published on September 18, 2015:   Open Science takes over.
 
-In principle, the purpose of scientic publication is to enable reproducibility of research findings. In absolute terms the amount of essentially non-reproducible research is far larger than ever before. To meet the original goal of scientic publication, one should share the underlying code and data. 
+### Data Preprocessing
 
-Reproducibility of computational experiments is just as important to industrial data science as
-it is to scientic publication. It enables a disciplined approach to proposing and evaluating potential
-system improvements and an easy transition of validated improvements into production use.
+(1) Data Cleansing
+
+(2) Data Encoding
+
+
+### Machine Learning
+
+(1) Supervised Learning - Classification
+
+(2) Unsupervised Learning - Clustering
+
+(3) Deep Learning - Neural Network
+
+
+### Evaluation
+
+(1) [Precision and Recall](/evaluation/precision-recall/)
+
+
+### Open Tools
+
+(1) R
+
+(2) Spark ML
+
+(3) H2O
+
+
+### Examples
+
+(1) [Sales](/data/example/DMwR-sales/)
+
+
+### Reference
+
+(1) [Fraud Detection](http://www.statsoft.com/textbook/fraud-detection)
+
+(2) [Data Mining with R](http://www.amazon.com/Data-Mining-Learning-Knowledge-Discovery/dp/1439810184)
+
+
+
+
 
 
 
