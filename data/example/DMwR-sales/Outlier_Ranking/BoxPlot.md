@@ -1,6 +1,6 @@
 ## Box Plot
 
-### 
+### Ranking
 ~~~
 > setwd("/work/R/example")
 
@@ -23,13 +23,18 @@
 > m[which(m[,'iqr']==0),'iqr'] <- m[which(m[,'iqr']==0),'median']
 
 > ORscore <- abs(Uprice - m[Prod,'median']) / m[Prod,'iqr']
+~~~
 
-
+### Exploratory Data Analysis
+~~~
 > detach(sales)
 
 > sales$Tprice <- m[sales$Prod, 'median']
 
 > sales <- cbind(sales, ORscore)
+
+> attach(sales)
+
 
 > sales[order(sales$ORscore,decreasing=T)[1:30],]
 
@@ -64,7 +69,48 @@
 369385 v5772 p1365   180   41760 fraud   232.00000  0.5001473 2946.035
 175267  v327  p512   192   79695 fraud   415.07812  0.8710710 2762.656
 131539  v884 p1159   350 3953985 fraud 11297.10000 13.9583333 2564.078
+
+
+> fraudSales <- sales[Insp == 'fraud',]
+
+> fraudSales[order(fraudSales$ORscore)[1:10],]
+
+          ID  Prod Quant        Val  Insp    Uprice    Tprice ORscore
+37198   v397  p785   200   2158.859 fraud 10.794296 10.794296       0
+86376   v260 p1451   107   1056.164 fraud  9.870690  9.870690       0
+106062 v3149 p2870   155   1588.750 fraud 10.250000 10.250000       0
+151474 v2753 p2272   308   3145.968 fraud 10.214181 10.214181       0
+176365  v564  p777   136   2018.418 fraud 14.841306 14.841306       0
+184524 v5290 p1533 17034 112479.865 fraud  6.603256  6.603256       0
+186585 v5290 p1678   650   5867.732 fraud  9.027281  9.027281       0
+186762 v2445 p1691   127   2177.571 fraud 17.146226 17.146226       0
+202610 v5677 p4471   127   3543.412 fraud 27.900878 27.900878       0
+202612 v5677 p3180   343  11484.165 fraud 33.481531 33.481531       0
+
+
+> okSales <- sales[Insp == 'ok',]
+
+> okSales[order(okSales$ORscore,decreasing=T)[1:10],]
+
+          ID  Prod Quant    Val Insp     Uprice     Tprice   ORscore
+25049  v1226 p3007   119 177855   ok 1494.57983 13.6061230 169.26417
+197512  v819 p2696   172  64945   ok  377.58721 11.0824742 167.53374
+202776 v2371 p3197   175 377370   ok 2156.40000 19.0855228 158.54838
+79154   v910  p889   238 195415   ok  821.07143  8.7391304 142.49612
+159679 v3338 p3033   191 169245   ok  886.09948 14.0476190  98.76784
+162988 v5532 p3297   156 231180   ok 1481.92308 16.7903930  97.02280
+178562  v661  p980   155  46375   ok  299.19355  3.9094495  94.95472
+66648  v3558 p3338   212 278070   ok 1311.65094 16.2500000  94.02039
+253022 v1070 p2520   594   9765   ok   16.43939  0.9577064  93.06522
+71274  v1660 p3842   138  70385   ok  510.03623 12.1600000  87.70056
+
+> par(mfrow= c(1,2))
+
+> boxplot(log(okSales[,"ORscore"]), main="OK", ylab="log(ORscore)")
+
+> boxplot(log(fraudSales[,"ORscore"]), main="Fraud", ylab="log(ORscore)")
 ~~~
+![BP_ok_fraud](../images/BP_ok_fraud.png)
 
 ### PR curve
 
