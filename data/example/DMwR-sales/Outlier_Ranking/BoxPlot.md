@@ -1,14 +1,76 @@
-# open-science
+## Box Plot
 
-Where will Data Science be in 2065?
+### 
+~~~
+> setwd("/work/R/example")
 
-Answer from David Donoho in his article "50 years of Data Science", published on September 18, 2015:   Open Science takes over.
+> load('salesClean.rdata')
 
-In principle, the purpose of scientic publication is to enable reproducibility of research findings. In absolute terms the amount of essentially non-reproducible research is far larger than ever before. To meet the original goal of scientic publication, one should share the underlying code and data. 
+> attach(sales)
 
-Reproducibility of computational experiments is just as important to industrial data science as
-it is to scientic publication. It enables a disciplined approach to proposing and evaluating potential
-system improvements and an easy transition of validated improvements into production use.
+
+> notF <- which(Insp != 'fraud')
+
+> mi <- function(x) { 
++   bp <- boxplot.stats(x)$stats 
++   c(median = bp[3], iqr = bp[4]-bp[2])
++ }
+
+> ms <- tapply(Uprice[notF], list(Prod=Prod[notF]), mi)
+
+> m <- matrix(unlist(ms),length(ms),2,byrow=T,dimnames=list(names(ms),c('median','iqr')))
+
+> m[which(m[,'iqr']==0),'iqr'] <- m[which(m[,'iqr']==0),'median']
+
+> ORscore <- abs(Uprice - m[Prod,'median']) / m[Prod,'iqr']
+
+
+> detach(sales)
+
+> sales$Tprice <- m[sales$Prod, 'median']
+
+> sales <- cbind(sales, ORscore)
+
+> sales[order(sales$ORscore,decreasing=T)[1:30],]
+
+          ID  Prod Quant     Val  Insp      Uprice     Tprice  ORscore
+231400 v5772 p4246   168   32385 fraud   192.76786  0.5013091 9088.870
+196319 v5457 p2511   236   69220 fraud   293.30508  0.5949375 8482.464
+215485  v216  p315   494  105090 fraud   212.73279  0.2799265 7706.768
+280163  v216  p315   346   66060 fraud   190.92486  0.2799265 6915.681
+252657 v4063 p2477   626  388125 fraud   620.00799  0.6615831 6846.693
+125048 v4998  p771   827  148535 fraud   179.60701  0.2331696 6519.096
+280162  v216  p315   269   45055 fraud   167.49071  0.2799265 6065.603
+176284 v4998 p4513  1083  154210 fraud   142.39151  0.1626376 4922.030
+125056 v4998 p4513  2949  419390 fraud   142.21431  0.1626376 4915.898
+219972 v4998 p4513   983  138480 fraud   140.87487  0.1626376 4869.545
+325980 v2993 p2477   106   43695 fraud   412.21698  0.6615831 4549.625
+280160 v4997  p315   213   26525 fraud   124.53052  0.2799265 4507.214
+75422   v242  p314  1766  537985 fraud   304.63477  0.2859967 4438.204
+198293 v3196 p2784   303  611280 fraud  2017.42574  3.1556956 4231.942
+60894  v3196 p2784   266  531635 fraud  1998.62782  3.1556956 4192.448
+123471  v327  p512   352  217280  unkn   617.27273  0.8710710 4111.243
+84950  v1789 p1299   662  382890 fraud   578.38369  0.6997438 4079.608
+133754 v1789 p1299   470  270320 fraud   575.14894  0.6997438 4056.764
+358369 v5718  p644   122  130465 fraud  1069.38525  1.1300511 3464.881
+176283 v4998 p4513   231   23090 fraud    99.95671  0.1626376 3453.514
+391426 v5942 p4302   113   12535 fraud   110.92920  0.4766680 3294.239
+132026 v1255 p1199   101  518625 fraud  5134.90099 10.4459866 3269.991
+174342  v241  p314   933  209435 fraud   224.47481  0.2859967 3269.262
+196327 v2989 p2512   221   56010 fraud   253.43891  0.4862292 3248.483
+21802  v3048 p2560   247  420990 fraud  1704.41296  2.8209563 3182.337
+99087  v4577 p2203   153 2041000 fraud 13339.86928 10.4081633 3135.982
+196578 v3048 p2560   260  420350 fraud  1616.73077  2.8209563 3018.353
+369385 v5772 p1365   180   41760 fraud   232.00000  0.5001473 2946.035
+175267  v327  p512   192   79695 fraud   415.07812  0.8710710 2762.656
+131539  v884 p1159   350 3953985 fraud 11297.10000 13.9583333 2564.078
+~~~
+
+### PR curve
+
+
+
+
 
 
 
