@@ -28,12 +28,21 @@ curl -O http://stat-computing.org/dataexpo/2009/2007.csv.bz2
 curl -O http://stat-computing.org/dataexpo/2009/2008.csv.bz2
 ~~~
 
-### Preprocessing data with Apache Spark v1.6.0 cluster on 3 Amazon EC2 r3.large instances
+### Test Environment
+
+(1) 3 Amazon EC2 r3.large instances at US east region
+
+(2) Red Hat Enterprise Linux 7.2
+
+(3) Java version "1.8.0_66”, Java(TM) SE Runtime Environment (build 1.8.0_66-b17), Java HotSpot(TM) 64-Bit Server VM (build 25.66-b17, mixed mode)
+
+(4) Apache Spark v1.6.0
+
+(5) Spark shelll
 ~~~
 bin/spark-shell --master spark://172.30.2.99:7077 --packages com.databricks:spark-csv_2.10:1.3.0 \
 --executor-cores=2 --num-executors=3 --conf spark.executor.memory=8G \
 --driver-memory=2G —conf spark.serializer=org.apache.spark.serializer.KryoSerializer
-
 ~~~
 
 
