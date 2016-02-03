@@ -25,7 +25,7 @@
 > ORscore <- abs(Uprice - m[Prod,'median']) / m[Prod,'iqr']
 ~~~
 
-### Exploratory Data Analysis
+### Result Analysis
 ~~~
 > detach(sales)
 
@@ -112,10 +112,52 @@
 ~~~
 ![BP_ok_fraud](../images/BP_ok_fraud.png)
 
-### PR curve
+### PR charts
+~~~
+> library(ROCR)
 
+> knownSales <- sales[Insp == 'fraud' | Insp == 'ok',]
 
+> knownSales$Label <- 0
 
+> knownSales[knownSales$Insp == 'fraud', 'Label'] <- 1
+
+> par(mfrow= c(2,2))
+
+> pred <- prediction(knownSales$ORscore, knownSales$Label)
+
+> perf <- performance(pred, "prec", "rec")
+ 
+> plot(perf, main = "PR Chart")
+
+> IPRcurve <- function(preds, trues, ...) {
++   require(ROCR, quietly = T)
++ 
++   pd <- prediction(preds, trues)
++   pf <- performance(pd, "prec", "rec")
++   pf@y.values <- lapply(pf@y.values, function(x) rev(cummax(rev(x))))
++ 
++   plot(pf, ...)
++ }
+
+> IPRcurve(knownSales$ORscore, knownSales$Label, main = "Interpolated PR Chart")
+
+> perf <- performance(pred, "lift", "rpp")
+
+> plot(perf, main = "Lift Chart")
+
+> CRchart <- function(preds, trues, ...) {
++   require(ROCR, quietly = T)
++ 
++   pd <- prediction(preds, trues)
++   pf <- performance(pd, "rec", "rpp")
++ 
++   plot(pf, ...)
++ }
+
+> CRchart(knownSales$ORscore, knownSales$Label, main = "Cumulative Recall Chart")
+~~~
+![BP_PR_Charts](../images/BP_PR_charts.png)
 
 
 
