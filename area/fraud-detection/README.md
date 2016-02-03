@@ -21,7 +21,7 @@
 
 ### Evaluation
 
-(1) [Precision and Recall](/evaluation/precision-recall/README.md)
+(1) [Precision and Recall](/evaluation/precision-recall/)
 
 
 ### Open Tools
@@ -35,7 +35,7 @@
 
 ### Examples
 
-(1) [Sales](/data/example/DMwR-sales/README.md)
+(1) [Sales](/data/example/DMwR-sales/)
 
 
 
