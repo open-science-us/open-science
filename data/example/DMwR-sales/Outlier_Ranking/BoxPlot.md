@@ -159,6 +159,9 @@
 ~~~
 ![BP_PR_Charts](../images/BP_PR_charts.png)
 
+### Conclusion
+
+We can observe that the method obtains around 40% of recall with a very low inspection eort. However, to achieve values around 80%, we already need to inspect roughly 25% to 30% of the reports.
 
 
 
