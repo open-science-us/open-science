@@ -203,9 +203,72 @@ resDF.show()
 |p888|3.28777777777778|  ok|v538|0.07903694639463436|
 +----+----------------+----+----+-------------------+
 
-
+resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("/work/R/example/lofData.csv")
 ~~~
 
+### PR charts with R
+~~~
+> setwd("/work/R/example")
+ 
+> sales <- read.csv('lofData.csv', header=TRUE)
+> 
+> head(sales)
+
+  prod     price insp   id        lot
+1 p888 14.010791   ok v805 0.07273692
+2 p888 10.867769   ok v474 0.07703755
+3 p888  4.371232   ok v806 0.07023008
+4 p888  5.857143   ok v654 0.04304211
+5 p888  7.517668   ok v807 0.06462897
+6 p888  3.618900   ok v808 0.15202295
+
+> attach(sales)
+
+
+> library(ROCR)
+
+> knownSales <- sales[insp == 'fraud' | insp == 'ok',]
+
+> knownSales$Label <- 0
+
+> knownSales[knownSales$insp == 'fraud', 'Label'] <- 1
+
+> par(mfrow= c(2,2))
+
+> pred <- prediction(knownSales$lot, knownSales$Label)
+
+> perf <- performance(pred, "prec", "rec")
+
+> plot(perf, main = "PR Chart")
+
+> IPRcurve <- function(preds, trues, ...) {
++   require(ROCR, quietly = T)
++ 
++   pd <- prediction(preds, trues)
++   pf <- performance(pd, "prec", "rec")
++   pf@y.values <- lapply(pf@y.values, function(x) rev(cummax(rev(x))))
++ 
++   plot(pf, ...)
++ }
+
+> IPRcurve(knownSales$lot, knownSales$Label, main = "Interpolated PR Chart")
+
+> perf <- performance(pred, "lift", "rpp")
+
+> plot(perf, main = "Lift Chart")
+
+> CRchart <- function(preds, trues, ...) {
++   require(ROCR, quietly = T)
++ 
++   pd <- prediction(preds, trues)
++   pf <- performance(pd, "rec", "rpp")
++ 
++   plot(pf, ...)
++ }
+
+> CRchart(knownSales$lot, knownSales$Label, main = "Cumulative Recall Chart")
+~~~
+![LOF_PR_Charts](../images/LOF_PR_charts.png)
 
 
 
