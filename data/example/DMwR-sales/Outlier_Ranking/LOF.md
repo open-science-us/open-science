@@ -13,55 +13,51 @@
  
 > attach(sales)
 
-> prodGroup <- split(Uprice, Prod)
+> prodAgg <- split(Uprice, Prod)
 
 
 > lofs <- numeric()
 
 # Testing,  for (prod in c('p1', 'p2', 'p3')) {
-> for (prod in levels(Prod)) {
-+   lofp <- lof(prodGroup[[prod]], 3)
-+   lofs <- c(lofs, lofp)
-+   print(prod)
-+ }
+
+for (prod in levels(Prod)) {
+  l <- length(prodAgg[[prod]])
+  
+  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
+  else lofs <- c(lofs, lof(prodAgg[[prod]], 7))
+
+  print(prod)
+}
 
 > length(which(is.nan(lofs)))
-[1] 53461
+[1] 4307
 
 > length(which(is.infinite(lofs)))
-[1] 28742
+[1] 2613
 
 > fivenum(lofs[which(!is.infinite(lofs) & !is.nan(lofs))])
-[1] 6.984415e-01 1.000000e+00 1.051868e+00 1.386961e+00 3.936752e+14
+[1] 7.803117e-01 9.909313e-01 1.038009e+00 1.257241e+00 5.937395e+05
 
 # NaN and Infinite numbers are from duplicated Uprice
 
 > lofs <- numeric()
 
-> for (prod in levels(Prod)) {
-+   u <- unique(prodGroup[[prod]])
-+    
-+   if (length(u) <= 3) {
-+     for (p in prodGroup[[prod]]) {
-+        lofs <- c(lofs, 1.0)
-+     }
-+   } else {
-+     lofs <- c(lofs, lof(u, 3))
-+   }
-+    
-+   print(prod)
-+ }
+for (prod in levels(Prod)) {
+  u <- unique(prodAgg[[prod]])
+  
+  l <- length(u)
+  
+  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
+  else lofs <- c(lofs, lof(u, 7))
+   
+  print(prod)
+}
 
 > length(which(is.nan(lofs) | is.infinite(lofs)))
 [1] 0
 
 > fivenum(lofs)
-[1] 7.015293e-01 9.777819e-01 1.065522e+00 1.265046e+00 7.313760e+04
-
-
-> lof1 <- lof(unique(prodGroup[['p1']]), 3)
-
-> cl <- cbind(prodGroup[['p1']], lof1)
+[1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
 ~~~
 
 
@@ -101,6 +97,13 @@ import java.lang.Math._
 
 object Neighbor3 {
   def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
+    val lofs = new Array[Double](xs.size)
+    
+    if (xs.size <= k) {
+      for (i <- 0 until xs.size) lofs(i) = 0.0
+      return lofs
+    }
+    
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
     
     for (i <- 0 until xs.size; j<- 0 until xs.size) {
@@ -112,11 +115,17 @@ object Neighbor3 {
     for (i <- 0 until xs.size) {
       val sm = ds(i).sortBy(t => t._2)
       
+      /*
+      for (j <- 0 until k) {
+        knn(i)(j) = sm(j)
+      }*/    
+      
       var z0 = 0;
       while (sm(z0)._2 == 0 & z0 < xs.size) z0 = z0 + 1
       
       for (j <- 0 until k) {
         if ((z0+j) < xs.size) knn(i)(j) = sm(z0+j)
+        else knn(i)(j) = (i, 0.0)
       }
     }
     
@@ -124,16 +133,19 @@ object Neighbor3 {
     
     for (i <- 0 until xs.size) {
       var rd = 0.0
+      var count = 0
       
-      for (j <- 0 until k) {        
-        if (knn(knn(i)(j)._1)(k-1)._2 > ds(i)(knn(i)(j)._1)._2) rd += knn(knn(i)(j)._1)(k-1)._2
-        else rd += ds(i)(knn(i)(j)._1)._2
+      for (j <- 0 until k) {
+        if (knn(i)(j)._1 != i) {
+          count = count + 1
+          if (knn(knn(i)(j)._1)(k-1)._2 > ds(i)(knn(i)(j)._1)._2) rd += knn(knn(i)(j)._1)(k-1)._2
+          else rd += ds(i)(knn(i)(j)._1)._2
+        }
       }
       
-      lrds(i) = k / rd
+      if (count == 0 || rd == 0.0) lrds(i) = 0.0
+      else lrds(i) = count / rd
     }
-    
-    val lofs = new Array[Double](xs.size)
     
     var minLof = 0.0; var maxLof = 0.0
     
@@ -166,10 +178,10 @@ object Neighbor3 {
 
 import Neighbor3._
 
-case class LofScore(prod: String, price: Double, insp: String, id: String, lot: Double)
+case class LofScore(Prod: String, Uprice: Double, Insp: String, ID: String, LOF: Double)
 
 val resDF = parsedRDD.groupBy(x => x._1).flatMap {t =>
-  val lf3 = lof3(t._2.map(t => t._2).toSeq, 3)
+  val lf3 = lof3(t._2.map(t => t._2).toSeq, 7)
 
   val m = t._2 zip lf3
 
@@ -179,29 +191,30 @@ val resDF = parsedRDD.groupBy(x => x._1).flatMap {t =>
 resDF.show()
 
 +----+----------------+----+----+-------------------+                           
-|prod|           price|insp|  id|                lot|
+|Prod|          Uprice|Insp|  ID|                LOF|
 +----+----------------+----+----+-------------------+
-|p888|14.0107913669065|  ok|v805|0.07273692498549779|
-|p888|10.8677685950413|  ok|v474|0.07703755403740682|
-|p888|4.37123169681309|  ok|v806|0.07023007536318415|
-|p888|5.85714285714286|  ok|v654|0.04304210630148039|
-|p888|7.51766784452297|  ok|v807|0.06462897241751338|
-|p888|3.61889961645285|  ok|v808| 0.1520229512697277|
-|p888|14.5907928388747|  ok|v809| 0.0771262052543678|
-|p888|13.2857142857143|  ok|v810|0.07396952166694518|
-|p888|2.76946786329435|  ok|v811|0.07979592517607186|
-|p888|10.6954887218045|  ok|v671|0.07720804715578061|
-|p888|10.8208955223881|  ok| v15|0.10565849171131729|
-|p888|5.35310394610202|  ok|v423| 0.0640158019191777|
-|p888|6.92920681986657|  ok|v333|0.23225244306375725|
-|p888|           9.725|  ok|v333|0.06117638735081638|
-|p888|27.6111111111111|  ok| v19|0.07554137922389072|
-|p888|22.2839506172839|  ok|v528|0.09289403333709993|
-|p888|8.87387387387387|  ok|v596|0.07236045101262115|
-|p888|11.1818181818182|  ok|v506|0.08626378375569417|
-|p888|4.69059405940594|  ok|v538|0.08844491189393562|
-|p888|3.28777777777778|  ok|v538|0.07903694639463436|
+|p888|14.0107913669065|  ok|v805| 0.0799618002391534|
+|p888|10.8677685950413|  ok|v474|0.06393978381666413|
+|p888|4.37123169681309|  ok|v806|0.06130590562258435|
+|p888|5.85714285714286|  ok|v654| 0.0534227143914696|
+|p888|7.51766784452297|  ok|v807|0.06133848286741182|
+|p888|3.61889961645285|  ok|v808| 0.0633444194494576|
+|p888|14.5907928388747|  ok|v809|0.06809963785372683|
+|p888|13.2857142857143|  ok|v810|0.06641289330032102|
+|p888|2.76946786329435|  ok|v811|0.06809502846642153|
+|p888|10.6954887218045|  ok|v671|0.06646367494209844|
+|p888|10.8208955223881|  ok| v15|0.05604060828937512|
+|p888|5.35310394610202|  ok|v423| 0.0631527214269167|
+|p888|6.92920681986657|  ok|v333| 0.0662872524534364|
+|p888|           9.725|  ok|v333|0.05293307210924732|
+|p888|27.6111111111111|  ok| v19|0.06133282289735954|
+|p888|22.2839506172839|  ok|v528|0.06291924711034087|
+|p888|8.87387387387387|  ok|v596|0.06262595396634076|
+|p888|11.1818181818182|  ok|v506|0.07141401104495247|
+|p888|4.69059405940594|  ok|v538|0.06460966811707683|
+|p888|3.28777777777778|  ok|v538|0.05821124413482868|
 +----+----------------+----+----+-------------------+
+
 
 resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("/work/R/example/lofData.csv")
 ~~~
@@ -214,13 +227,13 @@ resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "tru
 > 
 > head(sales)
 
-  prod     price insp   id        lot
-1 p888 14.010791   ok v805 0.07273692
-2 p888 10.867769   ok v474 0.07703755
-3 p888  4.371232   ok v806 0.07023008
-4 p888  5.857143   ok v654 0.04304211
-5 p888  7.517668   ok v807 0.06462897
-6 p888  3.618900   ok v808 0.15202295
+  Prod    Uprice Insp   ID        LOF
+1 p888 14.010791   ok v805 0.07996180
+2 p888 10.867769   ok v474 0.06393978
+3 p888  4.371232   ok v806 0.06130591
+4 p888  5.857143   ok v654 0.05342271
+5 p888  7.517668   ok v807 0.06133848
+6 p888  3.618900   ok v808 0.06334442
 
 > attach(sales)
 
@@ -235,38 +248,38 @@ resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "tru
 
 > par(mfrow= c(2,2))
 
-> pred <- prediction(knownSales$lot, knownSales$Label)
+> pred <- prediction(knownSales$LOF, knownSales$Label)
 
 > perf <- performance(pred, "prec", "rec")
 
 > plot(perf, main = "PR Chart")
 
-> IPRcurve <- function(preds, trues, ...) {
-+   require(ROCR, quietly = T)
-+ 
-+   pd <- prediction(preds, trues)
-+   pf <- performance(pd, "prec", "rec")
-+   pf@y.values <- lapply(pf@y.values, function(x) rev(cummax(rev(x))))
-+ 
-+   plot(pf, ...)
-+ }
+IPRcurve <- function(preds, trues, ...) {
+  require(ROCR, quietly = T)
+  
+  pd <- prediction(preds, trues)
+  pf <- performance(pd, "prec", "rec")
+  pf@y.values <- lapply(pf@y.values, function(x) rev(cummax(rev(x))))
 
-> IPRcurve(knownSales$lot, knownSales$Label, main = "Interpolated PR Chart")
+  plot(pf, ...)
+}
+
+> IPRcurve(knownSales$LOF, knownSales$Label, main = "Interpolated PR Chart")
 
 > perf <- performance(pred, "lift", "rpp")
 
 > plot(perf, main = "Lift Chart")
 
-> CRchart <- function(preds, trues, ...) {
-+   require(ROCR, quietly = T)
-+ 
-+   pd <- prediction(preds, trues)
-+   pf <- performance(pd, "rec", "rpp")
-+ 
-+   plot(pf, ...)
-+ }
+CRchart <- function(preds, trues, ...) {
+  require(ROCR, quietly = T)
 
-> CRchart(knownSales$lot, knownSales$Label, main = "Cumulative Recall Chart")
+  pd <- prediction(preds, trues)
+  pf <- performance(pd, "rec", "rpp")
+ 
+  plot(pf, ...)
+}
+
+> CRchart(knownSales$LOF, knownSales$Label, main = "Cumulative Recall Chart")
 ~~~
 ![LOF_PR_Charts](../images/LOF_PR_charts.png)
 
