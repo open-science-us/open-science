@@ -13,55 +13,51 @@
  
 > attach(sales)
 
-> prodGroup <- split(Uprice, Prod)
+> prodAgg <- split(Uprice, Prod)
 
 
 > lofs <- numeric()
 
 # Testing,  for (prod in c('p1', 'p2', 'p3')) {
-> for (prod in levels(Prod)) {
-+   lofp <- lof(prodGroup[[prod]], 3)
-+   lofs <- c(lofs, lofp)
-+   print(prod)
-+ }
+
+for (prod in levels(Prod)) {
+  l <- length(prodAgg[[prod]])
+  
+  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
+  else lofs <- c(lofs, lof(prodAgg[[prod]], 7))
+
+  print(prod)
+}
 
 > length(which(is.nan(lofs)))
-[1] 53461
+[1] 4307
 
 > length(which(is.infinite(lofs)))
-[1] 28742
+[1] 2613
 
 > fivenum(lofs[which(!is.infinite(lofs) & !is.nan(lofs))])
-[1] 6.984415e-01 1.000000e+00 1.051868e+00 1.386961e+00 3.936752e+14
+[1] 7.803117e-01 9.909313e-01 1.038009e+00 1.257241e+00 5.937395e+05
 
 # NaN and Infinite numbers are from duplicated Uprice
 
 > lofs <- numeric()
 
-> for (prod in levels(Prod)) {
-+   u <- unique(prodGroup[[prod]])
-+    
-+   if (length(u) <= 3) {
-+     for (p in prodGroup[[prod]]) {
-+        lofs <- c(lofs, 1.0)
-+     }
-+   } else {
-+     lofs <- c(lofs, lof(u, 3))
-+   }
-+    
-+   print(prod)
-+ }
+for (prod in levels(Prod)) {
+  u <- unique(prodAgg[[prod]])
+  
+  l <- length(u)
+  
+  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
+  else lofs <- c(lofs, lof(u, 7))
+   
+  print(prod)
+}
 
 > length(which(is.nan(lofs) | is.infinite(lofs)))
 [1] 0
 
 > fivenum(lofs)
-[1] 7.015293e-01 9.777819e-01 1.065522e+00 1.265046e+00 7.313760e+04
-
-
-> lof1 <- lof(unique(prodGroup[['p1']]), 3)
-
-> cl <- cbind(prodGroup[['p1']], lof1)
+[1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
 ~~~
 
 
