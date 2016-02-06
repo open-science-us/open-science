@@ -77,15 +77,28 @@ val noHeaderRDD = rawRDD.mapPartitionsWithIndex { (idx, iter) => if (idx == 0) i
 
 val parsedRDD = noHeaderRDD.map { line =>
   val parts = line.split(',')
-  (parts(1).substring(1, parts(1).length-1), parts(2).substring(1, parts(2).length-1), parts(6).toDouble, parts(5).substring(1, parts(5).length-1))
+  (parts(2).substring(1, parts(2).length-1), parts(6).toDouble, parts(5).substring(1, parts(5).length-1), parts(1).substring(1, parts(1).length-1))
 }
 parsedRDD.persist(StorageLevel.MEMORY_ONLY_SER)
 
-val nfRDD = parsedRDD.filter(t => t._4 != "fraud")
-val uPriceRDD = nfRDD.map(t => (t._2, t._3))
+parsedRDD.take(10).foreach(println)
 
-object Neighbor2 {
-  def lof2(xs: Seq[Double], k: Int):  Array[Double] = {
+(p1,9.14835164835165,unkn,v1)
+(p1,2.85807291666667,unkn,v2)
+(p1,3.7753150590889,unkn,v3)
+(p1,9.82142857142857,unkn,v4)
+(p1,3.28682673588579,unkn,v3)
+(p2,11.1057692307692,unkn,v5)
+(p2,16.2285714285714,unkn,v6)
+(p2,20.05,unkn,v7)
+(p2,12.2532188841202,unkn,v8)
+(p2,9.95762711864407,unkn,v9)
+
+// val nfRDD = parsedRDD.filter(t => t._4 != "fraud")
+// val uPriceRDD = parsedRDD.map(t => (t._1, (t._2, t._3, t._4)))
+
+object Neighbor3 {
+  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
     
     for (i <- 0 until xs.size; j<- 0 until xs.size) {
@@ -120,6 +133,8 @@ object Neighbor2 {
     
     val lofs = new Array[Double](xs.size)
     
+    var minLof = 0.0; var maxLof = 0.0
+    
     for (i <- 0 until xs.size) {
       var ls = 0.0
       
@@ -128,18 +143,63 @@ object Neighbor2 {
       }
       
       lofs(i) = ls / k / lrds(i)
+      
+      if (lofs(i) < minLof) minLof = lofs(i)
+      else if (lofs(i) > maxLof) maxLof = lofs(i)
+    }
+    
+    if (maxLof == minLof) {
+      for (i <- 0 until xs.size) {
+        lofs(i) = 0.0
+      }
+    } else {
+      for (i <- 0 until xs.size) {
+        lofs(i) = lofs(i) / (maxLof - minLof)
+      }
     }
     
     lofs
   }
 }
 
-import Neighbor2._
+import Neighbor3._
 
-uPriceRDD.groupByKey().map{ t => (t._1, lof2(t._2.toSeq, 3)) }.take(1)
+case class LofScore(prod: String, price: Double, insp: String, id: String, lot: Double)
 
-res24: Array[(String, Array[Double])] = Array((p888,Array(1.0610170758623598, 1.1237505618041288, 1.0244495380344383, 0.6278573059839813, 0.9427459759137612, 2.2175662121038537, 1.1250437214339912, 1.0789970238313962, 1.163987056270633, 1.126237553245514, 1.5412455769599926, 0.9338016279188617, 3.387877725797848, 0.8923829489867461, 1.1019257867544237, 1.3550497994799966, 1.0555254316401232, 1.258334025139751, 1.2901502477774205, 1.152915795731602, 1.046737422908462, 3.887671349776141, 0.9298387674091654, 1.1989309720690942, 1.121834804678539, 0.9625007632454563, 0.9730146569340613, 1.1251184001698238, 1.1490065191935932, 1.2205996066566376, 1.143255126184313, 2.223546010349797, 1.412460445615115, 3.387877725797848, 0.8923829489867461, 1.1019257867544237, 0.9457001783342768, 1.013876435...
+val resDF = parsedRDD.groupBy(x => x._1).flatMap {t =>
+  val lf3 = lof3(t._2.map(t => t._2).toSeq, 3)
 
+  val m = t._2 zip lf3
+
+  m.map(t => LofScore(t._1._1, t._1._2, t._1._3, t._1._4, t._2))
+}.toDF
+
+resDF.show()
+
++----+----------------+----+----+-------------------+                           
+|prod|           price|insp|  id|                lot|
++----+----------------+----+----+-------------------+
+|p888|14.0107913669065|  ok|v805|0.07273692498549779|
+|p888|10.8677685950413|  ok|v474|0.07703755403740682|
+|p888|4.37123169681309|  ok|v806|0.07023007536318415|
+|p888|5.85714285714286|  ok|v654|0.04304210630148039|
+|p888|7.51766784452297|  ok|v807|0.06462897241751338|
+|p888|3.61889961645285|  ok|v808| 0.1520229512697277|
+|p888|14.5907928388747|  ok|v809| 0.0771262052543678|
+|p888|13.2857142857143|  ok|v810|0.07396952166694518|
+|p888|2.76946786329435|  ok|v811|0.07979592517607186|
+|p888|10.6954887218045|  ok|v671|0.07720804715578061|
+|p888|10.8208955223881|  ok| v15|0.10565849171131729|
+|p888|5.35310394610202|  ok|v423| 0.0640158019191777|
+|p888|6.92920681986657|  ok|v333|0.23225244306375725|
+|p888|           9.725|  ok|v333|0.06117638735081638|
+|p888|27.6111111111111|  ok| v19|0.07554137922389072|
+|p888|22.2839506172839|  ok|v528|0.09289403333709993|
+|p888|8.87387387387387|  ok|v596|0.07236045101262115|
+|p888|11.1818181818182|  ok|v506|0.08626378375569417|
+|p888|4.69059405940594|  ok|v538|0.08844491189393562|
+|p888|3.28777777777778|  ok|v538|0.07903694639463436|
++----+----------------+----+----+-------------------+
 ~~~
 
 
