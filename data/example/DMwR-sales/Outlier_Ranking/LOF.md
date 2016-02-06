@@ -97,6 +97,8 @@ parsedRDD.take(10).foreach(println)
 // val nfRDD = parsedRDD.filter(t => t._4 != "fraud")
 // val uPriceRDD = parsedRDD.map(t => (t._1, (t._2, t._3, t._4)))
 
+import java.lang.Math._
+
 object Neighbor3 {
   def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
@@ -200,6 +202,8 @@ resDF.show()
 |p888|4.69059405940594|  ok|v538|0.08844491189393562|
 |p888|3.28777777777778|  ok|v538|0.07903694639463436|
 +----+----------------+----+----+-------------------+
+
+
 ~~~
 
 
