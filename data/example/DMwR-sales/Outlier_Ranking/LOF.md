@@ -242,7 +242,6 @@ CRchart <- function(preds, trues, ...) {
 > lofs <- numeric()
 
 # Testing,  for (prod in c('p1', 'p2', 'p3')) {
-
 for (prod in levels(Prod)) {
   l <- length(prodAgg[[prod]])
   
@@ -263,6 +262,30 @@ for (prod in levels(Prod)) {
 
 # NaN and Infinite numbers are from duplicated Uprice
 
+
+> length(prodAgg[['p1']])
+[1] 196
+
+> length(which(duplicated(prodAgg[['p1']])))
+[1] 76
+> 
+
+> duplicates <- 0
+
+for (prod in levels(Prod)) {
+  duplicates <- duplicates + length(which(duplicated(prodAgg[[prod]])))
+
+  print(prod)
+}
+
+> duplicates
+[1] 94385
+
+> duplicates / nrow(sales) * 100
+[1] 23.58422
+
+# 23.6% Uprices are duplicated
+
 > lofs <- numeric()
 
 for (prod in levels(Prod)) {
@@ -281,6 +304,9 @@ for (prod in levels(Prod)) {
 
 > fivenum(lofs)
 [1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
+
+
+
 ~~~
 
 
