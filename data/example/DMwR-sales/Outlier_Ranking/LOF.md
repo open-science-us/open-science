@@ -1,66 +1,5 @@
 ## [Local Outlier Factor](https://en.wikipedia.org/wiki/Local_outlier_factor)
 
-### Ranking with R
-~~~
-> install.packages('Rlof')
-
-> library('Rlof')
-
-
-> setwd("/work/R/example")
- 
-> load('salesClean.rdata')
- 
-> attach(sales)
-
-> prodAgg <- split(Uprice, Prod)
-
-
-> lofs <- numeric()
-
-# Testing,  for (prod in c('p1', 'p2', 'p3')) {
-
-for (prod in levels(Prod)) {
-  l <- length(prodAgg[[prod]])
-  
-  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
-  else lofs <- c(lofs, lof(prodAgg[[prod]], 7))
-
-  print(prod)
-}
-
-> length(which(is.nan(lofs)))
-[1] 4307
-
-> length(which(is.infinite(lofs)))
-[1] 2613
-
-> fivenum(lofs[which(!is.infinite(lofs) & !is.nan(lofs))])
-[1] 7.803117e-01 9.909313e-01 1.038009e+00 1.257241e+00 5.937395e+05
-
-# NaN and Infinite numbers are from duplicated Uprice
-
-> lofs <- numeric()
-
-for (prod in levels(Prod)) {
-  u <- unique(prodAgg[[prod]])
-  
-  l <- length(u)
-  
-  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
-  else lofs <- c(lofs, lof(u, 7))
-   
-  print(prod)
-}
-
-> length(which(is.nan(lofs) | is.infinite(lofs)))
-[1] 0
-
-> fivenum(lofs)
-[1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
-~~~
-
-
 ### Ranking with Spark
 ~~~
 bin/spark-shell --master spark://localhost:7077 --packages com.databricks:spark-csv_2.10:1.3.0 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
@@ -284,6 +223,65 @@ CRchart <- function(preds, trues, ...) {
 ![LOF_PR_Charts](../images/LOF_PR_charts.png)
 
 
+### Ranking with R
+~~~
+> install.packages('Rlof')
+
+> library('Rlof')
+
+
+> setwd("/work/R/example")
+ 
+> load('salesClean.rdata')
+ 
+> attach(sales)
+
+> prodAgg <- split(Uprice, Prod)
+
+
+> lofs <- numeric()
+
+# Testing,  for (prod in c('p1', 'p2', 'p3')) {
+
+for (prod in levels(Prod)) {
+  l <- length(prodAgg[[prod]])
+  
+  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
+  else lofs <- c(lofs, lof(prodAgg[[prod]], 7))
+
+  print(prod)
+}
+
+> length(which(is.nan(lofs)))
+[1] 4307
+
+> length(which(is.infinite(lofs)))
+[1] 2613
+
+> fivenum(lofs[which(!is.infinite(lofs) & !is.nan(lofs))])
+[1] 7.803117e-01 9.909313e-01 1.038009e+00 1.257241e+00 5.937395e+05
+
+# NaN and Infinite numbers are from duplicated Uprice
+
+> lofs <- numeric()
+
+for (prod in levels(Prod)) {
+  u <- unique(prodAgg[[prod]])
+  
+  l <- length(u)
+  
+  if (l <= 7) lofs <- c(lofs, rep(0.0, each=l))
+  else lofs <- c(lofs, lof(u, 7))
+   
+  print(prod)
+}
+
+> length(which(is.nan(lofs) | is.infinite(lofs)))
+[1] 0
+
+> fivenum(lofs)
+[1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
+~~~
 
 
 
