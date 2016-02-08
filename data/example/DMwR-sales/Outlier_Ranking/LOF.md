@@ -29,64 +29,101 @@ parsedRDD.take(10).foreach(println)
 (p2,12.2532188841202,unkn,v8)
 (p2,9.95762711864407,unkn,v9)
 
-// val nfRDD = parsedRDD.filter(t => t._4 != "fraud")
-// val uPriceRDD = parsedRDD.map(t => (t._1, (t._2, t._3, t._4)))
-
 import java.lang.Math._
 
-object Neighbor3 {
-  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
-    val lofs = new Array[Double](xs.size)
-    
-    if (xs.size <= k) {
-      for (i <- 0 until xs.size) lofs(i) = 0.0
-      return lofs
-    }
-    
+object Neighbor {
+  private def distanceImpl(xs: Seq[Double]): Array[Array[(Int, Double)]] = {
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
     
     for (i <- 0 until xs.size; j<- 0 until xs.size) {
       ds(i)(j) = (j, abs(xs(i) - xs(j)))
     }
     
-    val knn = Array.ofDim[(Int, Double)](xs.size, k)
+    ds
+  }
+   
+  private def knnImpl(ds: Array[Array[(Int, Double)]], k: Int): Array[Array[(Int, Double)]] = {
+    val knn = Array.ofDim[(Int, Double)](ds.length, k)
     
-    for (i <- 0 until xs.size) {
-      val sm = ds(i).sortBy(t => t._2)
-      
-      /*
-      for (j <- 0 until k) {
-        knn(i)(j) = sm(j)
-      }*/    
+    for (i <- 0 until ds.length) {
+      val sm = ds(i).sortBy(t => t._2)  
       
       var z0 = 0;
-      while (sm(z0)._2 == 0 & z0 < xs.size) z0 = z0 + 1
+      while (sm(z0)._2 == 0 & z0 < ds.length) z0 = z0 + 1
       
+      var max = 0.0
       for (j <- 0 until k) {
-        if ((z0+j) < xs.size) knn(i)(j) = sm(z0+j)
-        else knn(i)(j) = (i, 0.0)
+        if ((z0+j) < ds.length) {
+          knn(i)(j) = sm(z0+j)
+          max = sm(z0+j)._2
+        } else knn(i)(j) = (i, max)
       }
     }
     
-    val lrds = new Array[Double](xs.size)
+    knn
+  }
+  
+  private def lrdImpl(ds: Array[Array[(Int, Double)]], knn: Array[Array[(Int, Double)]], k: Int): Array[Double] = {
+    val lrds = new Array[Double](ds.length)
     
-    for (i <- 0 until xs.size) {
+    for (i <- 0 until ds.length) {
       var rd = 0.0
       var count = 0
       
       for (j <- 0 until k) {
-        if (knn(i)(j)._1 != i) {
+        var b = knn(i)(j)._1
+        
+        if (b != i) {
           count = count + 1
-          if (knn(knn(i)(j)._1)(k-1)._2 > ds(i)(knn(i)(j)._1)._2) rd += knn(knn(i)(j)._1)(k-1)._2
-          else rd += ds(i)(knn(i)(j)._1)._2
+          if (knn(b)(k-1)._2 > ds(i)(b)._2) rd += knn(b)(k-1)._2
+          else rd += ds(i)(b)._2
         }
       }
       
       if (count == 0 || rd == 0.0) lrds(i) = 0.0
       else lrds(i) = count / rd
     }
-    
+
+    lrds
+  }
+  
+  private def normalizeLOF(lofs: Array[Double]): Array[Double] = {
     var minLof = 0.0; var maxLof = 0.0
+    
+    for (i <- 0 until lofs.length) {      
+      if (lofs(i) < minLof) minLof = lofs(i)
+      else if (lofs(i) > maxLof) maxLof = lofs(i)
+    }
+    
+    if (maxLof == minLof) {
+      for (i <- 0 until lofs.length) {
+        lofs(i) = 0.0
+      }
+    } else {
+      for (i <- 0 until lofs.length) {
+        lofs(i) = lofs(i) / (maxLof - minLof)
+      }
+    }
+    
+    lofs
+  }
+  
+  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
+    if (xs.size <= k) {
+      val lofs = new Array[Double](xs.size)
+      
+      for (i <- 0 until xs.size) lofs(i) = 0.0
+      
+      return lofs
+    }
+    
+    val ds = distanceImpl(xs)
+    
+    val knn = knnImpl(ds, k)
+    
+    val lrds = lrdImpl(ds, knn, k)
+    
+    val lofs = new Array[Double](xs.size)
     
     for (i <- 0 until xs.size) {
       var ls = 0.0
@@ -96,26 +133,13 @@ object Neighbor3 {
       }
       
       lofs(i) = ls / k / lrds(i)
-      
-      if (lofs(i) < minLof) minLof = lofs(i)
-      else if (lofs(i) > maxLof) maxLof = lofs(i)
     }
-    
-    if (maxLof == minLof) {
-      for (i <- 0 until xs.size) {
-        lofs(i) = 0.0
-      }
-    } else {
-      for (i <- 0 until xs.size) {
-        lofs(i) = lofs(i) / (maxLof - minLof)
-      }
-    }
-    
-    lofs
+
+    normalizeLOF(lofs)
   }
 }
 
-import Neighbor3._
+import Neighbor._
 
 case class LofScore(Prod: String, Uprice: Double, Insp: String, ID: String, LOF: Double)
 
@@ -179,11 +203,11 @@ resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "tru
 
 > library(ROCR)
 
-> knownSales <- sales[insp == 'fraud' | insp == 'ok',]
+> knownSales <- sales[Insp == 'fraud' | Insp == 'ok',]
 
 > knownSales$Label <- 0
 
-> knownSales[knownSales$insp == 'fraud', 'Label'] <- 1
+> knownSales[knownSales$Insp == 'fraud', 'Label'] <- 1
 
 > par(mfrow= c(2,2))
 
