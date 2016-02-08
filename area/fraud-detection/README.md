@@ -12,11 +12,15 @@
 
 ### Machine Learning
 
-(1) Supervised Learning - Classification
+1. Unsupervised Learning - Clustering
+    
+    (1) Box Plot
 
-(2) Unsupervised Learning - Clustering
+    (2) [Local Outlier Factor](LOF.md)
 
-(3) Deep Learning - Neural Network
+2. Supervised Learning - Classification
+3. Deep Learning - Neural Network
+
 
 
 ### Evaluation
