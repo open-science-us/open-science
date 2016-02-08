@@ -298,8 +298,6 @@ for (prod in levels(Prod)) {
 
 for (prod in levels(Prod)) {
   duplicates <- duplicates + length(which(duplicated(prodAgg[[prod]])))
-
-  print(prod)
 }
 
 > duplicates
@@ -309,6 +307,40 @@ for (prod in levels(Prod)) {
 [1] 23.58422
 
 # 23.6% Uprices are duplicated
+
+
+> dups <- numeric(length(levels(Prod)))
+
+i <- 1
+for (prod in levels(Prod)) {
+  dups[i] <- length(which(duplicated(prodAgg[[prod]]))) / length(prodAgg[[prod]])
+  i <- i + 1
+}
+
+> lengths <- numeric(length(levels(Prod)))
+
+i <- 1
+for (prod in levels(Prod)) {
+  lengths[i] <- length(prodAgg[[prod]])
+  i <- i + 1
+}
+
+> df <- data.frame(cbind(levels(Prod), lengths, dups))
+
+> df[order(df$dups, decreasing=T)[1:10],]
+
+        V1 lengths              dups
+638   p638      11 0.818181818181818
+826   p826      11 0.818181818181818
+259   p259      20              0.75
+4197 p4199      16              0.75
+4434 p4436      12              0.75
+2300 p2300      19 0.736842105263158
+695   p695      14 0.714285714285714
+689   p689      13 0.692307692307692
+3330 p3332      26 0.692307692307692
+4145 p4147      19 0.684210526315789
+
 
 > lofs <- numeric()
 
@@ -328,9 +360,6 @@ for (prod in levels(Prod)) {
 
 > fivenum(lofs)
 [1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
-
-
-
 ~~~
 
 
