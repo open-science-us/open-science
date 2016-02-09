@@ -110,3 +110,8 @@ CRchart <- function(preds, trues, ...) {
 > CRchart(sData$fraud, sData$Label, main = "Cumulative Recall Chart")
 ~~~
 ![NB_PR_Charts](../images/NB_PR_charts.png)
+
+### Conclusion
+
+The Naive Bayes scores are very far from the best results of the unsupervised models. Despite the oversampling of the 
+minority class carried out by SMOTE, Naive Bayes is still not able to correctly predict which are the fraudulent reports.
