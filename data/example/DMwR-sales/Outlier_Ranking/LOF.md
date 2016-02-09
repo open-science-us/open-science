@@ -33,6 +33,7 @@ import java.lang.Math._
 
 object Neighbor {
   private def distanceImpl(xs: Seq[Double]): Array[Array[(Int, Double)]] = {
+    // to be optimized
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
     
     for (i <- 0 until xs.size; j<- 0 until xs.size) {
@@ -41,13 +42,14 @@ object Neighbor {
     
     ds
   }
-   
+  
   private def knnImpl(ds: Array[Array[(Int, Double)]], k: Int): Array[Array[(Int, Double)]] = {
     val knn = Array.ofDim[(Int, Double)](ds.length, k)
     
     for (i <- 0 until ds.length) {
       val sm = ds(i).sortBy(t => t._2)  
       
+      // get rid of duplicated points
       var z0 = 0;
       while (sm(z0)._2 == 0 & z0 < ds.length) z0 = z0 + 1
       
@@ -88,27 +90,31 @@ object Neighbor {
   }
   
   private def normalizeLOF(lofs: Array[Double]): Array[Double] = {
-    var minLof = 0.0; var maxLof = 0.0
-    
-    for (i <- 0 until lofs.length) {      
-      if (lofs(i) < minLof) minLof = lofs(i)
-      else if (lofs(i) > maxLof) maxLof = lofs(i)
-    }
-    
-    if (maxLof == minLof) {
-      for (i <- 0 until lofs.length) {
-        lofs(i) = 0.0
-      }
+    if (lofs.size == 1) {
+      lofs(0) = 0.0
     } else {
-      for (i <- 0 until lofs.length) {
-        lofs(i) = lofs(i) / (maxLof - minLof)
+      var minLof = lofs(0); var maxLof = lofs(0)
+      
+      for (i <- 1 until lofs.length) {
+        if (lofs(i) < minLof) minLof = lofs(i)
+        else if (lofs(i) > maxLof) maxLof = lofs(i)
+      }
+      
+      if (maxLof == minLof) {
+        for (i <- 0 until lofs.length) {
+          lofs(i) = 0.0
+        }
+      } else {
+        for (i <- 0 until lofs.length) {
+          lofs(i) = (lofs(i) - minLof) / (maxLof - minLof)
+        }
       }
     }
     
     lofs
   }
   
-  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
+  def lof2(xs: Seq[Double], k: Int):  Array[Double] = {
     if (xs.size <= k) {
       val lofs = new Array[Double](xs.size)
       
@@ -127,12 +133,19 @@ object Neighbor {
     
     for (i <- 0 until xs.size) {
       var ls = 0.0
+      var count = 0
       
       for (j <- 0 until k) {
-        ls += lrds(knn(i)(j)._1)
+        var b = knn(i)(j)._1
+        
+        if (b != i) {
+          count = count + 1
+          ls += lrds(knn(i)(j)._1)
+        }
       }
       
-      lofs(i) = ls / k / lrds(i)
+      if (count == 0) lofs(i) = 1.0
+      else lofs(i) = ls / count / lrds(i)
     }
 
     normalizeLOF(lofs)
@@ -144,40 +157,39 @@ import Neighbor._
 case class LofScore(Prod: String, Uprice: Double, Insp: String, ID: String, LOF: Double)
 
 val resDF = parsedRDD.groupBy(x => x._1).flatMap {t =>
-  val lf3 = lof3(t._2.map(t => t._2).toSeq, 7)
+  val lf2 = lof2(t._2.map(t => t._2).toSeq, 7)
 
-  val m = t._2 zip lf3
+  val m = t._2 zip lf2
 
   m.map(t => LofScore(t._1._1, t._1._2, t._1._3, t._1._4, t._2))
 }.toDF
 
 resDF.show()
 
-+----+----------------+----+----+-------------------+                           
-|Prod|          Uprice|Insp|  ID|                LOF|
-+----+----------------+----+----+-------------------+
-|p888|14.0107913669065|  ok|v805| 0.0799618002391534|
-|p888|10.8677685950413|  ok|v474|0.06393978381666413|
-|p888|4.37123169681309|  ok|v806|0.06130590562258435|
-|p888|5.85714285714286|  ok|v654| 0.0534227143914696|
-|p888|7.51766784452297|  ok|v807|0.06133848286741182|
-|p888|3.61889961645285|  ok|v808| 0.0633444194494576|
-|p888|14.5907928388747|  ok|v809|0.06809963785372683|
-|p888|13.2857142857143|  ok|v810|0.06641289330032102|
-|p888|2.76946786329435|  ok|v811|0.06809502846642153|
-|p888|10.6954887218045|  ok|v671|0.06646367494209844|
-|p888|10.8208955223881|  ok| v15|0.05604060828937512|
-|p888|5.35310394610202|  ok|v423| 0.0631527214269167|
-|p888|6.92920681986657|  ok|v333| 0.0662872524534364|
-|p888|           9.725|  ok|v333|0.05293307210924732|
-|p888|27.6111111111111|  ok| v19|0.06133282289735954|
-|p888|22.2839506172839|  ok|v528|0.06291924711034087|
-|p888|8.87387387387387|  ok|v596|0.06262595396634076|
-|p888|11.1818181818182|  ok|v506|0.07141401104495247|
-|p888|4.69059405940594|  ok|v538|0.06460966811707683|
-|p888|3.28777777777778|  ok|v538|0.05821124413482868|
-+----+----------------+----+----+-------------------+
-
++----+----------------+----+----+--------------------+                          
+|Prod|          Uprice|Insp|  ID|                 LOF|
++----+----------------+----+----+--------------------+
+|p888|14.0107913669065|  ok|v805|0.052659625003884054|
+|p888|10.8677685950413|  ok|v474|0.036162154518614695|
+|p888|4.37123169681309|  ok|v806| 0.03345011586986922|
+|p888|5.85714285714286|  ok|v654| 0.02533299058203707|
+|p888|7.51766784452297|  ok|v807| 0.03348365984591198|
+|p888|3.61889961645285|  ok|v808| 0.03554912268685448|
+|p888|14.5907928388747|  ok|v809| 0.04044545241257655|
+|p888|13.2857142857143|  ok|v810| 0.03870865363817622|
+|p888|2.76946786329435|  ok|v811|0.040440706241494255|
+|p888|10.6954887218045|  ok|v671| 0.03876094222747267|
+|p888|10.8208955223881|  ok| v15|0.028028570599895584|
+|p888|5.35310394610202|  ok|v423|0.035351736016815016|
+|p888|6.92920681986657|  ok|v333|0.038579284393471566|
+|p888|           9.725|  ok|v333| 0.02482881814291988|
+|p888|27.6111111111111|  ok| v19| 0.03347783191599212|
+|p888|22.2839506172839|  ok|v528| 0.03511133333932357|
+|p888|8.87387387387387|  ok|v596| 0.03480933670799556|
+|p888|11.1818181818182|  ok|v506| 0.04385817977831956|
+|p888|4.69059405940594|  ok|v538| 0.03685191766597308|
+|p888|3.28777777777778|  ok|v538|0.030263620162344736|
++----+----------------+----+----+--------------------+
 
 resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save("/work/R/example/lofData.csv")
 ~~~
@@ -191,12 +203,12 @@ resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "tru
 > head(sales)
 
   Prod    Uprice Insp   ID        LOF
-1 p888 14.010791   ok v805 0.07996180
-2 p888 10.867769   ok v474 0.06393978
-3 p888  4.371232   ok v806 0.06130591
-4 p888  5.857143   ok v654 0.05342271
-5 p888  7.517668   ok v807 0.06133848
-6 p888  3.618900   ok v808 0.06334442
+1 p888 14.010791   ok v805 0.05265963
+2 p888 10.867769   ok v474 0.03616215
+3 p888  4.371232   ok v806 0.03345012
+4 p888  5.857143   ok v654 0.02533299
+5 p888  7.517668   ok v807 0.03348366
+6 p888  3.618900   ok v808 0.03554912
 
 > attach(sales)
 
@@ -340,76 +352,6 @@ for (prod in levels(Prod)) {
 689   p689      13 0.692307692307692
 3330 p3332      26 0.692307692307692
 4145 p4147      19 0.684210526315789
-
-
-> sales[Prod == "p638",]
-
-          ID Prod Quant  Val Insp   Uprice
-2628    v397 p638   655 5000 unkn 7.633588
-36461   v397 p638  1211 9000 unkn 7.431874
-76863   v397 p638  1211 9000 unkn 7.431874
-124352  v397 p638  1211 9000 unkn 7.431874
-175825  v397 p638   655 5000 unkn 7.633588
-219020  v397 p638  1211 9000 unkn 7.431874
-219021  v397 p638  1211 9000 unkn 7.431874
-219022 v5718 p638  1211 9000 unkn 7.431874
-284022  v397 p638  1211 9000 unkn 7.431874
-284023  v397 p638  1211 9000 unkn 7.431874
-358356 v5718 p638   655 5000 unkn 7.633588
- 
-> sales[Prod == "p826",]
-
-         ID Prod Quant  Val Insp   Uprice
-3650   v455 p826   155 2355 unkn 15.19355
-37745  v455 p826   155 2370 unkn 15.29032
-78357  v455 p826   155 2355 unkn 15.19355
-78358  v455 p826   155 2370 unkn 15.29032
-176942 v455 p826   155 2370 unkn 15.29032
-221555 v455 p826   155 2355 unkn 15.19355
-221556 v455 p826   155 2370 unkn 15.29032
-221557 v455 p826   155 2370 unkn 15.29032
-286673 v455 p826   155 2355 unkn 15.19355
-286674 v455 p826   155 2370 unkn 15.29032
-286675 v455 p826   155 2370 unkn 15.29032
-
-
-# check original sales data
-
-> library(DMwR)
-
-> data(sales)
-
-> attach(sales)
-
-> sales[Prod == "p638",]
-          ID Prod Quant  Val Insp
-2628    v397 p638   655 5000 unkn
-36461   v397 p638  1211 9000 unkn
-76863   v397 p638  1211 9000 unkn
-124352  v397 p638  1211 9000 unkn
-175825  v397 p638   655 5000 unkn
-219020  v397 p638  1211 9000 unkn
-219021  v397 p638  1211 9000 unkn
-219022 v5718 p638  1211 9000 unkn
-284022  v397 p638  1211 9000 unkn
-284023  v397 p638  1211 9000 unkn
-358356 v5718 p638   655 5000 unkn
-
-> sales[Prod == "p826",]
-
-         ID Prod Quant  Val Insp
-3650   v455 p826   155 2355 unkn
-37745  v455 p826   155 2370 unkn
-78357  v455 p826   155 2355 unkn
-78358  v455 p826   155 2370 unkn
-176942 v455 p826   155 2370 unkn
-221555 v455 p826   155 2355 unkn
-221556 v455 p826   155 2370 unkn
-221557 v455 p826   155 2370 unkn
-286673 v455 p826   155 2355 unkn
-286674 v455 p826   155 2370 unkn
-286675 v455 p826   155 2370 unkn
-
 
 
 > lofs <- numeric()
