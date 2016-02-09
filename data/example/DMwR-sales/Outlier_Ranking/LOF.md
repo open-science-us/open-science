@@ -29,64 +29,101 @@ parsedRDD.take(10).foreach(println)
 (p2,12.2532188841202,unkn,v8)
 (p2,9.95762711864407,unkn,v9)
 
-// val nfRDD = parsedRDD.filter(t => t._4 != "fraud")
-// val uPriceRDD = parsedRDD.map(t => (t._1, (t._2, t._3, t._4)))
-
 import java.lang.Math._
 
-object Neighbor3 {
-  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
-    val lofs = new Array[Double](xs.size)
-    
-    if (xs.size <= k) {
-      for (i <- 0 until xs.size) lofs(i) = 0.0
-      return lofs
-    }
-    
+object Neighbor {
+  private def distanceImpl(xs: Seq[Double]): Array[Array[(Int, Double)]] = {
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
     
     for (i <- 0 until xs.size; j<- 0 until xs.size) {
       ds(i)(j) = (j, abs(xs(i) - xs(j)))
     }
     
-    val knn = Array.ofDim[(Int, Double)](xs.size, k)
+    ds
+  }
+   
+  private def knnImpl(ds: Array[Array[(Int, Double)]], k: Int): Array[Array[(Int, Double)]] = {
+    val knn = Array.ofDim[(Int, Double)](ds.length, k)
     
-    for (i <- 0 until xs.size) {
-      val sm = ds(i).sortBy(t => t._2)
-      
-      /*
-      for (j <- 0 until k) {
-        knn(i)(j) = sm(j)
-      }*/    
+    for (i <- 0 until ds.length) {
+      val sm = ds(i).sortBy(t => t._2)  
       
       var z0 = 0;
-      while (sm(z0)._2 == 0 & z0 < xs.size) z0 = z0 + 1
+      while (sm(z0)._2 == 0 & z0 < ds.length) z0 = z0 + 1
       
+      var max = 0.0
       for (j <- 0 until k) {
-        if ((z0+j) < xs.size) knn(i)(j) = sm(z0+j)
-        else knn(i)(j) = (i, 0.0)
+        if ((z0+j) < ds.length) {
+          knn(i)(j) = sm(z0+j)
+          max = sm(z0+j)._2
+        } else knn(i)(j) = (i, max)
       }
     }
     
-    val lrds = new Array[Double](xs.size)
+    knn
+  }
+  
+  private def lrdImpl(ds: Array[Array[(Int, Double)]], knn: Array[Array[(Int, Double)]], k: Int): Array[Double] = {
+    val lrds = new Array[Double](ds.length)
     
-    for (i <- 0 until xs.size) {
+    for (i <- 0 until ds.length) {
       var rd = 0.0
       var count = 0
       
       for (j <- 0 until k) {
-        if (knn(i)(j)._1 != i) {
+        var b = knn(i)(j)._1
+        
+        if (b != i) {
           count = count + 1
-          if (knn(knn(i)(j)._1)(k-1)._2 > ds(i)(knn(i)(j)._1)._2) rd += knn(knn(i)(j)._1)(k-1)._2
-          else rd += ds(i)(knn(i)(j)._1)._2
+          if (knn(b)(k-1)._2 > ds(i)(b)._2) rd += knn(b)(k-1)._2
+          else rd += ds(i)(b)._2
         }
       }
       
       if (count == 0 || rd == 0.0) lrds(i) = 0.0
       else lrds(i) = count / rd
     }
-    
+
+    lrds
+  }
+  
+  private def normalizeLOF(lofs: Array[Double]): Array[Double] = {
     var minLof = 0.0; var maxLof = 0.0
+    
+    for (i <- 0 until lofs.length) {      
+      if (lofs(i) < minLof) minLof = lofs(i)
+      else if (lofs(i) > maxLof) maxLof = lofs(i)
+    }
+    
+    if (maxLof == minLof) {
+      for (i <- 0 until lofs.length) {
+        lofs(i) = 0.0
+      }
+    } else {
+      for (i <- 0 until lofs.length) {
+        lofs(i) = lofs(i) / (maxLof - minLof)
+      }
+    }
+    
+    lofs
+  }
+  
+  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
+    if (xs.size <= k) {
+      val lofs = new Array[Double](xs.size)
+      
+      for (i <- 0 until xs.size) lofs(i) = 0.0
+      
+      return lofs
+    }
+    
+    val ds = distanceImpl(xs)
+    
+    val knn = knnImpl(ds, k)
+    
+    val lrds = lrdImpl(ds, knn, k)
+    
+    val lofs = new Array[Double](xs.size)
     
     for (i <- 0 until xs.size) {
       var ls = 0.0
@@ -96,26 +133,13 @@ object Neighbor3 {
       }
       
       lofs(i) = ls / k / lrds(i)
-      
-      if (lofs(i) < minLof) minLof = lofs(i)
-      else if (lofs(i) > maxLof) maxLof = lofs(i)
     }
-    
-    if (maxLof == minLof) {
-      for (i <- 0 until xs.size) {
-        lofs(i) = 0.0
-      }
-    } else {
-      for (i <- 0 until xs.size) {
-        lofs(i) = lofs(i) / (maxLof - minLof)
-      }
-    }
-    
-    lofs
+
+    normalizeLOF(lofs)
   }
 }
 
-import Neighbor3._
+import Neighbor._
 
 case class LofScore(Prod: String, Uprice: Double, Insp: String, ID: String, LOF: Double)
 
@@ -179,11 +203,11 @@ resDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "tru
 
 > library(ROCR)
 
-> knownSales <- sales[insp == 'fraud' | insp == 'ok',]
+> knownSales <- sales[Insp == 'fraud' | Insp == 'ok',]
 
 > knownSales$Label <- 0
 
-> knownSales[knownSales$insp == 'fraud', 'Label'] <- 1
+> knownSales[knownSales$Insp == 'fraud', 'Label'] <- 1
 
 > par(mfrow= c(2,2))
 
@@ -274,8 +298,6 @@ for (prod in levels(Prod)) {
 
 for (prod in levels(Prod)) {
   duplicates <- duplicates + length(which(duplicated(prodAgg[[prod]])))
-
-  print(prod)
 }
 
 > duplicates
@@ -285,6 +307,110 @@ for (prod in levels(Prod)) {
 [1] 23.58422
 
 # 23.6% Uprices are duplicated
+
+
+> dups <- numeric(length(levels(Prod)))
+
+i <- 1
+for (prod in levels(Prod)) {
+  dups[i] <- length(which(duplicated(prodAgg[[prod]]))) / length(prodAgg[[prod]])
+  i <- i + 1
+}
+
+> lengths <- numeric(length(levels(Prod)))
+
+i <- 1
+for (prod in levels(Prod)) {
+  lengths[i] <- length(prodAgg[[prod]])
+  i <- i + 1
+}
+
+> df <- data.frame(cbind(levels(Prod), lengths, dups))
+
+> df[order(df$dups, decreasing=T)[1:10],]
+
+        V1 lengths              dups
+638   p638      11 0.818181818181818
+826   p826      11 0.818181818181818
+259   p259      20              0.75
+4197 p4199      16              0.75
+4434 p4436      12              0.75
+2300 p2300      19 0.736842105263158
+695   p695      14 0.714285714285714
+689   p689      13 0.692307692307692
+3330 p3332      26 0.692307692307692
+4145 p4147      19 0.684210526315789
+
+
+> sales[Prod == "p638",]
+
+          ID Prod Quant  Val Insp   Uprice
+2628    v397 p638   655 5000 unkn 7.633588
+36461   v397 p638  1211 9000 unkn 7.431874
+76863   v397 p638  1211 9000 unkn 7.431874
+124352  v397 p638  1211 9000 unkn 7.431874
+175825  v397 p638   655 5000 unkn 7.633588
+219020  v397 p638  1211 9000 unkn 7.431874
+219021  v397 p638  1211 9000 unkn 7.431874
+219022 v5718 p638  1211 9000 unkn 7.431874
+284022  v397 p638  1211 9000 unkn 7.431874
+284023  v397 p638  1211 9000 unkn 7.431874
+358356 v5718 p638   655 5000 unkn 7.633588
+ 
+> sales[Prod == "p826",]
+
+         ID Prod Quant  Val Insp   Uprice
+3650   v455 p826   155 2355 unkn 15.19355
+37745  v455 p826   155 2370 unkn 15.29032
+78357  v455 p826   155 2355 unkn 15.19355
+78358  v455 p826   155 2370 unkn 15.29032
+176942 v455 p826   155 2370 unkn 15.29032
+221555 v455 p826   155 2355 unkn 15.19355
+221556 v455 p826   155 2370 unkn 15.29032
+221557 v455 p826   155 2370 unkn 15.29032
+286673 v455 p826   155 2355 unkn 15.19355
+286674 v455 p826   155 2370 unkn 15.29032
+286675 v455 p826   155 2370 unkn 15.29032
+
+
+# check original sales data
+
+> library(DMwR)
+
+> data(sales)
+
+> attach(sales)
+
+> sales[Prod == "p638",]
+          ID Prod Quant  Val Insp
+2628    v397 p638   655 5000 unkn
+36461   v397 p638  1211 9000 unkn
+76863   v397 p638  1211 9000 unkn
+124352  v397 p638  1211 9000 unkn
+175825  v397 p638   655 5000 unkn
+219020  v397 p638  1211 9000 unkn
+219021  v397 p638  1211 9000 unkn
+219022 v5718 p638  1211 9000 unkn
+284022  v397 p638  1211 9000 unkn
+284023  v397 p638  1211 9000 unkn
+358356 v5718 p638   655 5000 unkn
+
+> sales[Prod == "p826",]
+
+         ID Prod Quant  Val Insp
+3650   v455 p826   155 2355 unkn
+37745  v455 p826   155 2370 unkn
+78357  v455 p826   155 2355 unkn
+78358  v455 p826   155 2370 unkn
+176942 v455 p826   155 2370 unkn
+221555 v455 p826   155 2355 unkn
+221556 v455 p826   155 2370 unkn
+221557 v455 p826   155 2370 unkn
+286673 v455 p826   155 2355 unkn
+286674 v455 p826   155 2370 unkn
+286675 v455 p826   155 2370 unkn
+
+
 
 > lofs <- numeric()
 
@@ -304,9 +430,6 @@ for (prod in levels(Prod)) {
 
 > fivenum(lofs)
 [1] 0.000000e+00 9.888399e-01 1.036028e+00 1.176084e+00 1.903022e+04
-
-
-
 ~~~
 
 
