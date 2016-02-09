@@ -35,34 +35,24 @@ object Neighbor {
     ds
   }
 
-  def knn(xs: Seq[Double], k: Int): Array[Array[(Int, Double)]] = {    
-    knnImpl(distanceImpl(xs), k)
-  }
-  
-  def lof(xs: Seq[Double], k: Int):  Array[Double] = {
+  def knn(xs: Seq[Double], k: Int): Array[Array[(Int, Double)]] = {
     val ds = distanceImpl(xs)
     
-    val knn = knnImpl(ds, k)
+    val knn = Array.ofDim[(Int, Double)](xs.size, k)
     
-    val lrds = lrdImpl(ds, knn, k)
-    
-    val lofs = new Array[Double](xs.size)
-    
-    for (i <- 0 until lrds.size) {
-      var ls = 0.0
+    // to be optimized
+    for (i <- 0 until xs.size) {
+      val sm = ds(i).sortBy(t => t._2)  
       
       for (j <- 0 until k) {
-        ls += lrds(knn(i)(j)._1)
+        knn(i)(j) = sm(j)
       }
-      
-      lofs(i) = ls / k / lrds(i)
     }
     
-    lofs
+    knn
   }
-  
-  // get rid of duplicated points
-  def lof2(xs: Seq[Double], k: Int):  Array[Double] = {
+
+  def lof(xs: Seq[Double], k: Int):  Array[Double] = {
     val ds = distanceImpl(xs)
     
     val knn = knnImpl(ds, k)
@@ -73,12 +63,19 @@ object Neighbor {
     
     for (i <- 0 until xs.size) {
       var ls = 0.0
+      var count = 0
       
       for (j <- 0 until k) {
-        ls += lrds(knn(i)(j)._1)
+        var b = knn(i)(j)._1
+        
+        if (b != i) {
+          count = count + 1
+          ls += lrds(knn(i)(j)._1)
+        }
       }
       
-      lofs(i) = ls / k / lrds(i)
+      if (count == 0) lofs(i) = 1.0
+      else lofs(i) = ls / count / lrds(i)
     }
     
     lofs
@@ -86,6 +83,7 @@ object Neighbor {
   
   
   private def distanceImpl(xs: Seq[Double]): Array[Array[(Int, Double)]] = {
+    // to be optimized
     val ds = Array.ofDim[(Int, Double)](xs.size, xs.size)
     
     for (i <- 0 until xs.size; j<- 0 until xs.size) {
@@ -94,13 +92,14 @@ object Neighbor {
     
     ds
   }
-   
+  
   private def knnImpl(ds: Array[Array[(Int, Double)]], k: Int): Array[Array[(Int, Double)]] = {
     val knn = Array.ofDim[(Int, Double)](ds.length, k)
     
     for (i <- 0 until ds.length) {
       val sm = ds(i).sortBy(t => t._2)  
       
+      // get rid of duplicated points
       var z0 = 0;
       while (sm(z0)._2 == 0 & z0 < ds.length) z0 = z0 + 1
       
@@ -141,27 +140,31 @@ object Neighbor {
   }
   
   private def normalizeLOF(lofs: Array[Double]): Array[Double] = {
-    var minLof = 0.0; var maxLof = 0.0
-    
-    for (i <- 0 until lofs.length) {      
-      if (lofs(i) < minLof) minLof = lofs(i)
-      else if (lofs(i) > maxLof) maxLof = lofs(i)
-    }
-    
-    if (maxLof == minLof) {
-      for (i <- 0 until lofs.length) {
-        lofs(i) = 0.0
-      }
+    if (lofs.size == 1) {
+      lofs(0) = 0.0
     } else {
-      for (i <- 0 until lofs.length) {
-        lofs(i) = lofs(i) / (maxLof - minLof)
+      var minLof = lofs(0); var maxLof = lofs(0)
+      
+      for (i <- 1 until lofs.length) {
+        if (lofs(i) < minLof) minLof = lofs(i)
+        else if (lofs(i) > maxLof) maxLof = lofs(i)
+      }
+      
+      if (maxLof == minLof) {
+        for (i <- 0 until lofs.length) {
+          lofs(i) = 0.0
+        }
+      } else {
+        for (i <- 0 until lofs.length) {
+          lofs(i) = (lofs(i) - minLof) / (maxLof - minLof)
+        }
       }
     }
     
     lofs
   }
   
-  def lof3(xs: Seq[Double], k: Int):  Array[Double] = {
+  def lof2(xs: Seq[Double], k: Int):  Array[Double] = {
     if (xs.size <= k) {
       val lofs = new Array[Double](xs.size)
       
@@ -180,12 +183,19 @@ object Neighbor {
     
     for (i <- 0 until xs.size) {
       var ls = 0.0
+      var count = 0
       
       for (j <- 0 until k) {
-        ls += lrds(knn(i)(j)._1)
+        var b = knn(i)(j)._1
+        
+        if (b != i) {
+          count = count + 1
+          ls += lrds(knn(i)(j)._1)
+        }
       }
       
-      lofs(i) = ls / k / lrds(i)
+      if (count == 0) lofs(i) = 1.0
+      else lofs(i) = ls / count / lrds(i)
     }
 
     normalizeLOF(lofs)
