@@ -1,24 +1,12 @@
 ## Outlier Ranking
 
-### Data Preparing
+
+### Box Plot
 ~~~
 > setwd("/work/R/example")
 
 > load('salesClean.rdata')
 
-> knownSales <- sales[sales$Insp == 'fraud' | sales$Insp == 'ok',]
-
-> data <- knownSales[, c("ID", "Prod", "Uprice", "Insp")]
-
-> data$Insp <- factor(data$Insp, levels = c("ok", "fraud"))
-
-> library(DMwR)
-
-> sData <- SMOTE(Insp ~ ., data, perc.over = 700)
-~~~
-
-### Box Plot
-~~~
 bp_mi <- function(x) { 
   bp <- boxplot.stats(x)$stats 
   c(median = bp[3], iqr = bp[4]-bp[2])
@@ -54,7 +42,7 @@ bp_mi <- function(x) {
 > knownLofs[knownLofs$Insp == 'fraud', 'Label'] <- 1
 ~~~
 
-### Naive Baye classification
+### Naive Bayes
 ~~~
 > knownSales <- sales[sales$Insp == 'fraud' | sales$Insp == 'ok',]
 
@@ -118,7 +106,7 @@ CRchart <- function(preds, trues, ...) {
 
 > legend('bottomright',c('BoxPlot', 'LOF', 'NaiveBayes', 'H2O'), lty=c(1,1,2,2),col=c('black','grey','grey','black'))
 ~~~
-![PR_Charts](../images/PR_charts.png)
+![PR_Charts](images/PR_charts.png)
 
 
 ### Conclusion
