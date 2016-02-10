@@ -17,7 +17,7 @@ The goal is to help in the task of verifying the veracity of these reports given
 
 ## Conclusion
 
-Deep Learning with H2O outperforms others (Box Plot, Local Outlier Factor and Naive Bayes) and achieves 80% Recall fastest.
+Deep Learning with H2O outperforms others (Box Plot with R, Local Outlier Factor with Spark and Naive Bayes with R) and achieves 80% Recall fastest.
 
 ![PR_Charts](images/PR_charts.png)
 
