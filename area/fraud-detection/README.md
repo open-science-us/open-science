@@ -47,7 +47,7 @@
 
 (3) [Naive Bayes with R](/data/example/DMwR-sales/Outlier_Ranking/NaiveBayes.md)
 
-(4) [Deep Learning with Spark](/data/example/DMwR-sales/Outlier_Ranking/DeepLearning.md)
+(4) [Deep Learning with H2O](/data/example/DMwR-sales/Outlier_Ranking/DeepLearning.md)
 
 
 ### Reference
