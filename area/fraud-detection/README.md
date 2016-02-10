@@ -12,15 +12,17 @@
 
 ### Machine Learning
 
-1. Unsupervised Learning - Clustering
+1. Unsupervised Learning
     
     (1) Box Plot
 
     (2) [Local Outlier Factor](LOF.md)
 
-2. Supervised Learning - Classification
-3. Deep Learning - Neural Network
+2. Supervised Learning
 
+    (1) Classification - Naive Bayes
+    
+    (2) Deep Learning - Neural Network
 
 
 ### Evaluation
@@ -37,9 +39,15 @@
 (3) H2O
 
 
-### Examples
+### Example - [Sales](/data/example/DMwR-sales/)
 
-(1) [Sales](/data/example/DMwR-sales/)
+(1) [Box Plot with R](/data/example/DMwR-sales/Outlier_Ranking/BoxPlot.md)
+
+(2) [Local Outlier Factor with Spark](/data/example/DMwR-sales/Outlier_Ranking/LOF.md)
+
+(3) [Naive Bayes with R](/data/example/DMwR-sales/Outlier_Ranking/NaiveBayes.md)
+
+(4) [Deep Learning with Spark](/data/example/DMwR-sales/Outlier_Ranking/DeepLearning.md)
 
 
 ### Reference
