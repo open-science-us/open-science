@@ -42,7 +42,7 @@ bp_mi <- function(x) {
 > knownLofs[knownLofs$Insp == 'fraud', 'Label'] <- 1
 ~~~
 
-### Naive Baye classification
+### Naive Bayes
 ~~~
 > knownSales <- sales[sales$Insp == 'fraud' | sales$Insp == 'ok',]
 
