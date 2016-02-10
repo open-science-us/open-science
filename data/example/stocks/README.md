@@ -11,11 +11,13 @@ be used together with a trading strategy to reach a decision regarding the marke
 ## Data Source
 
 ~~~
-> install.packages('DMwR')
+> install.packages('tseries')
 
-> library(DMwR)
+> library('tseries')
 
-> data(GSPC)
+> library(xts)
+
+> GSPC <- as.xts(get.hist.quote("^GSPC",start="1970-01-02",quote=c("Open", "High", "Low", "Close","Volume","AdjClose")))
 ~~~
 
 
