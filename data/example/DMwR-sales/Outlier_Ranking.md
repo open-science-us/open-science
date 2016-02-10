@@ -111,6 +111,6 @@ CRchart <- function(preds, trues, ...) {
 
 ### Conclusion
 
-Deep Learning with H2O outperforms others (Box Plot, Local Outlier Factor and Naive Bayes) and achives 80% Recall fastest.
+Deep Learning with H2O outperforms others (Box Plot, Local Outlier Factor and Naive Bayes) and achieves 80% Recall fastest.
 
 
