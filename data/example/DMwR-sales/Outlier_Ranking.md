@@ -1,7 +1,7 @@
 ## Outlier Ranking
 
 
-### Box Plot
+### Box Plot with R
 ~~~
 > setwd("/work/R/example")
 
@@ -29,8 +29,10 @@ bp_mi <- function(x) {
 > bp_knownSales[bp_knownSales$Insp == 'fraud', 'Label'] <- 1
 ~~~
 
-### Local Outlier Factor
+### Local Outlier Factor with Spark
 ~~~
+# Loading predicts from Spark
+
 > setwd("/work/R/example")
 
 > lofs <- read.csv('lofData.csv', header=TRUE)
@@ -42,7 +44,7 @@ bp_mi <- function(x) {
 > knownLofs[knownLofs$Insp == 'fraud', 'Label'] <- 1
 ~~~
 
-### Naive Bayes
+### Naive Bayes with R
 ~~~
 > knownSales <- sales[sales$Insp == 'fraud' | sales$Insp == 'ok',]
 
@@ -69,6 +71,8 @@ bp_mi <- function(x) {
 
 ### Deep Learning with H2O
 ~~~
+# Loading predicts from H2O
+
 > h2o_pred <- h2o.getFrame("prediction-565cf316-f434-498d-8dbb-28ebd3562bc8")
 
 > h2o_df <- as.data.frame(h2o_pred)
