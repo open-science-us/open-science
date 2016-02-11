@@ -21,6 +21,10 @@ be used together with a trading strategy to reach a decision regarding the marke
 ~~~
 
 
+curl -o GSPC.csv http://ichart.finance.yahoo.com/table.csv?s=GSPC&c=1970
+
+
+
 ## Reference
 
 (1) [Data Mining with R] (http://www.amazon.com/Data-Mining-Learning-Knowledge-Discovery/dp/1439810184)
