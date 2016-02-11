@@ -17,7 +17,7 @@ be used together with a trading strategy to reach a decision regarding the marke
 
 > library(xts)
 
-> GSPC <- as.xts(get.hist.quote("^GSPC",start="1970-01-02",quote=c("Open", "High", "Low", "Close","Volume","AdjClose")))
+> GSPC <- as.xts(get.hist.quote("^GSPC",start="1970-01-01",quote=c("Open", "High", "Low", "Close","Volume","AdjClose")))
 ~~~
 
 
