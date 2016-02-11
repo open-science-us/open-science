@@ -10,6 +10,8 @@ be used together with a trading strategy to reach a decision regarding the marke
 
 ## Data Source
 
+Using a R package
+
 ~~~
 > install.packages('tseries')
 
@@ -21,7 +23,9 @@ be used together with a trading strategy to reach a decision regarding the marke
 ~~~
 
 
-curl -o GSPC.csv http://ichart.finance.yahoo.com/table.csv?s=GSPC&c=1970
+Downloading the CSV file from Yahoo
+
+curl -o GSPC.csv http://ichart.finance.yahoo.com/table.csv?s=^GSPC&c=1970
 
 
 
