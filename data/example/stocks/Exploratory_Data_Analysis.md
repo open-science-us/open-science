@@ -15,19 +15,48 @@
 > tail(GSPC)
 
               Open    High     Low   Close     Volume AdjClose
-2016-02-02 1935.26 1935.26 1897.29 1903.03 4463190000  1903.03
 2016-02-03 1907.07 1918.01 1872.23 1912.53 5172950000  1912.53
 2016-02-04 1911.67 1927.35 1900.52 1915.45 5193320000  1915.45
 2016-02-05 1913.07 1913.07 1872.65 1880.05 4929940000  1880.05
 2016-02-08 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44
 2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21
+2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86
 
 > nrow(GSPC)
-[1] 11633
+[1] 11634
 
 
+> GSPC$HLC <- (GSPC$High + GSPC$Low + GSPC$Close) / 3
+
+> tail(GSPC)
+
+              Open    High     Low   Close     Volume AdjClose      HLC
+2016-02-03 1907.07 1918.01 1872.23 1912.53 5172950000  1912.53 1900.923
+2016-02-04 1911.67 1927.35 1900.52 1915.45 5193320000  1915.45 1914.440
+2016-02-05 1913.07 1913.07 1872.65 1880.05 4929940000  1880.05 1888.590
+2016-02-08 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44 1851.717
+2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
+2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
 
 
+> avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
 
+T.ind <- function(quotes, tgt.margin = 0.025, n.days = 10) {
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(avgPrice(quotes), k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
 
+> candleChart(last(GSPC, "3 months"), theme = "white", TA = NULL)
+
+> addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
+
+> addT.ind <- newTA(FUN = T.ind, col = "red", legend = "tgtRet")
+
+> addAvgPrice(on = 1)
+
+> addT.ind()
 ~~~
+![GSPC_3m](images/GSPC_3m.png)
