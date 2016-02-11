@@ -15,6 +15,13 @@ The goal is to help in the task of verifying the veracity of these reports given
 > data(sales)
 ~~~
 
+## Conclusion
+
+Deep Learning with H2O outperforms others (Box Plot with R, Local Outlier Factor with Spark and Naive Bayes with R) and achieves 80% Recall fastest.
+
+![PR_Charts](images/PR_charts.png)
+
+
 ## Reference
 
 (1) [Data Mining with R] (http://www.amazon.com/Data-Mining-Learning-Knowledge-Discovery/dp/1439810184)
