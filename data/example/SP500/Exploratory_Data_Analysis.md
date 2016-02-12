@@ -25,7 +25,10 @@
 > nrow(GSPC)
 [1] 11634
 
+> nrow(GSPC[GSPC$Close != GSPC$AdjClose,])
+[1] 0
 
+# 
 > avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
 
 > GSPC$HLC <- avgPrice(GSPC)
@@ -41,9 +44,24 @@
 2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
 
 
+# Indicator of the tendency, related to the confidence whether the target margin is attainable, in the next k days
+
+# T.ind is directly copied from the book "Data Mining with R"
+
 T.ind <- function(quotes, tgt.margin = 0.025, n.days = 10) {
+  v <- apply(HLC(quotes), 1, mean)
   r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
-  for (x in 1:n.days) r[, x] <- Next(Delt(avgPrice(quotes), k = x), x)
+  for (x in 1:n.days) r[, x] <- Next(Delt(v, k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
+
+# T.ind2 is the corrected one, derivated from formulas in the book "Data Mining with R"
+
+T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(quotes[, "HLC"], quotes[, "Close"], k = x), x)
   x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
   if (is.xts(quotes)) xts(x, time(quotes))
   else x
@@ -53,11 +71,16 @@ T.ind <- function(quotes, tgt.margin = 0.025, n.days = 10) {
 
 > addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
 
-> addT.ind <- newTA(FUN = T.ind, col = "red", legend = "tgtRet")
-
 > addAvgPrice(on = 1)
 
+
+> addT.ind <- newTA(FUN = T.ind, col = "blue", legend = "tgtRet")
+
 > addT.ind()
+
+> addT.ind2 <- newTA(FUN = T.ind, col = "red", legend = "tgtRet2")
+
+> addT.ind2()
 ~~~
 ![GSPC_3m](images/GSPC_3m.png)
 
