@@ -1,6 +1,6 @@
 ## Exploratory Data Analysis
 
-### Using R
+### Using R [xts](https://cran.r-project.org/web/packages/xts/index.html) package
 ~~~
 > head(GSPC)
 
@@ -63,12 +63,18 @@ T.ind <- function(quotes, tgt.margin = 0.025, n.days = 10) {
 
 ### Using Spark
 ~~~
-bin/spark-shell --master spark://localhost:7077 --packages com.databricks:spark-csv_2.10:1.3.0 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+bin/spark-shell --master spark://localhost:7077 \
+--packages com.databricks:spark-csv_2.10:1.3.0 --packages joda-time:joda-time:2.9.2 \
+--jars /work/spark-TS/spark-timeseries-master/target/sparkts-0.3.0-SNAPSHOT-jar-with-dependencies.jar \
+--conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
 val rawRDD = sc.textFile("/work/R/example/stocks/GSPC.csv")
+
+rawRDD.take(10).foreach(println)
 
 Date,Open,High,Low,Close,Volume,Adj Close
 2016-02-10,1857.099976,1881.599976,1850.319946,1851.859985,4471170000,1851.859985
@@ -83,9 +89,11 @@ Date,Open,High,Low,Close,Volume,Adj Close
 
 val noHeaderRDD = rawRDD.mapPartitionsWithIndex { (idx, iter) => if (idx == 0) iter.drop(1) else iter }
 
-case class YahooStockPrice(date: String, open: Float, high: Float, low: Float, close: Float, volume: Integer, adjClose: Float)
+case class YahooStockPrice(date: String, open: Float, high: Float, low: Float, close: Float, volume: Long, adjClose: Float)
 
-val df = noHeaderRDD.map(_.split(",")).map(row => YahooStockPrice(row(0), row(1).trim.toFloat, row(2).trim.toFloat, row(3).trim.toFloat, row(4).trim.toFloat, row(5).trim.toInteger, row(6).trim.toFloat)).toDF()
+val df = noHeaderRDD.map(_.split(",")).map(row => YahooStockPrice(row(0), row(1).trim.toFloat, row(2).trim.toFloat, row(3).trim.toFloat, row(4).trim.toFloat, row(5).trim.toLong, row(6).trim.toFloat)).toDF()
+
+df.cache()
 
 df.show()
 
@@ -115,6 +123,7 @@ df.show()
 +----------+-------+-------+-------+-------+----------+--------+
 
 df.printSchema()
+
 root
  |-- date: string (nullable = true)
  |-- open: float (nullable = false)
@@ -127,10 +136,19 @@ root
 df.registerTempTable("gspc")
 
 sqlContext.sql("SELECT count(*) FROM gspc").show()
+
 +-----+
 |  _c0|
 +-----+
 |16634|
 +-----+
 
+import org.joda.time.DateTime
+
+import java.time._
+import java.time.format._
+import com.cloudera.sparkts.DateTimeIndex
+import com.cloudera.sparkts.BusinessDayFrequency
+
+val dtIndex = uniform(ZonedDateTime.of(1950, 1, 3, 0, 0, 0, 0, UTC), 16634, new BusinessDayFrequency(1))
 ~~~
