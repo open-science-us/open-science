@@ -11,6 +11,8 @@ be used together with a trading strategy to reach a decision regarding the marke
 ## Data Source
 
 ~~~
+# Downloading with a R package
+
 > install.packages('tseries')
 
 > library('tseries')
@@ -18,6 +20,11 @@ be used together with a trading strategy to reach a decision regarding the marke
 > library(xts)
 
 > GSPC <- as.xts(get.hist.quote("^GSPC",start="1970-01-01",quote=c("Open", "High", "Low", "Close","Volume","AdjClose")))
+
+
+# Downloading the CSV file from Yahoo
+
+$ curl -o GSPC-1970.csv http://ichart.finance.yahoo.com/table.csv?s=GSPC&c=1970&ignore=.csv
 ~~~
 
 
