@@ -67,20 +67,21 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   else x
 }
 
+> setwd("/work/R/example/stocks")
+> png(file = "GSPC_3m.png", width = 960, height = 720, bg = "transparent")
+
 > candleChart(last(GSPC, "3 months"), theme = "white", TA = NULL)
 
 > addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
-
 > addAvgPrice(on = 1)
 
-
 > addT.ind <- newTA(FUN = T.ind, col = "blue", legend = "tgtRet")
-
 > addT.ind()
 
-> addT.ind2 <- newTA(FUN = T.ind, col = "red", legend = "tgtRet2")
-
+> addT.ind2 <- newTA(FUN = T.ind2, col = "red", legend = "tgtRet2")
 > addT.ind2()
+
+dev.off()
 ~~~
 ![GSPC_3m](images/GSPC_3m.png)
 
