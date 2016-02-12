@@ -26,7 +26,9 @@
 [1] 11634
 
 
-> GSPC$HLC <- (GSPC$High + GSPC$Low + GSPC$Close) / 3
+> avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
+
+> GSPC$HLC <- avgPrice(GSPC)
 
 > tail(GSPC)
 
@@ -38,8 +40,6 @@
 2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
 2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
 
-
-> avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
 
 T.ind <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
