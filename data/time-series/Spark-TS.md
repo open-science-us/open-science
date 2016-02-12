@@ -166,6 +166,14 @@ val tickerTS = TimeSeriesRDD.timeSeriesRDDFromObservations(dtIndex, tickerDF, "d
 
 tickerTS.count
 Long = 1
+
+val subslice = tickerTS.slice(ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, UTC), ZonedDateTime.of(2016, 2, 10, 0, 0, 0, 0, UTC))
+
+subslice.count
+Long = 1
+
+subslice.first
+(String, org.apache.spark.mllib.linalg.Vector) = (GSPC,[1939.380005,1903.030029,1912.530029,1915.449951,1880.050049,1853.439941,1852.209961,1851.859985])
 ~~~
 
 
