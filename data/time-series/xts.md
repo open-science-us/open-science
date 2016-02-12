@@ -1,14 +1,76 @@
-# open-science
+## [xts](https://cran.r-project.org/web/packages/xts/index.html)
 
-Where will Data Science be in 2065?
+### Examples
+~~~
+library(xts)
 
-Answer from David Donoho in his article "50 years of Data Science", published on September 18, 2015:   Open Science takes over.
+> mode(GSPC)
+[1] "numeric"
 
-In principle, the purpose of scientic publication is to enable reproducibility of research findings. In absolute terms the amount of essentially non-reproducible research is far larger than ever before. To meet the original goal of scientic publication, one should share the underlying code and data. 
+> class(GSPC)
+[1] "xts" "zoo"
 
-Reproducibility of computational experiments is just as important to industrial data science as
-it is to scientic publication. It enables a disciplined approach to proposing and evaluating potential
-system improvements and an easy transition of validated improvements into production use.
+> GSPC[as.POSIXlt("2016-02-09")]
+
+              Open    High     Low   Close     Volume AdjClose    HLC
+2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.8
+
+> GSPC["2016-02-09"]
+
+              Open    High     Low   Close     Volume AdjClose    HLC
+2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.8
+
+> GSPC["2016-02"]
+
+              Open    High     Low   Close     Volume AdjClose      HLC
+2016-02-01 1936.94 1947.20 1920.30 1939.38 4322530000  1939.38 1935.627
+2016-02-02 1935.26 1935.26 1897.29 1903.03 4463190000  1903.03 1911.860
+2016-02-03 1907.07 1918.01 1872.23 1912.53 5172950000  1912.53 1900.923
+2016-02-04 1911.67 1927.35 1900.52 1915.45 5193320000  1915.45 1914.440
+2016-02-05 1913.07 1913.07 1872.65 1880.05 4929940000  1880.05 1888.590
+2016-02-08 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44 1851.717
+2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
+2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
+
+> GSPC["2016-02-05/"]
+
+              Open    High     Low   Close     Volume AdjClose      HLC
+2016-02-05 1913.07 1913.07 1872.65 1880.05 4929940000  1880.05 1888.590
+2016-02-08 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44 1851.717
+2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
+2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
+
+> GSPC["2016-02-01/2016-02-10"]
+
+              Open    High     Low   Close     Volume AdjClose      HLC
+2016-02-01 1936.94 1947.20 1920.30 1939.38 4322530000  1939.38 1935.627
+2016-02-02 1935.26 1935.26 1897.29 1903.03 4463190000  1903.03 1911.860
+2016-02-03 1907.07 1918.01 1872.23 1912.53 5172950000  1912.53 1900.923
+2016-02-04 1911.67 1927.35 1900.52 1915.45 5193320000  1915.45 1914.440
+2016-02-05 1913.07 1913.07 1872.65 1880.05 4929940000  1880.05 1888.590
+2016-02-08 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44 1851.717
+2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
+2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
+
+> tail(index(GSPC))
+
+[1] "2016-02-03" "2016-02-04" "2016-02-05" "2016-02-08" "2016-02-09" "2016-02-10"
+
+> tail(coredata(GSPC))
+
+            Open    High     Low   Close     Volume AdjClose      HLC
+[11629,] 1907.07 1918.01 1872.23 1912.53 5172950000  1912.53 1900.923
+[11630,] 1911.67 1927.35 1900.52 1915.45 5193320000  1915.45 1914.440
+[11631,] 1913.07 1913.07 1872.65 1880.05 4929940000  1880.05 1888.590
+[11632,] 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44 1851.717
+[11633,] 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
+[11634,] 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
+~~~
+
+### Conclusion
+
+In summary, xts objects are adequate to store stock quotes data, as they allow to store multiple time series with irregular time tags, and provide powerful indexing schemes.
+
 
 
 
