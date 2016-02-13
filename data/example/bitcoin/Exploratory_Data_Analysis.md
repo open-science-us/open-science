@@ -1,6 +1,4 @@
-## Exploratory Data Analysis
-
-### Using Spark
+## Exploratory Data Analysis Using Spark
 ~~~
 bin/spark-shell --master spark://localhost:7077 \
 --packages com.databricks:spark-csv_2.10:1.3.0 \
@@ -8,10 +6,114 @@ bin/spark-shell --master spark://localhost:7077 \
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
+~~~
 
-val rawRDD = sc.textFile("/work/R/example/stocks/zyadoEUR.csv")
+### [Bitstamp](https://en.wikipedia.org/wiki/Bitstamp)
+~~~
+val rawRDD = sc.textFile("/work/R/example/stocks/bitstampUSD.csv.gz")
+
+rawRDD.cache()
 
 rawRDD.take(10).foreach(println)
+
+1315922016,5.800000000000,1.000000000000
+1315922024,5.830000000000,3.000000000000
+1315922029,5.900000000000,1.000000000000
+1315922034,6.000000000000,20.000000000000
+1315924373,5.950000000000,12.452100000000
+1315924504,5.880000000000,7.458000000000
+1315924614,5.880000000000,0.176882380000
+1315925663,5.760000000000,2.267000000000
+1315927898,5.650000000000,2.542000000000
+1315942379,5.920000000000,0.450000000000
+
+rawRDD.count
+res1: Long = 8671372
+
+
+case class RawTicker(ts: Long, price: Float, volume: Float)
+
+val rawDF = rawRDD.map(_.split(",")).map(row => RawTicker(row(0).toLong, row(1).toFloat, row(2).toFloat)).toDF()
+
+rawDF.show()
+
++----------+-----+----------+
+|        ts|price|    volume|
++----------+-----+----------+
+|1315922016|  5.8|       1.0|
+|1315922024| 5.83|       3.0|
+|1315922029|  5.9|       1.0|
+|1315922034|  6.0|      20.0|
+|1315924373| 5.95|   12.4521|
+|1315924504| 5.88|     7.458|
+|1315924614| 5.88|0.17688239|
+|1315925663| 5.76|     2.267|
+|1315927898| 5.65|     2.542|
+|1315942379| 5.92|      0.45|
+|1315942469| 5.95|    3.5786|
+|1315942476| 5.97|    4.4468|
+|1315983600| 5.58|  12.54864|
+|1315985683| 5.54| 3.4181776|
+|1315986946| 5.62|  0.458882|
+|1315989100| 5.57|  6.235448|
+|1315990436| 5.55|  0.335485|
+|1315990442| 5.56|  5.776566|
+|1315991920| 5.57|  4.335485|
+|1315993026| 5.61|  0.554861|
++----------+-----+----------+
+
+rawDF.registerTempTable("raw")
+
+sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM raw").show()
+
++----------+----------+
+|       _c0|       _c1|
++----------+----------+
+|1315922016|1453203920|
++----------+----------+
+
+sqlContext.sql("SELECT count(*) FROM raw").show()
++-------+
+|    _c0|
++-------+
+|8671372|
++-------+
+
+
+import java.util.Date
+import java.util.TimeZone
+import java.text.SimpleDateFormat
+
+val sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+val sdf2 = new SimpleDateFormat("yyyy-MM-dd")
+
+sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+sdf2.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+val rdd = rawRDD.map(_.split(",")).map {row => 
+  val dt = new Date(row(0).toLong * 1000)
+  (sdf.format(dt), sdf2.format(dt), row(1).toFloat, row(2).toFloat)
+}
+
+rdd.take(10).foreach(println)
+
+(2011-09-13 01:53:36,2011-09-13,5.8,1.0)
+(2011-09-13 01:53:44,2011-09-13,5.83,3.0)
+(2011-09-13 01:53:49,2011-09-13,5.9,1.0)
+(2011-09-13 01:53:54,2011-09-13,6.0,20.0)
+(2011-09-13 02:32:53,2011-09-13,5.95,12.4521)
+(2011-09-13 02:35:04,2011-09-13,5.88,7.458)
+(2011-09-13 02:36:54,2011-09-13,5.88,0.17688239)
+(2011-09-13 02:54:23,2011-09-13,5.76,2.267)
+(2011-09-13 03:31:38,2011-09-13,5.65,2.542)
+(2011-09-13 07:32:59,2011-09-13,5.92,0.45)
+
+~~~
+
+
+### zyadoEUR
+~~~
+val rawRDD = sc.textFile("/work/R/example/stocks/zyadoEUR.csv.gz")
 
 1398372911,341.740000000000,0.150000000000
 1398373075,341.740000000000,0.050000000000
@@ -61,6 +163,7 @@ rawDF.show()
 |1398522460|344.21|  0.02|
 +----------+------+------+
 
+
 rawDF.registerTempTable("raw")
 
 sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM raw").show()
@@ -78,7 +181,6 @@ sqlContext.sql("SELECT count(*) FROM raw").show()
 +-------+
 |1870266|
 +-------+
-
 
 
 case class TickerS(ts: String, date: String, price: Float, volume: Float)
