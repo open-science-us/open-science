@@ -24,13 +24,13 @@ rawRDD.take(10).foreach(println)
 1398386034,341.740000000000,0.060000000000
 1398386798,341.770000000000,0.003000000000
 
-case class Ticker(ts: Long, price: Float, volume: Float)
+case class RawTicker(ts: Long, price: Float, volume: Float)
 
-val df = rawRDD.map(_.split(",")).map(row => Ticker(row(0).toLong, row(1).toFloat, row(2).toFloat)).toDF()
+val rawDF = rawRDD.map(_.split(",")).map(row => RawTicker(row(0).toLong, row(1).toFloat, row(2).toFloat)).toDF()
 
-df.cache()
+rawDF.cache()
 
-df.show()
+rawDF.show()
 
 +----------+------+------+
 |        ts| price|volume|
@@ -56,6 +56,68 @@ df.show()
 |1398515533|344.23|  0.07|
 |1398522460|344.21|  0.02|
 +----------+------+------+
+
+rawDF.registerTempTable("bitcoin")
+
+sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM bitcoin").show()
+
++----------+----------+                                                         
+|       _c0|       _c1|
++----------+----------+
+|1398372911|1451913138|
++----------+----------+
+
+1451913138000
+1455322293234
+
+
+case class TickerS(ts: String, price: Float, volume: Float)
+
+import java.util.Date
+import java.text.SimpleDateFormat
+
+val sdf = new SimpleDateFormat()
+
+val df = rawRDD.map(_.split(",")).map(row => TickerS(sdf.format(new Date(row(0).toLong * 1000)), row(1).toFloat, row(2).toFloat)).toDF()
+
+df.cache()
+
+df.show()
+
++-------------------+------+------+
+|                 ts| price|volume|
++-------------------+------+------+
+|2014-04-24 04:55:11|341.74|  0.15|
+|2014-04-24 04:57:55|341.74|  0.05|
+|2014-04-24 06:09:32|341.75| 0.142|
+|2014-04-24 06:09:32|341.75| 0.008|
+|2014-04-24 08:12:24|341.77| 0.012|
+|2014-04-24 08:12:24|341.75| 0.078|
+|2014-04-24 08:12:57|341.77|  0.09|
+|2014-04-24 08:26:56|341.74|  0.07|
+|2014-04-24 08:33:54|341.74|  0.06|
+|2014-04-24 08:46:38|341.77| 0.003|
+|2014-04-24 08:46:38|341.87| 0.021|
+|2014-04-24 09:06:05|342.54| 0.025|
+|2014-04-24 09:20:34| 343.0| 0.123|
+|2014-04-25 10:28:29| 343.0| 0.041|
+|2014-04-25 04:16:38|343.54|  0.06|
+|2014-04-25 04:18:28|344.21| 0.041|
+|2014-04-26 07:40:19|344.21|  0.03|
+|2014-04-26 08:31:49|344.23|  0.03|
+|2014-04-26 08:32:13|344.23|  0.07|
+|2014-04-26 10:27:40|344.21|  0.02|
++-------------------+------+------+
+
+df.registerTempTable("bitcoin")
+
+sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM bitcoin").show()
+
++-------------------+-------------------+                                       
+|                _c0|                _c1|
++-------------------+-------------------+
+|2014-04-24 04:55:11|2016-01-04 12:57:26|
++-------------------+-------------------+
 ~~~
 
 
