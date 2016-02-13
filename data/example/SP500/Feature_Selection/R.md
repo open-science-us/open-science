@@ -45,11 +45,32 @@ myCLV <- function(x) EMA(CLV(x[,c("High","Low","Close")]))[, 1]
  
 myEMV <- function(x) EMV(x[,c("High","Low")],x[,"Volume"])[, 2]
  
-myMACD <- function(x) MACD(x[,c("Close","AdjClose")])[, 2]
+myMACD <- function(x) MACD(x[,c("Close")])[, 2]
  
 myMFI <- function(x) MFI(x[,c("High","Low","Close")],x[,"Volume"])
  
 mySAR <- function(x) SAR(x[,c("High","Close")])[, 1]
  
 myVolat <- function(x) volatility(x[,c("Open","High","Low","Close")], calc = "garman")[, 1]
+
+myCl <- function(x) x[,c("Close")]
+
+
+> library(randomForest)
+
+> model <- specifyModel(T.ind2(GSPC) ~ Delt(myCl(GSPC),k=1:10) + myATR(GSPC) + mySMI(GSPC) + myADX(GSPC) + myAroon(GSPC) +
+  myBB(GSPC) + myChaikinVol(GSPC) + myCLV(GSPC) + CMO(myCl(GSPC)) + EMA(Delt(myCl(GSPC))) + myEMV(GSPC) +
+  myVolat(GSPC) + myMACD(GSPC) + myMFI(GSPC) + RSI(myCl(GSPC)) + mySAR(GSPC) + runMean(myCl(GSPC)) + runSD(myCl(GSPC)))
+ 
+> set.seed(1234)
+
+> rf <- buildModel(model, method='randomForest',training.per=c(start(GSPC),index(GSPC["1999-12-31"])),ntree=50, importance=T)
+
+> varImpPlot(rf@fitted.model, type = 1)
+
+> imp <- importance(rf@fitted.model, type = 1)
+
+> rownames(imp)[which(imp > 10)]
+[1] "myATR.GSPC"        "myADX.GSPC"        "myVolat.GSPC"      "myMACD.GSPC"       "myMFI.GSPC"        "runMean.myCl.GSPC"
+
 ~~~
