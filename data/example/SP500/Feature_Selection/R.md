@@ -70,7 +70,24 @@ myCl <- function(x) x[,c("Close")]
 
 > imp <- importance(rf@fitted.model, type = 1)
 
-> rownames(imp)[which(imp > 10)]
-[1] "myATR.GSPC"        "myADX.GSPC"        "myVolat.GSPC"      "myMACD.GSPC"       "myMFI.GSPC"        "runMean.myCl.GSPC"
+> imp[order(imp, decreasing=TRUE)[1:10],]
 
+ myADX.GSPC                   myMACD.GSPC                   myATR.GSPC 
+ 12.165387                    11.979254                     11.326473
+ 
+ myVolat.GSPC                 runMean.myCl.GSPC             myMFI.GSPC 
+ 10.852970                    10.539441                     10.361515 
+ 
+ runSD.myCl.GSPC              myEMV.GSPC                    Delt.myCl.GSPC.k.1.10.Delt.3.arithmetic
+ 9.768877                     9.467952                      8.960619 
+ 
+ mySMI.GSPC 
+ 8.709901 
+
+> names(imp[order(imp, decreasing=TRUE)[1:10],])
+
+ [1] "myADX.GSPC"  "myMACD.GSPC"  "myATR.GSPC"                             
+ [4] "myVolat.GSPC"  "runMean.myCl.GSPC"  "myMFI.GSPC"                             
+ [7] "runSD.myCl.GSPC"  "myEMV.GSPC"  "Delt.myCl.GSPC.k.1.10.Delt.3.arithmetic"
+[10] "mySMI.GSPC"                             
 ~~~
