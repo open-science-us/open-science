@@ -1,31 +1,4 @@
-### Feature List
-
-1. ATR, Average True Range, which is an indicator of the volatility of the series;
-
-2. SMI, Stochastic Momentum Index, which is a momentum indicator; 
-
-3. ADX, Welles Wilder's Directional Movement Index; 
-
-4. Arron, the indicator that tries to identify starting trends; 
-
-5. BB, Bollinger Bands, that compare the volatility over a period of time; 
-
-6. Chaikin Volatility; 
-
-7. CLV, Close Location Value, that relates the session Close to its trading range; 
-
-8. EMV, Arms' Ease of Movement Value (EMV); 
-
-9. the MACD oscillator; 
-
-10. MFI, Money Flow Index (MFI);
-
-11. Parabolic Stop-and-Reverse; 
-
-12. the Volatility indicator.
-
-
-### Using R
+### Using TTR package
 ~~~
 > library(TTR)
 
@@ -54,8 +27,10 @@ mySAR <- function(x) SAR(x[,c("High","Close")])[, 1]
 myVolat <- function(x) volatility(x[,c("Open","High","Low","Close")], calc = "garman")[, 1]
 
 myCl <- function(x) x[,c("Close")]
+~~~
 
-
+### Feature Filtering with Random Forest
+~~~
 > library(randomForest)
 
 > model <- specifyModel(T.ind2(GSPC) ~ Delt(myCl(GSPC),k=1:10) + myATR(GSPC) + mySMI(GSPC) + myADX(GSPC) + myAroon(GSPC) +
@@ -64,30 +39,27 @@ myCl <- function(x) x[,c("Close")]
  
 > set.seed(1234)
 
-> rf <- buildModel(model, method='randomForest',training.per=c(start(GSPC),index(GSPC["1999-12-31"])),ntree=50, importance=T)
+> rf70_94 <- buildModel(model, method='randomForest', training.per=c('1970-01-01','1994-12-31'), ntree=50, importance=T)
 
-> varImpPlot(rf@fitted.model, type = 1)
+> imp70_94 <- importance(rf@fitted.model, type = 1)
+> df70_94 <- data.frame(as.numeric(imp70_94))
+> df70_94$feature <- rownames(imp70_94)
+> colnames(df70_94) <- c("importance", "feature")
 
-> imp <- importance(rf@fitted.model, type = 1)
+> df70_94[order(df70_94 $importance, decreasing=T)[1:10],c("feature","importance")]
 
-> imp[order(imp, decreasing=TRUE)[1:10],]
+             feature importance
+26 runMean.myCl.GSPC  13.903021
+11        myATR.GSPC  12.738431
+25        mySAR.GSPC  11.303793
+21      myVolat.GSPC  11.059647
+13        myADX.GSPC  10.673914
+22       myMACD.GSPC  10.230337
+12        mySMI.GSPC   9.271612
+27   runSD.myCl.GSPC   8.938491
+23        myMFI.GSPC   8.323043
+14      myAroon.GSPC   7.353545
 
- myADX.GSPC                   myMACD.GSPC                   myATR.GSPC 
- 12.165387                    11.979254                     11.326473
- 
- myVolat.GSPC                 runMean.myCl.GSPC             myMFI.GSPC 
- 10.852970                    10.539441                     10.361515 
- 
- runSD.myCl.GSPC              myEMV.GSPC                    Delt.myCl.GSPC.k.1.10.Delt.3.arithmetic
- 9.768877                     9.467952                      8.960619 
- 
- mySMI.GSPC 
- 8.709901 
-
-> names(imp[order(imp, decreasing=TRUE)[1:10],])
-
- [1] "myADX.GSPC"  "myMACD.GSPC"  "myATR.GSPC"                             
- [4] "myVolat.GSPC"  "runMean.myCl.GSPC"  "myMFI.GSPC"                             
- [7] "runSD.myCl.GSPC"  "myEMV.GSPC"  "Delt.myCl.GSPC.k.1.10.Delt.3.arithmetic"
-[10] "mySMI.GSPC"                             
+> varImpPlot(rf70_94@fitted.model, type = 1)
 ~~~
+![rf70_94](../images/rf70_94.png)
