@@ -25,10 +25,13 @@
 > nrow(GSPC)
 [1] 11634
 
+# All Adjusted Close prices are equal to Close prices
+
 > nrow(GSPC[GSPC$Close != GSPC$AdjClose,])
 [1] 0
 
-# 
+# All Adjusted Close prices are equal to Close prices so it is not necessary to use Adjusted Close prices to calculate average prices
+
 > avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
 
 > GSPC$HLC <- avgPrice(GSPC)
