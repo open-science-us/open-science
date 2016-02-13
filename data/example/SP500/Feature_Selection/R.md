@@ -115,3 +115,31 @@ myCl <- function(x) x[,c("Close")]
 > varImpPlot(rf05_09@fitted.model, type = 1)
 ~~~
 ![rf05_09](../images/rf05_09.png)
+
+
+~~~
+> rf10_14 <- buildModel(model, method='randomForest', training.per=c('2010-01-01','2014-12-31'), ntree=50, importance=T)
+
+> imp10_14 <- importance(rf10_14@fitted.model, type = 1)
+> df10_14 <- data.frame(as.numeric(imp10_14))
+> df10_14$feature <- rownames(imp10_14)
+> colnames(df10_14) <- c("importance", "feature")
+
+> df10_14[order(df10_14$importance, decreasing=T)[1:10],c("feature","importance")]
+
+                                   feature importance
+21                            myVolat.GSPC   9.960385
+22                             myMACD.GSPC   9.247430
+26                       runMean.myCl.GSPC   8.127219
+25                              mySAR.GSPC   8.108243
+12                              mySMI.GSPC   7.244285
+18                           CMO.myCl.GSPC   6.648096
+11                              myATR.GSPC   6.020759
+8  Delt.myCl.GSPC.k.1.10.Delt.8.arithmetic   5.769271
+14                            myAroon.GSPC   5.671220
+23                              myMFI.GSPC   5.597945
+
+> varImpPlot(rf10_14@fitted.model, type = 1)
+~~~
+![rf10_14](../images/rf10_14.png)
+
