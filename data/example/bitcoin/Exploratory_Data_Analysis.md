@@ -67,9 +67,6 @@ sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM bitcoin").show()
 |1398372911|1451913138|
 +----------+----------+
 
-1451913138000
-1455322293234
-
 
 case class TickerS(ts: String, price: Float, volume: Float)
 
@@ -118,6 +115,30 @@ sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM bitcoin").show()
 +-------------------+-------------------+
 |2014-04-24 04:55:11|2016-01-04 12:57:26|
 +-------------------+-------------------+
+
+sqlContext.sql("SELECT MIN(price), MAX(price) FROM bitcoin").show()
+
++---+------+
+|_c0|   _c1|
++---+------+
+|1.0|497.77|
++---+------+
+
+sqlContext.sql("SELECT MIN(volume), MAX(volume) FROM bitcoin").show()
+
++-----+-----+                                                                   
+|  _c0|  _c1|
++-----+-----+
+|-25.0|120.0|
++-----+-----+
+
+sqlContext.sql("SELECT sum(volume) FROM bitcoin").show()
+
++-----------------+                                                             
+|              _c0|
++-----------------+
+|280587.9324777317|
++-----------------+
 ~~~
 
 
