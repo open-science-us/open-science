@@ -45,11 +45,11 @@ myCLV <- function(x) EMA(CLV(x[,c("High","Low","Close")]))[, 1]
  
 myEMV <- function(x) EMV(x[,c("High","Low")],x[,"Volume"])[, 2]
  
-myMACD <- function(x) MACD(Cl(x))[, 2]
+myMACD <- function(x) MACD(x[,c("Close","AdjClose")])[, 2]
  
 myMFI <- function(x) MFI(x[,c("High","Low","Close")],x[,"Volume"])
  
 mySAR <- function(x) SAR(x[,c("High","Close")])[, 1]
  
-
+myVolat <- function(x) volatility(x[,c("Open","High","Low","Close")], calc = "garman")[, 1]
 ~~~
