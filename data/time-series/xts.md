@@ -110,7 +110,7 @@
 ~~~
 
 
-### Loading Bitcoin daily data from a CSV file
+### Loading Bitstamp's Bitcoin daily data from a CSV file
 ~~~
 > Bitstamp <- as.xts(read.zoo("/work/R/example/stocks/bitstamp-daily.csv", sep=",", header=T))
 
@@ -148,7 +148,7 @@
 ~~~
 
 
-### Handling S&P500 daily data
+### Handling Bitstamp's Bitcoin daily data
 ~~~
 > Bitstamp[as.POSIXlt("2016-01-10")]
 
