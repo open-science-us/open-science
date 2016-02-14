@@ -24,6 +24,22 @@
 2016-01-18 379.94 388.50 373.63 385.49  7015.523
 2016-01-19 385.47 386.43 381.45 384.97  1747.512
 
+> max(Bitstamp[,"High"])
+[1] 1163
+
+> Bitstamp[Bitstamp$High == 1163,]
+
+              Open High  Low   Close   Volume
+2013-11-30 1131.99 1163 1080 1119.52 12907.61
+
+> max(Bitstamp[,"Close"])
+[1] 1132.01
+
+> Bitstamp[Bitstamp$Close == 1132.01,]
+           Open    High    Low   Close   Volume
+2013-12-04 1055 1153.27 1052.1 1132.01 14433.48
+
+
 
 > avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
 
@@ -35,6 +51,7 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   if (is.xts(quotes)) xts(x, time(quotes))
   else x
 }
+
 
 
 > library(quantmod)
