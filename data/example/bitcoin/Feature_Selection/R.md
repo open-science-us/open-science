@@ -90,3 +90,31 @@ colnames(df1) <- c("importance", "feature")
 > varImpPlot(rf1@fitted.model, type = 1)
 ~~~
 ![Bitstamp_rf1](../images/Bitstamp_rf1.png)
+
+
+~~~
+> rf2 <- buildModel(model, method='randomForest', training.per=c('2013-04-10','2013-12-04'), ntree=50, importance=T)
+
+imp2 <- importance(rf2@fitted.model, type = 1)
+df2 <- data.frame(as.numeric(imp2))
+df2$feature <- rownames(imp2)
+colnames(df2) <- c("importance", "feature")
+
+> df2[order(df2$importance, decreasing=T)[1:10],c("feature","importance")]
+
+                                       feature importance
+12                              mySMI.Bitstamp   5.502996
+25                              mySAR.Bitstamp   5.360556
+22                             myMACD.Bitstamp   5.088045
+26                       runMean.myCl.Bitstamp   4.946642
+13                              myADX.Bitstamp   4.827640
+20                              myEMV.Bitstamp   4.434969
+11                              myATR.Bitstamp   4.012820
+14                            myAroon.Bitstamp   3.863205
+17                              myCLV.Bitstamp   3.466611
+9  Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   3.418760
+
+> varImpPlot(rf2@fitted.model, type = 1)
+~~~
+![Bitstamp_rf2](../images/Bitstamp_rf2.png)
+
