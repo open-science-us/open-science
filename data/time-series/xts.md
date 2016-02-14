@@ -6,7 +6,7 @@
 > library(xts)
 ~~~
 
-### Loading data from Yahoo finance with R package "tseries"
+### Loading S&P500 daily data from Yahoo finance with R package "tseries"
 ~~~
 > library(tseries)
 
@@ -25,7 +25,7 @@
 [1] 11634     6
 ~~~
 
-### Handling data
+### Handling S&P500 daily data
 ~~~
 > GSPC[as.POSIXlt("2016-02-10")]
 
@@ -89,6 +89,25 @@
 [11633,] 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21
 [11634,] 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86
 ~~~
+
+
+### Loading Bitcoin daily data from a CSV file
+~~~
+> Bitstamp <- as.xts(read.zoo("/work/R/example/stocks/bitstamp-daily.csv", sep=",", header=T))
+
+> mode(Bitstamp)
+[1] "numeric"
+
+> class(Bitstamp)
+[1] "xts" "zoo"
+
+> colnames(Bitstamp)
+[1] "Open"   "High"   "Low"    "Close"  "Volume"
+
+> dim(Bitstamp)
+[1] 1569    5
+~~~
+
 
 ### Conclusion
 
