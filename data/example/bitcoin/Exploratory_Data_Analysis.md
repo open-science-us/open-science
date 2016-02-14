@@ -272,6 +272,14 @@ sqlContext.sql("SELECT price FROM bitstamp WHERE ts = '2015-01-01 23:59:00'").sh
 +------+
 |313.81|
 +------+
+
+
+dailyRDD.map {x =>
+  val xs = x._2.map(t => t._3)
+  val xss = x._2.toSeq.sortWith(_._2 < _._2)
+  
+  (x._1, xss(0)._3, xs.max, xs.min, xss(xss.size-1)._3, x._2.map(t => t._4).sum)
+}.coalesce(1).map(x => x._1 + "," + x._2 + "," + x._3 + "," + x._4 + "," + x._5 + "," + x._6).saveAsTextFile("/work/R/example/stocks/bitstamp-daily.csv")
 ~~~
 
 
