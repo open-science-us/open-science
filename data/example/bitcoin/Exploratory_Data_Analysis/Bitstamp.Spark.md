@@ -1,4 +1,4 @@
-## Exploratory Data Analysis Using Spark
+### [Bitstamp](https://en.wikipedia.org/wiki/Bitstamp) using Spark
 ~~~
 bin/spark-shell --master spark://localhost:7077 \
 --packages com.databricks:spark-csv_2.10:1.3.0 \
@@ -6,10 +6,7 @@ bin/spark-shell --master spark://localhost:7077 \
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
-~~~
 
-### [Bitstamp](https://en.wikipedia.org/wiki/Bitstamp)
-~~~
 val rawRDD = sc.textFile("/work/R/example/stocks/bitstampUSD.csv.gz")
 
 rawRDD.cache()
