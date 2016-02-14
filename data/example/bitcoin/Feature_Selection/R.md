@@ -118,3 +118,29 @@ colnames(df2) <- c("importance", "feature")
 ~~~
 ![Bitstamp_rf2](../images/Bitstamp_rf2.png)
 
+
+~~~
+> rf3 <- buildModel(model, method='randomForest', training.per=c('2013-12-05','2014-12-31'), ntree=50, importance=T)
+
+imp3 <- importance(rf3@fitted.model, type = 1)
+df3 <- data.frame(as.numeric(imp3))
+df3$feature <- rownames(imp3)
+colnames(df3) <- c("importance", "feature")
+
+> df3[order(df3$importance, decreasing=T)[1:10],c("feature","importance")]
+
+                                        feature importance
+22                              myMACD.Bitstamp   9.898029
+11                               myATR.Bitstamp   8.119821
+25                               mySAR.Bitstamp   6.889789
+21                             myVolat.Bitstamp   6.882294
+13                               myADX.Bitstamp   6.344567
+26                        runMean.myCl.Bitstamp   5.282253
+9   Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   4.314561
+10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   4.114592
+18                            CMO.myCl.Bitstamp   4.075093
+24                            RSI.myCl.Bitstamp   4.003254
+
+> varImpPlot(rf3@fitted.model, type = 1)
+~~~
+![Bitstamp_rf3](../images/Bitstamp_rf3.png)
