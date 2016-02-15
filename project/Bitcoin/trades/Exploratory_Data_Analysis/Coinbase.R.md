@@ -61,7 +61,7 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
 
 > library(quantmod)
 
-> candleChart(last(Bitstamp, "3 months"), theme = "white", TA = NULL)
+> candleChart(last(Coinbase, "3 months"), theme = "white", TA = NULL)
 
 > addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
 > addAvgPrice(on = 1)
@@ -69,5 +69,5 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
 > addT.ind2 <- newTA(FUN = T.ind2, col = "red", legend = "tgtRet")
 > addT.ind2()
 ~~~
-![Bitstamp_3m](../images/Bitstamp_3m.png)
+![Coinbase_3m](../images/Coinbase_3m.png)
 
