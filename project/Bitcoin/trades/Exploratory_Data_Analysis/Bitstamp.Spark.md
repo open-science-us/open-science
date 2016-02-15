@@ -59,7 +59,15 @@ rawDF.show()
 |1315993026| 5.61|  0.554861|
 +----------+-----+----------+
 
+
 rawDF.registerTempTable("raw")
+
+sqlContext.sql("SELECT count(*) FROM raw").show()
++-------+
+|    _c0|
++-------+
+|8671372|
++-------+
 
 sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM raw").show()
 
@@ -69,12 +77,29 @@ sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM raw").show()
 |1315922016|1453203920|
 +----------+----------+
 
-sqlContext.sql("SELECT count(*) FROM raw").show()
-+-------+
-|    _c0|
-+-------+
-|8671372|
-+-------+
+sqlContext.sql("SELECT MIN(price), MAX(price) FROM raw").show()
+
++----+------+
+| _c0|   _c1|
++----+------+
+|2.22|1163.0|
++----+------+
+
+sqlContext.sql("SELECT MIN(volume), MAX(volume) FROM raw").show()
+
++----------+-------+
+|       _c0|    _c1|
++----------+-------+
+|-33.059498|2932.84|
++----------+-------+
+
+sqlContext.sql("SELECT sum(volume) FROM raw").show()
++--------------------+
+|                 _c0|
++--------------------+
+|1.6327320765607655E7|
++--------------------+
+
 
 
 import java.util.Date
@@ -131,29 +156,6 @@ sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM bitstamp").show()
 +-------------------+-------------------+
 |2011-09-13 13:53:36|2016-01-19 11:45:20|
 +-------------------+-------------------+
-
-sqlContext.sql("SELECT MIN(price), MAX(price) FROM bitstamp").show()
-
-+----+------+
-| _c0|   _c1|
-+----+------+
-|2.22|1163.0|
-+----+------+
-
-sqlContext.sql("SELECT MIN(volume), MAX(volume) FROM bitstamp").show()
-+----------+-------+
-|       _c0|    _c1|
-+----------+-------+
-|-33.059498|2932.84|
-+----------+-------+
-
-sqlContext.sql("SELECT sum(volume) FROM bitstamp").show()
-
-+--------------------+
-|                 _c0|
-+--------------------+
-|1.6327320765607655E7|
-+--------------------+
 
 sqlContext.sql("SELECT date, MIN(price) as Low, MAX(price) as High FROM bitstamp Group By date").show()
 
@@ -246,10 +248,10 @@ dailyRDD.map {x =>
 (2015-01-13,267.1,2015-01-13 00:00:28,268.15,216.0,227.0,2015-01-13 23:59:59,60557.16)
 
 
-sqlContext.sql("SELECT MIN(ts), MAX(ts), MAX(price) as High, MIN(price), SUM(volume) as Low FROM bitstamp WHERE date = '2015-01-01'").show()
+sqlContext.sql("SELECT MIN(ts) as First, MAX(ts) as Last, MAX(price) as High, MIN(price) as Low, SUM(volume) as Volume FROM bitstamp WHERE date = '2015-01-01'").show()
 
 +-------------------+-------------------+-----+-----+-----------------+
-|                _c0|                _c1| High|  _c3|              Low|
+|              First|               Last| High|  Low|           Volume|
 +-------------------+-------------------+-----+-----+-----------------+
 |2015-01-01 00:00:22|2015-01-01 23:59:00|321.0|312.6|3087.436549626096|
 +-------------------+-------------------+-----+-----+-----------------+
