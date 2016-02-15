@@ -248,10 +248,10 @@ dailyRDD.map {x =>
 (2015-01-13,267.1,2015-01-13 00:00:28,268.15,216.0,227.0,2015-01-13 23:59:59,60557.16)
 
 
-sqlContext.sql("SELECT MIN(ts), MAX(ts), MAX(price) as High, MIN(price), SUM(volume) as Low FROM bitstamp WHERE date = '2015-01-01'").show()
+sqlContext.sql("SELECT MIN(ts) as First, MAX(ts) as Last, MAX(price) as High, MIN(price) as Low, SUM(volume) as Volume FROM bitstamp WHERE date = '2015-01-01'").show()
 
 +-------------------+-------------------+-----+-----+-----------------+
-|                _c0|                _c1| High|  _c3|              Low|
+|              First|               Last| High|  Low|           Volume|
 +-------------------+-------------------+-----+-----+-----------------+
 |2015-01-01 00:00:22|2015-01-01 23:59:00|321.0|312.6|3087.436549626096|
 +-------------------+-------------------+-----+-----+-----------------+
