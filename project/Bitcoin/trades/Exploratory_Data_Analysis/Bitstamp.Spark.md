@@ -59,7 +59,15 @@ rawDF.show()
 |1315993026| 5.61|  0.554861|
 +----------+-----+----------+
 
+
 rawDF.registerTempTable("raw")
+
+sqlContext.sql("SELECT count(*) FROM raw").show()
++-------+
+|    _c0|
++-------+
+|8671372|
++-------+
 
 sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM raw").show()
 
@@ -69,12 +77,29 @@ sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM raw").show()
 |1315922016|1453203920|
 +----------+----------+
 
-sqlContext.sql("SELECT count(*) FROM raw").show()
-+-------+
-|    _c0|
-+-------+
-|8671372|
-+-------+
+sqlContext.sql("SELECT MIN(price), MAX(price) FROM raw").show()
+
++----+------+
+| _c0|   _c1|
++----+------+
+|2.22|1163.0|
++----+------+
+
+sqlContext.sql("SELECT MIN(volume), MAX(volume) FROM raw").show()
+
++----------+-------+
+|       _c0|    _c1|
++----------+-------+
+|-33.059498|2932.84|
++----------+-------+
+
+sqlContext.sql("SELECT sum(volume) FROM raw").show()
++--------------------+
+|                 _c0|
++--------------------+
+|1.6327320765607655E7|
++--------------------+
+
 
 
 import java.util.Date
