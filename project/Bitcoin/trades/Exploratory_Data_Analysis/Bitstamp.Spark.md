@@ -157,29 +157,6 @@ sqlContext.sql("SELECT MIN(ts), MAX(ts) FROM bitstamp").show()
 |2011-09-13 13:53:36|2016-01-19 11:45:20|
 +-------------------+-------------------+
 
-sqlContext.sql("SELECT MIN(price), MAX(price) FROM bitstamp").show()
-
-+----+------+
-| _c0|   _c1|
-+----+------+
-|2.22|1163.0|
-+----+------+
-
-sqlContext.sql("SELECT MIN(volume), MAX(volume) FROM bitstamp").show()
-+----------+-------+
-|       _c0|    _c1|
-+----------+-------+
-|-33.059498|2932.84|
-+----------+-------+
-
-sqlContext.sql("SELECT sum(volume) FROM bitstamp").show()
-
-+--------------------+
-|                 _c0|
-+--------------------+
-|1.6327320765607655E7|
-+--------------------+
-
 sqlContext.sql("SELECT date, MIN(price) as Low, MAX(price) as High FROM bitstamp Group By date").show()
 
 +----------+------+------+
