@@ -52,4 +52,6 @@ myMFI <- function(x) MFI(x[,c("High","Low","Close")],x[,"Volume"])
 mySAR <- function(x) SAR(x[,c("High","Close")])[, 1]
  
 myVolat <- function(x) volatility(x[,c("Open","High","Low","Close")], calc = "garman")[, 1]
+
+myCl <- function(x) x[,c("Close")]
 ~~~
