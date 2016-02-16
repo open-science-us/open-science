@@ -32,9 +32,9 @@ grepRDD.take(10).foreach(println)
 /Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
 
 
-val bitcoinRDD = grepRDD.map(line => line.split(".gz:")(1))
+val pvRDD = grepRDD.map(line => line.split(".gz:")(1))
 
-bitcoinRDD.take(10).foreach(println)
+pvRDD.take(10).foreach(println)
 
 ca Bitcoin 2 69374
 commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22 1 4845
@@ -47,6 +47,21 @@ commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitc
 commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22 1 4916
 commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
 
+
+val pvTupleRDD = pvRDD.map(line => line.split(" ")).map(a => (a(0), a(1), a(2).toInt, a(3).toLong))
+
+pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(10).foreach(println)
+
+(Bitcoin,140508)
+(History_of_Bitcoin,6094)
+(Bitcoin_network,3026)
+(Bitcoin_Fog,1038)
+(Bitcoin_ATM,961)
+(Bitcoin_mining,908)
+(Bitcoin_faucet,867)
+(Bitcoin_Foundation,700)
+(Bitcoin_XT,610)
+(Bitcoins,596)
 ~~~
 
 
