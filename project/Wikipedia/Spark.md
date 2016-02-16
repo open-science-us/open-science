@@ -1,5 +1,6 @@
 ## Using Spark
 
+### Bitcoin record files
 ~~~
 bin/spark-shell --master spark://localhost:7077 \
 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer
@@ -13,6 +14,45 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
 
+val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin-201602.txt")
+
+grepRDD.cache()
+
+grepRDD.take(10).foreach(println)
+
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:ca Bitcoin 2 69374
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22 1 4845
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22>download 1 4508
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bitcoin_explained_in_3_minutes.webm/854px--Bitcoin_explained_in_3_minutes.webm.jpg%22 1 4914
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.1080p.webm%22 1 4913
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.160p.ogv%22 1 4915
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.ogv%22 1 4914
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.webm%22 1 4912
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22 1 4916
+/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
+
+
+val bitcoinRDD = grepRDD.map(line => line.split(".gz:")(1))
+
+bitcoinRDD.take(10).foreach(println)
+
+ca Bitcoin 2 69374
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22 1 4845
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22>download 1 4508
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bitcoin_explained_in_3_minutes.webm/854px--Bitcoin_explained_in_3_minutes.webm.jpg%22 1 4914
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.1080p.webm%22 1 4913
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.160p.ogv%22 1 4915
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.ogv%22 1 4914
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.webm%22 1 4912
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22 1 4916
+commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
+
+~~~
+
+
+### Raw gzip files
+
+~~~
 val rawRDD =  sc.textFile("/work/R/example/Wikipedia/pagecounts*.gz")
 
 rawRDD.cache()
