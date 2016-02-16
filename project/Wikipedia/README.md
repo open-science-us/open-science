@@ -40,4 +40,6 @@ ls -l 2016/1/*.gz | grep -v ^l | wc -l
 # extract records for "Bitcoin"
 
 zgrep Bitcoin  *.gz > pagecounts-20160201.txt
+
+zgrep Bitcoin /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > Bitcoin-201602.txt
 ~~~
