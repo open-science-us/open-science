@@ -72,7 +72,6 @@ pvTupleRDD.take(10).foreach(println)
 (commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22,1,4916,20160201)
 (commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22,1,4913,20160201)
 
-
 pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(10).foreach(println)
 
 (Bitcoin,140508)
@@ -85,6 +84,65 @@ pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).t
 (Bitcoin_Foundation,700)
 (Bitcoin_XT,610)
 (Bitcoins,596)
+
+
+val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
+
+bitcoinRDD.take(10).foreach(println)
+
+(ca,Bitcoin,2,69374,20160201)
+(cs,Bitcoin,6,189234,20160201)
+(de,Bitcoin,34,3092297,20160201)
+(el,Bitcoin,2,53236,20160201)
+(en,Bitcoin,164,22021019,20160201)
+(es,Bitcoin,24,1228221,20160201)
+(fi,Bitcoin,4,123624,20160201)
+(fr,Bitcoin,20,1145565,20160201)
+(hr,Bitcoin,1,14943,20160201)
+(hu,Bitcoin,4,91998,20160201)
+
+bitcoinRDD.count()
+res17: Long = 8938
+
+bitcoinRDD.map(t => t._3).collect().sum
+res21: Int = 140508
+
+
+val dailyCountRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1)
+
+dailyCountRDD.take(10).foreach(println)
+
+(20160210,10611)
+(20160211,10303)
+(20160215,10672)
+(20160206,6955)
+(20160209,9519)
+(20160202,10323)
+(20160208,9281)
+(20160201,9984)
+(20160205,8643)
+(20160207,7554)
+
+
+dailyCountRDD.coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}.take(10).foreach(println)
+
+2016-02-10,10611
+2016-02-11,10303
+2016-02-15,10672
+2016-02-06,6955
+2016-02-09,9519
+2016-02-02,10323
+2016-02-08,9281
+2016-02-01,9984
+2016-02-05,8643
+2016-02-07,7554
+
+
+dailyCountRDD.coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}.saveAsTextFile("/work/R/example/stocks/bitcoin-daily.csv")
 ~~~
 
 
