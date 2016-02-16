@@ -32,6 +32,11 @@ chmod +x downloadWiki.sh
 ./downloadWiki.sh 2016 01 01
 
 
+# check daily gzip files under monthly folders
+
+ls -l 2016/1/*.gz | grep -v ^l | wc -l
+
+
 # extract records for "Bitcoin"
 
 zgrep Bitcoin  *.gz > pagecounts-20160201.txt
