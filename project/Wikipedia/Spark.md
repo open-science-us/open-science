@@ -48,7 +48,30 @@ commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitc
 commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
 
 
-val pvTupleRDD = pvRDD.map(line => line.split(" ")).map(a => (a(0), a(1), a(2).toInt, a(3).toLong))
+val pvTupleRDD = grepRDD.map{ line => 
+  val a = line.split(".gz:")
+  
+  val i = a(0).indexOf("-")
+  val j = a(0).indexOf("-", i+1)
+  
+  val a1 = a(1).split(" ")
+  
+  (a1(0), a1(1), a1(2).toInt, a1(3).toLong, a(0).substring(i+1,j))
+}
+
+pvTupleRDD.take(10).foreach(println)
+
+(ca,Bitcoin,2,69374,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22,1,4845,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22>download,1,4508,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bitcoin_explained_in_3_minutes.webm/854px--Bitcoin_explained_in_3_minutes.webm.jpg%22,1,4914,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.1080p.webm%22,1,4913,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.160p.ogv%22,1,4915,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.ogv%22,1,4914,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.webm%22,1,4912,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22,1,4916,20160201)
+(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22,1,4913,20160201)
+
 
 pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(10).foreach(println)
 
