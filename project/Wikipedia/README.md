@@ -8,7 +8,9 @@ wget http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-201
 wget http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-010000.gz
 wget http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-020000.gz
 
-for i in {3..9}; do addr=http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-0; addr+=$i; addr+=0000.gz; echo $addr; wget $addr; done
+for i in {0..9}; do addr=http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-0; addr+=$i; addr+=0000.gz; echo $addr; wget $addr; done
+
+for i in {10..23}; do addr=http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-; addr+=$i; addr+=0000.gz; echo $addr; wget $addr; done
 
 zgrep Bitcoin  *.gz > pagecounts-20160201.txt
 ~~~
