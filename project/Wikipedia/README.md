@@ -47,4 +47,4 @@ zgrep Bitcoin /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > Bitco
 ### Raw data issues
 
 1. pagecounts-20150226-200000.gz, size 4.0K
-2. page
+2. pagecounts-20150401-010000.gz (missing)
