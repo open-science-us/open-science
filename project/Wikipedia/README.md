@@ -43,3 +43,8 @@ zgrep Bitcoin  *.gz > pagecounts-20160201.txt
 
 zgrep Bitcoin /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > Bitcoin-201602.txt
 ~~~
+
+### Raw data issues
+
+1. pagecounts-20150226-200000.gz, size 4.0K
+2. page
