@@ -42,6 +42,8 @@ ls -l 2016/1/*.gz | grep -v ^l | wc -l
 zgrep Bitcoin  *.gz > pagecounts-20160201.txt
 
 zgrep Bitcoin /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > Bitcoin-201602.txt
+
+zgrep -E "Cryptocurrency|Bitcoin|Bitstamp|Coinbase" /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > All-201602.txt
 ~~~
 
 ### Raw data issues
