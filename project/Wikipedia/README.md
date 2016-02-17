@@ -43,7 +43,7 @@ zgrep Bitcoin  *.gz > pagecounts-20160201.txt
 
 zgrep Bitcoin /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > Bitcoin-201602.txt
 
-zgrep -E "Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block chain|Blockchain.info" /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > All-201602.txt
+zgrep -E "Digital currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block chain|Blockchain.info" /Volumes/"Seagate Backup Plus Drive"/Wikipedia/2016/2/*.gz > All-201602.txt
 ~~~
 
 ### Raw data issues
