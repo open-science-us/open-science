@@ -57,6 +57,9 @@ colnames(df) <- c("importance", "feature")
 
 
 ~~~
+> fivenum(as.numeric(abs(Next(Delt(Bitstamp["2011-09-13/2013-04-09","Close"], Bitstamp["2011-09-13/2013-04-09","Close"], k = 1)))))
+[1] 0.000000000 0.005944275 0.016149305 0.036872647 0.561338290
+
 > rf1 <- buildModel(model, method='randomForest', training.per=c('2011-09-13','2013-04-09'), ntree=50, importance=T)
 
 imp1 <- importance(rf1@fitted.model, type = 1)
@@ -67,16 +70,16 @@ colnames(df1) <- c("importance", "feature")
 > df1[order(df1$importance, decreasing=T)[1:10],c("feature","importance")]
 
                                        feature importance
-26                       runMean.myCl.Bitstamp   7.088991
-12                              mySMI.Bitstamp   7.009172
-22                             myMACD.Bitstamp   6.651529
-13                              myADX.Bitstamp   6.283130
-9  Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   5.437152
-23                              myMFI.Bitstamp   5.406718
-21                            myVolat.Bitstamp   5.379585
-25                              mySAR.Bitstamp   5.296223
-20                              myEMV.Bitstamp   5.106721
-24                           RSI.myCl.Bitstamp   4.817042
+13                              myADX.Bitstamp   8.064056
+25                              mySAR.Bitstamp   6.394106
+12                              mySMI.Bitstamp   6.316683
+26                       runMean.myCl.Bitstamp   5.910311
+9  Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   5.299161
+22                             myMACD.Bitstamp   5.284343
+21                            myVolat.Bitstamp   5.134973
+20                              myEMV.Bitstamp   4.904091
+18                           CMO.myCl.Bitstamp   4.866976
+23                              myMFI.Bitstamp   4.724271
 
 > varImpPlot(rf1@fitted.model, type = 1)
 ~~~
