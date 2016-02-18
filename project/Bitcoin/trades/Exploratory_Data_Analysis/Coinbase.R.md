@@ -50,8 +50,12 @@
 
 > library(quantmod)
 
-> fivenum(as.numeric(abs(Next(Delt(Coinbase[,"Close"], Coinbase[,"Close"], k = 1)))))
-[1] 0.000000000 0.005270869 0.012677257 0.028106481 0.701833333
+> fivenum(as.numeric(abs(Next(Delt(Coinbase["2014-12-01/2016-01-10","Close"], Coinbase["2014-12-01/2016-01-10","Close"], k = 1)))))
+[1] 0.000000000 0.005372185 0.012660642 0.027697463 0.701833333
+
+> margin <- 0.012660642 / 0.005175095 * 0.025
+> margin
+[1] 0.0611614
 
 
 T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
@@ -63,7 +67,7 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   else x
 }
 
-T.ind3 <- function(quotes, tgt.margin = 0.0625, n.days = 10) {
+T.ind3 <- function(quotes, tgt.margin = 0.06, n.days = 10) {
   v <- avgPrice(quotes)
   r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
   for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
