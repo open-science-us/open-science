@@ -104,20 +104,17 @@ colnames(df1) <- c("importance", "feature")
 > fivenum(as.numeric(abs(Next(Delt(Bitstamp["2013-04-10/2013-12-04","Close"], Bitstamp["2013-04-10/2013-12-04","Close"], k = 1)))))
 [1] 0.0006303183 0.0088151800 0.0236978952 0.0534042015 0.4851851852
 
-> margin <- 0.0236978952 / 0.005175095 * 0.025
-> margin
+> margin2 <- 0.0236978952 / 0.005175095 * 0.025
+> margin2
 [1] 0.1144805
 
-T.ind <- function(quotes, tgt.margin = 0.115, n.days = 10) {
-  v <- avgPrice(quotes)
-  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
-  for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
-  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
-  if (is.xts(quotes)) xts(x, time(quotes))
-  else x
-}
+> model2 <- specifyModel(T.ind(Bitstamp,tgt.margin=0.114) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
+  myBB(Bitstamp) + myChaikinVol(Bitstamp) + myCLV(Bitstamp) + CMO(myCl(Bitstamp)) + EMA(Delt(myCl(Bitstamp))) + myEMV(Bitstamp) +
+  myVolat(Bitstamp) + myMACD(Bitstamp) + myMFI(Bitstamp) + RSI(myCl(Bitstamp)) + mySAR(Bitstamp) + runMean(myCl(Bitstamp)) + runSD(myCl(Bitstamp)))
+ 
+> set.seed(1234)
 
-> rf2 <- buildModel(model, method='randomForest', training.per=c('2013-04-10','2013-12-04'), ntree=50, importance=T)
+> rf2 <- buildModel(model2, method='randomForest', training.per=c('2013-04-10','2013-12-04'), ntree=50, importance=T)
 
 imp2 <- importance(rf2@fitted.model, type = 1)
 df2 <- data.frame(as.numeric(imp2))
@@ -127,16 +124,16 @@ colnames(df2) <- c("importance", "feature")
 > df2[order(df2$importance, decreasing=T)[1:10],c("feature","importance")]
 
                                        feature importance
-12                              mySMI.Bitstamp   5.502996
-25                              mySAR.Bitstamp   5.360556
-22                             myMACD.Bitstamp   5.088045
-26                       runMean.myCl.Bitstamp   4.946642
-13                              myADX.Bitstamp   4.827640
-20                              myEMV.Bitstamp   4.434969
-11                              myATR.Bitstamp   4.012820
-14                            myAroon.Bitstamp   3.863205
-17                              myCLV.Bitstamp   3.466611
-9  Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   3.418760
+22                              myMACD.Bitstamp   5.613955
+26                        runMean.myCl.Bitstamp   5.451067
+25                               mySAR.Bitstamp   5.367055
+12                               mySMI.Bitstamp   5.148999
+11                               myATR.Bitstamp   4.639467
+10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   4.005300
+21                             myVolat.Bitstamp   3.395030
+19                       EMA.Delt.myCl.Bitstamp   3.380004
+20                               myEMV.Bitstamp   3.360337
+27                          runSD.myCl.Bitstamp   3.309949
 
 > varImpPlot(rf2@fitted.model, type = 1)
 ~~~
@@ -144,7 +141,20 @@ colnames(df2) <- c("importance", "feature")
 
 
 ~~~
-> rf3 <- buildModel(model, method='randomForest', training.per=c('2013-12-05','2014-12-31'), ntree=50, importance=T)
+> fivenum(as.numeric(abs(Next(Delt(Bitstamp["2013-12-05/2014-12-31","Close"], Bitstamp["2013-12-05/2014-12-31","Close"], k = 1)))))
+[1] 0.000000000 0.007567191 0.017274472 0.034894355 0.317307692
+
+> margin3 <- 0.017274472 / 0.005175095 * 0.025
+> margin3
+[1] 0.08345002
+
+> model3 <- specifyModel(T.ind(Bitstamp,tgt.margin=0.083) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
+  myBB(Bitstamp) + myChaikinVol(Bitstamp) + myCLV(Bitstamp) + CMO(myCl(Bitstamp)) + EMA(Delt(myCl(Bitstamp))) + myEMV(Bitstamp) +
+  myVolat(Bitstamp) + myMACD(Bitstamp) + myMFI(Bitstamp) + RSI(myCl(Bitstamp)) + mySAR(Bitstamp) + runMean(myCl(Bitstamp)) + runSD(myCl(Bitstamp)))
+ 
+> set.seed(1234)
+
+> rf3 <- buildModel(model3, method='randomForest', training.per=c('2013-12-05','2014-12-31'), ntree=50, importance=T)
 
 imp3 <- importance(rf3@fitted.model, type = 1)
 df3 <- data.frame(as.numeric(imp3))
@@ -153,17 +163,17 @@ colnames(df3) <- c("importance", "feature")
 
 > df3[order(df3$importance, decreasing=T)[1:10],c("feature","importance")]
 
-                                        feature importance
-22                              myMACD.Bitstamp   9.898029
-11                               myATR.Bitstamp   8.119821
-25                               mySAR.Bitstamp   6.889789
-21                             myVolat.Bitstamp   6.882294
-13                               myADX.Bitstamp   6.344567
-26                        runMean.myCl.Bitstamp   5.282253
-9   Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   4.314561
-10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   4.114592
-18                            CMO.myCl.Bitstamp   4.075093
-24                            RSI.myCl.Bitstamp   4.003254
+                                       feature importance
+13                              myADX.Bitstamp   9.065192
+22                             myMACD.Bitstamp   8.875004
+11                              myATR.Bitstamp   8.747019
+25                              mySAR.Bitstamp   7.150026
+26                       runMean.myCl.Bitstamp   6.793453
+21                            myVolat.Bitstamp   5.958792
+12                              mySMI.Bitstamp   4.722668
+17                              myCLV.Bitstamp   4.047606
+5  Delt.myCl.Bitstamp.k.1.10.Delt.5.arithmetic   3.679520
+24                           RSI.myCl.Bitstamp   3.662043
 
 > varImpPlot(rf3@fitted.model, type = 1)
 ~~~
