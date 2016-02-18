@@ -33,10 +33,15 @@ pagecounts-20150101-000000.gz:en BitPay 7 87807
 pagecounts-20150101-000000.gz:en Bitcoin 188 20961624
 
 grepRDD.count
-res6: Long = 651672                                                             
+res6: Long = 651670                                                             
+
+val goodRDD = grepRDD.filter(line => line.split(" ").size == 4)
+
+goodRDD.count
+res10: Long = 651665 
 
 
-val pvRDD = grepRDD.map(line => line.split(".gz:")(1))
+val pvRDD = goodRDD.map(line => line.split(".gz:")(1))
 
 pvRDD.take(10).foreach(println)
 
@@ -52,7 +57,7 @@ en BitPay 7 87807
 en Bitcoin 188 20961624
 
 
-val pvTupleRDD = grepRDD.map{ line => 
+val pvTupleRDD = goodRDD.map{ line => 
   val a = line.split(".gz:")
   
   val i = a(0).indexOf("-")
@@ -76,34 +81,54 @@ pvTupleRDD.take(10).foreach(println)
 (en,BitPay,7,87807,20150101)
 (en,Bitcoin,188,20961624,20150101)
 
-pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(10).foreach(println)
+pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(30).foreach(println)
 
-(Bitcoin,140508)
-(History_of_Bitcoin,6094)
-(Bitcoin_network,3026)
-(Bitcoin_Fog,1038)
-(Bitcoin_ATM,961)
-(Bitcoin_mining,908)
-(Bitcoin_faucet,867)
-(Bitcoin_Foundation,700)
-(Bitcoin_XT,610)
-(Bitcoins,596)
+(Bitcoin,5906673)                                                               
+(Cryptocurrency,309760)
+(History_of_Bitcoin,134661)
+(Bitcoin_network,67132)
+(Blockchain.info,56625)
+(Coinbase,55445)
+(Bitcoin_ATM,37064)
+(BitPay,31367)
+(Legality_of_Bitcoin_by_country,30666)
+(Bitcoin_Foundation,29407)
+(Bitcoin_protocol,29199)
+(Bitstamp,26055)
+(Bitcoin_mining,22971)
+(Bitcoin_faucet,21851)
+(Bitcoins,17335)
+(Bitcoin_Fog,13537)
+(Talk:Bitcoin,12824)
+(Category:Bitcoin,12384)
+(Cryptocurrency_tumbler,10048)
+(File:Bitcoin_logo.svg,9540)
+(File:Bitcoin_Transaction_Visual.svg,9513)
+(LocalBitcoins,8712)
+(File:Bitcoin_October_2013.png,8518)
+(File:BitcoinSign.svg,6696)
+(Category:Cryptocurrency,6164)
+(File:Bitcoin_price_and_volatility.svg,5612)
+(Category:Bitcoin_exchanges,4918)
+(File:Bitcoin-coins.jpg,4836)
+(Bitcoin_XT,4618)
+(File:Bitcoin.svg,4265)
 
 
 val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
 
 bitcoinRDD.take(10).foreach(println)
 
-(ca,Bitcoin,2,69374,20160201)
-(cs,Bitcoin,6,189234,20160201)
-(de,Bitcoin,34,3092297,20160201)
-(el,Bitcoin,2,53236,20160201)
-(en,Bitcoin,164,22021019,20160201)
-(es,Bitcoin,24,1228221,20160201)
-(fi,Bitcoin,4,123624,20160201)
-(fr,Bitcoin,20,1145565,20160201)
-(hr,Bitcoin,1,14943,20160201)
-(hu,Bitcoin,4,91998,20160201)
+(ca,Bitcoin,1,33665,20150101)                                                   
+(cs,Bitcoin,1,0,20150101)
+(de,Bitcoin,14,1134233,20150101)
+(en,Bitcoin,188,20961624,20150101)
+(es,Bitcoin,14,648809,20150101)
+(et,Bitcoin,1,15424,20150101)
+(fi,Bitcoin,1,30670,20150101)
+(fr,Bitcoin,7,276072,20150101)
+(hu,Bitcoin,1,20909,20150101)
+(id,Bitcoin,1,25061,20150101)
 
 bitcoinRDD.count()
 res17: Long = 8938
