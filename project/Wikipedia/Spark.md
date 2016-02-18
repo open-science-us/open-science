@@ -227,6 +227,44 @@ dailyBlockchainInfoRDD.take(10).foreach(println)
 2015-12-02,107
 
 dailyBlockchainInfoRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv")
+
+
+val coinbaseRDD = pvTupleRDD.filter(t => t._2 == "Coinbase")
+
+coinbaseRDD.take(10).foreach(println)
+
+(en,Coinbase,2,30072,20150101)
+(en,Coinbase,1,60582,20150101)
+(en,Coinbase,3,30072,20150101)
+(en,Coinbase,3,45915,20150101)
+(en,Coinbase,3,45109,20150101)
+(en,Coinbase,3,90668,20150101)
+(en,Coinbase,1,15037,20150101)
+(en,Coinbase,2,30070,20150101)
+(en,Coinbase,1,15037,20150101)
+(en,Coinbase,2,30074,20150101)
+
+coinbaseRDD.map(t => t._3).collect().sum
+res22: Int = 55445
+
+val dailyCoinbaseRDD = coinbaseRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyCoinbaseRDD.take(10).foreach(println)
+
+2015-02-05,129                                                                  
+2015-01-07,126
+2015-03-17,253
+2015-03-21,900
+2015-09-24,140
+2015-01-30,183
+2015-09-23,147
+2015-06-10,115
+2015-12-02,153
+2015-06-19,106
+
+dailyCoinbaseRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Coinbase-2015-daily.csv")
 ~~~
 
 
