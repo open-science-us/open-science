@@ -3,7 +3,8 @@
 ### Bitcoin record files
 ~~~
 bin/spark-shell --master spark://localhost:7077 \
---conf spark.serializer=org.apache.spark.serializer.KryoSerializer
+--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+--executor-cores=2 --num-executors=2
 
 
 import org.apache.log4j.Logger
@@ -14,9 +15,9 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
 
-val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-*.txt", 2)
+val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-*.txt", 4)
 
-// grepRDD.cache()
+grepRDD.cache()
 
 grepRDD.take(10).foreach(println)
 
@@ -30,6 +31,9 @@ pagecounts-20150101-000000.gz:de Bitcoin 14 1134233
 pagecounts-20150101-000000.gz:el.b %CE%A4%CE%B1_%CF%80%CF%81%CF%8E%CF%84%CE%B1_%CE%B2%CE%AE%CE%BC%CE%B1%CF%84%CE%B1_%CF%83%CF%84%CE%BF_Bitcoin 1 12482
 pagecounts-20150101-000000.gz:en BitPay 7 87807
 pagecounts-20150101-000000.gz:en Bitcoin 188 20961624
+
+grepRDD.count
+res6: Long = 651672                                                             
 
 
 val pvRDD = grepRDD.map(line => line.split(".gz:")(1))
