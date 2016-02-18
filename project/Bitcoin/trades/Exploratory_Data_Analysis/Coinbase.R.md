@@ -50,12 +50,12 @@
 
 > library(quantmod)
 
-> fivenum(as.numeric(abs(Next(Delt(Coinbase["2014-12-01/2016-01-10","Close"], Coinbase["2014-12-01/2016-01-10","Close"], k = 1)))))
-[1] 0.000000000 0.005372185 0.012660642 0.027697463 0.701833333
+> fivenum(as.numeric(abs(Next(Delt(Coinbase[,"Close"], Coinbase[,"Close"], k = 1)))))
+[1] 0.000000000 0.005270869 0.012677257 0.028106481 0.701833333
 
-> margin <- 0.012660642 / 0.005175095 * 0.025
+> margin <- 0.012677257 / 0.005175095 * 0.025
 > margin
-[1] 0.0611614
+[1] 0.06124166
 
 
 T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
