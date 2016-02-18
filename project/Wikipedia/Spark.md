@@ -14,38 +14,38 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
 
-val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin-201602.txt")
+val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-*.txt")
 
 grepRDD.cache()
 
 grepRDD.take(10).foreach(println)
 
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:ca Bitcoin 2 69374
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22 1 4845
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22>download 1 4508
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bitcoin_explained_in_3_minutes.webm/854px--Bitcoin_explained_in_3_minutes.webm.jpg%22 1 4914
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.1080p.webm%22 1 4913
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.160p.ogv%22 1 4915
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.ogv%22 1 4914
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.webm%22 1 4912
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22 1 4916
-/Volumes/Seagate Backup Plus Drive/Wikipedia/2016/2/pagecounts-20160201-000000.gz:commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
+pagecounts-20150101-000000.gz:ca Bitcoin 1 33665
+pagecounts-20150101-000000.gz:commons.m Category:Cryptocurrency 2 15241
+pagecounts-20150101-000000.gz:commons.m File:Bitcoin-coins.jpg 2 16968
+pagecounts-20150101-000000.gz:commons.m File:Bitcoin_logo.svg 1 10702
+pagecounts-20150101-000000.gz:commons.m File:Sample_Bitcoin_paper_wallet.png 1 9692
+pagecounts-20150101-000000.gz:cs Bitcoin 1 0
+pagecounts-20150101-000000.gz:de Bitcoin 14 1134233
+pagecounts-20150101-000000.gz:el.b %CE%A4%CE%B1_%CF%80%CF%81%CF%8E%CF%84%CE%B1_%CE%B2%CE%AE%CE%BC%CE%B1%CF%84%CE%B1_%CF%83%CF%84%CE%BF_Bitcoin 1 12482
+pagecounts-20150101-000000.gz:en BitPay 7 87807
+pagecounts-20150101-000000.gz:en Bitcoin 188 20961624
 
 
 val pvRDD = grepRDD.map(line => line.split(".gz:")(1))
 
 pvRDD.take(10).foreach(println)
 
-ca Bitcoin 2 69374
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22 1 4845
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22>download 1 4508
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bitcoin_explained_in_3_minutes.webm/854px--Bitcoin_explained_in_3_minutes.webm.jpg%22 1 4914
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.1080p.webm%22 1 4913
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.160p.ogv%22 1 4915
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.ogv%22 1 4914
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.webm%22 1 4912
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22 1 4916
-commons.m %22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22 1 4913
+ca Bitcoin 1 33665
+commons.m Category:Cryptocurrency 2 15241
+commons.m File:Bitcoin-coins.jpg 2 16968
+commons.m File:Bitcoin_logo.svg 1 10702
+commons.m File:Sample_Bitcoin_paper_wallet.png 1 9692
+cs Bitcoin 1 0
+de Bitcoin 14 1134233
+el.b %CE%A4%CE%B1_%CF%80%CF%81%CF%8E%CF%84%CE%B1_%CE%B2%CE%AE%CE%BC%CE%B1%CF%84%CE%B1_%CF%83%CF%84%CE%BF_Bitcoin 1 12482
+en BitPay 7 87807
+en Bitcoin 188 20961624
 
 
 val pvTupleRDD = grepRDD.map{ line => 
@@ -61,16 +61,16 @@ val pvTupleRDD = grepRDD.map{ line =>
 
 pvTupleRDD.take(10).foreach(println)
 
-(ca,Bitcoin,2,69374,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22,1,4845,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/1/12/Bitcoin_explained_in_3_minutes.webm%22>download,1,4508,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Bitcoin_explained_in_3_minutes.webm/854px--Bitcoin_explained_in_3_minutes.webm.jpg%22,1,4914,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.1080p.webm%22,1,4913,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.160p.ogv%22,1,4915,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.ogv%22,1,4914,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.360p.webm%22,1,4912,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.ogv%22,1,4916,20160201)
-(commons.m,%22https://upload.wikimedia.org/wikipedia/commons/transcoded/1/12/Bitcoin_explained_in_3_minutes.webm/Bitcoin_explained_in_3_minutes.webm.480p.webm%22,1,4913,20160201)
+(ca,Bitcoin,1,33665,20150101)
+(commons.m,Category:Cryptocurrency,2,15241,20150101)
+(commons.m,File:Bitcoin-coins.jpg,2,16968,20150101)
+(commons.m,File:Bitcoin_logo.svg,1,10702,20150101)
+(commons.m,File:Sample_Bitcoin_paper_wallet.png,1,9692,20150101)
+(cs,Bitcoin,1,0,20150101)
+(de,Bitcoin,14,1134233,20150101)
+(el.b,%CE%A4%CE%B1_%CF%80%CF%81%CF%8E%CF%84%CE%B1_%CE%B2%CE%AE%CE%BC%CE%B1%CF%84%CE%B1_%CF%83%CF%84%CE%BF_Bitcoin,1,12482,20150101)
+(en,BitPay,7,87807,20150101)
+(en,Bitcoin,188,20961624,20150101)
 
 pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(10).foreach(println)
 
