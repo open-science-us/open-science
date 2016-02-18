@@ -1,34 +1,3 @@
-### Using TTR package
-~~~
-> library(TTR)
-
-myATR <- function(x) ATR(x[,c("High","Low","Close")])[, "atr"]
- 
-mySMI <- function(x) SMI(x[,c("High","Low","Close")])[, "SMI"]
- 
-myADX <- function(x) ADX(x[,c("High","Low","Close")])[, "ADX"]
- 
-myAroon <- function(x) aroon(x[,c("High", "Low")])$oscillator
- 
-myBB <- function(x) BBands(x[,c("High","Low","Close")])[, "pctB"]
- 
-myChaikinVol <- function(x) Delt(chaikinVolatility(x[,c("High","Low")]))[, 1]
-
-myCLV <- function(x) EMA(CLV(x[,c("High","Low","Close")]))[, 1]
- 
-myEMV <- function(x) EMV(x[,c("High","Low")],x[,"Volume"])[, 2]
- 
-myMACD <- function(x) MACD(x[,c("Close")])[, 2]
- 
-myMFI <- function(x) MFI(x[,c("High","Low","Close")],x[,"Volume"])
- 
-mySAR <- function(x) SAR(x[,c("High","Close")])[, 1]
- 
-myVolat <- function(x) volatility(x[,c("Open","High","Low","Close")], calc = "garman")[, 1]
-
-myCl <- function(x) x[,c("Close")]
-~~~
-
 ### Feature Filtering with Random Forest
 ~~~
 > library(randomForest)
