@@ -51,6 +51,11 @@
 > fivenum(as.numeric(abs(Next(Delt(Bitstamp[,"Close"], Bitstamp[,"Close"], k = 1)))))
 [1] 0.000000000 0.006656432 0.016431211 0.036590258 0.561338290
 
+> margin <- 0.016431211 / 0.005175095 * 0.025
+> margin
+[1] 0.07937637
+
+
 
 T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   v <- avgPrice(quotes)
@@ -61,7 +66,7 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   else x
 }
 
-T.ind3 <- function(quotes, tgt.margin = 0.075, n.days = 10) {
+T.ind3 <- function(quotes, tgt.margin = 0.08, n.days = 10) {
   v <- avgPrice(quotes)
   r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
   for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
