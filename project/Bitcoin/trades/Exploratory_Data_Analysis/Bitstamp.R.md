@@ -1,6 +1,10 @@
 ## Using R and xts
 
 ~~~
+> library(xts)
+
+> Bitstamp <- as.xts(read.zoo("/work/R/example/stocks/bitstamp-daily.csv", sep=",", header=T))
+
 > dim(Bitstamp)
 [1] 1569    5
 
@@ -40,8 +44,13 @@
 2013-12-04 1055 1153.27 1052.1 1132.01 14433.48
 
 
-
 > avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
+
+> library(quantmod)
+
+> fivenum(as.numeric(abs(Next(Delt(Bitstamp[,"Close"], Bitstamp[,"Close"], k = 1)))))
+[1] 0.000000000 0.006656432 0.016431211 0.036590258 0.561338290
+
 
 T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   v <- avgPrice(quotes)
@@ -52,9 +61,6 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   else x
 }
 
-
-
-> library(quantmod)
 
 > candleChart(last(Bitstamp, "3 months"), theme = "white", TA = NULL)
 
