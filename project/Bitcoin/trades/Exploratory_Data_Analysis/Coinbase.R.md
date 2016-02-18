@@ -5,6 +5,7 @@
 
 > Coinbase <- as.xts(read.zoo("/work/R/example/stocks/coinbase-daily.csv", sep=",", header=T))
 
+
 > dim(Coinbase)
 [1] 381   5
 
@@ -45,8 +46,13 @@
 2015-12-15 444.02 464.95 443.76 464.28 11006.73
 
 
-
 > avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
+
+> library(quantmod)
+
+> fivenum(as.numeric(abs(Next(Delt(Coinbase[,"Close"], Coinbase[,"Close"], k = 1)))))
+[1] 0.000000000 0.005270869 0.012677257 0.028106481 0.701833333
+
 
 T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   v <- avgPrice(quotes)
@@ -57,17 +63,25 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   else x
 }
 
-
-
-> library(quantmod)
+T.ind3 <- function(quotes, tgt.margin = 0.0625, n.days = 10) {
+  v <- avgPrice(quotes)
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
 
 > candleChart(last(Coinbase, "3 months"), theme = "white", TA = NULL)
 
-> addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
-> addAvgPrice(on = 1)
+addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
+addAvgPrice(on = 1)
 
-> addT.ind2 <- newTA(FUN = T.ind2, col = "red", legend = "tgtRet")
-> addT.ind2()
+addT.ind2 <- newTA(FUN = T.ind2, col = "blue")
+addT.ind2()
+
+addT.ind3 <- newTA(FUN = T.ind3, col = "red")
+addT.ind3(on = 2)
 ~~~
 ![Coinbase_3m](../images/Coinbase_3m.png)
 
