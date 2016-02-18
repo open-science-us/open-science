@@ -265,6 +265,82 @@ dailyCoinbaseRDD.take(10).foreach(println)
 2015-06-19,106
 
 dailyCoinbaseRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Coinbase-2015-daily.csv")
+
+
+val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
+
+bitPayRDD.take(10).foreach(println)
+
+(en,BitPay,7,87807,20150101)
+(en,BitPay,2,58538,20150101)
+(en,BitPay,1,29269,20150101)
+(en,BitPay,4,58538,20150101)
+(en,BitPay,3,193341,20150101)
+(en,BitPay,3,58538,20150101)
+(en,BitPay,1,0,20150101)
+(en,BitPay,6,58538,20150101)
+(en,BitPay,6,87807,20150101)
+(en,BitPay,6,0,20150101)
+
+bitPayRDD.map(t => t._3).collect().sum
+res22: Int = 31367
+
+val dailyBitPayRDD = bitPayRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyBitPayRDD.take(10).foreach(println)
+
+2015-02-05,66                                                                   
+2015-01-07,188
+2015-03-17,213
+2015-03-21,860
+2015-09-24,75
+2015-01-30,51
+2015-09-23,54
+2015-06-10,66
+2015-12-02,79
+2015-06-19,97
+
+dailyBitPayRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
+
+
+val bitstampRDD = pvTupleRDD.filter(t => t._2 == "Bitstamp")
+
+bitstampRDD.take(10).foreach(println)
+
+(en,Bitstamp,1,11316,20150101)
+(en,Bitstamp,3,11316,20150101)
+(en,Bitstamp,4,0,20150101)
+(en,Bitstamp,1,11316,20150101)
+(en,Bitstamp,2,22632,20150101)
+(en,Bitstamp,4,22632,20150101)
+(en,Bitstamp,4,22632,20150101)
+(en,Bitstamp,1,11316,20150101)
+(en,Bitstamp,2,11316,20150101)
+(en,Bitstamp,2,11316,20150101)
+
+bitstampRDD.map(t => t._3).collect().sum
+res22: Int = 26055
+
+val dailyBitstampRDD = bitstampRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyBitstampRDD.take(10).foreach(println)
+
+2015-01-07,468                                                                  
+2015-02-05,69
+2015-03-17,192
+2015-03-21,831
+2015-09-24,41
+2015-01-30,71
+2015-09-23,48
+2015-06-10,36
+2015-11-27,16
+2015-12-02,47
+
+dailyBitstampRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv")
 ~~~
 
 
