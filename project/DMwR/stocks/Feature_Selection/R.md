@@ -1,5 +1,25 @@
 ### Feature Filtering with Random Forest
 ~~~
+> library(xts)
+
+> library('tseries')
+
+> GSPC <- as.xts(get.hist.quote("^GSPC",start="1970-01-01",quote=c("Open", "High", "Low", "Close","Volume","AdjClose")))
+
+
+> avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
+
+> library(quantmod)
+
+T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
+  v <- avgPrice(quotes)
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
+
 > library(randomForest)
 
 > model <- specifyModel(T.ind2(GSPC) ~ Delt(myCl(GSPC),k=1:10) + myATR(GSPC) + mySMI(GSPC) + myADX(GSPC) + myAroon(GSPC) +
@@ -10,10 +30,10 @@
 
 > rf70_94 <- buildModel(model, method='randomForest', training.per=c('1970-01-01','1994-12-31'), ntree=50, importance=T)
 
-> imp70_94 <- importance(rf70_94@fitted.model, type = 1)
-> df70_94 <- data.frame(as.numeric(imp70_94))
-> df70_94$feature <- rownames(imp70_94)
-> colnames(df70_94) <- c("importance", "feature")
+imp70_94 <- importance(rf70_94@fitted.model, type = 1)
+df70_94 <- data.frame(as.numeric(imp70_94))
+df70_94$feature <- rownames(imp70_94)
+colnames(df70_94) <- c("importance", "feature")
 
 > df70_94[order(df70_94$importance, decreasing=T)[1:10],c("feature","importance")]
 
@@ -36,10 +56,10 @@
 ~~~
 > rf95_04 <- buildModel(model, method='randomForest', training.per=c('1995-01-01','2004-12-31'), ntree=50, importance=T)
 
-> imp95_04 <- importance(rf95_04@fitted.model, type = 1)
-> df95_04 <- data.frame(as.numeric(imp95_04))
-> df95_04$feature <- rownames(imp95_04)
-> colnames(df95_04) <- c("importance", "feature")
+imp95_04 <- importance(rf95_04@fitted.model, type = 1)
+df95_04 <- data.frame(as.numeric(imp95_04))
+df95_04$feature <- rownames(imp95_04)
+colnames(df95_04) <- c("importance", "feature")
 
 > df95_04[order(df95_04$importance, decreasing=T)[1:10],c("feature","importance")]
 
@@ -62,10 +82,10 @@
 ~~~
 > rf05_09 <- buildModel(model, method='randomForest', training.per=c('2005-01-01','2009-12-31'), ntree=50, importance=T)
 
-> imp05_09 <- importance(rf05_09@fitted.model, type = 1)
-> df05_09 <- data.frame(as.numeric(imp05_09))
-> df05_09$feature <- rownames(imp05_09)
-> colnames(df05_09) <- c("importance", "feature")
+imp05_09 <- importance(rf05_09@fitted.model, type = 1)
+df05_09 <- data.frame(as.numeric(imp05_09))
+df05_09$feature <- rownames(imp05_09)
+colnames(df05_09) <- c("importance", "feature")
 
 > df05_09[order(df05_09$importance, decreasing=T)[1:10],c("feature","importance")]
 
@@ -88,10 +108,10 @@
 ~~~
 > rf10_14 <- buildModel(model, method='randomForest', training.per=c('2010-01-01','2014-12-31'), ntree=50, importance=T)
 
-> imp10_14 <- importance(rf10_14@fitted.model, type = 1)
-> df10_14 <- data.frame(as.numeric(imp10_14))
-> df10_14$feature <- rownames(imp10_14)
-> colnames(df10_14) <- c("importance", "feature")
+imp10_14 <- importance(rf10_14@fitted.model, type = 1)
+df10_14 <- data.frame(as.numeric(imp10_14))
+df10_14$feature <- rownames(imp10_14)
+colnames(df10_14) <- c("importance", "feature")
 
 > df10_14[order(df10_14$importance, decreasing=T)[1:10],c("feature","importance")]
 
@@ -115,10 +135,10 @@
 ~~~
 > rf15 <- buildModel(model, method='randomForest', training.per=c('2015-01-01','2016-02-01'), ntree=50, importance=T)
 
-> imp15 <- importance(rf15@fitted.model, type = 1)
-> df15 <- data.frame(as.numeric(imp15))
-> df15$feature <- rownames(imp15)
-> colnames(df15) <- c("importance", "feature")
+imp15 <- importance(rf15@fitted.model, type = 1)
+df15 <- data.frame(as.numeric(imp15))
+df15$feature <- rownames(imp15)
+colnames(df15) <- c("importance", "feature")
 
 > df15[order(df15$importance, decreasing=T)[1:10],c("feature","importance")]
 
