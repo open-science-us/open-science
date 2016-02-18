@@ -12,7 +12,11 @@
 > fivenum(as.numeric(abs(Next(Delt(Bitstamp["2011-09-13/2016-01-10","Close"], Bitstamp["2011-09-13/2016-01-10","Close"], k = 1)))))
 [1] 0.00000000 0.00667796 0.01643532 0.03659026 0.56133829
 
-T.ind <- function(quotes, tgt.margin = 0.075, n.days = 10) {
+> margin <- 0.01643532 / 0.005175095 * 0.025
+> margin
+[1] 0.07939622
+
+T.ind <- function(quotes, tgt.margin = 0.08, n.days = 10) {
   v <- avgPrice(quotes)
   r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
   for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
@@ -24,7 +28,7 @@ T.ind <- function(quotes, tgt.margin = 0.075, n.days = 10) {
 
 > library(randomForest)
 
-> model <- specifyModel(T.ind(Bitstamp) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
+> model <- specifyModel(T.ind(Bitstamp,tgt.margin=0.08) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
   myBB(Bitstamp) + myChaikinVol(Bitstamp) + myCLV(Bitstamp) + CMO(myCl(Bitstamp)) + EMA(Delt(myCl(Bitstamp))) + myEMV(Bitstamp) +
   myVolat(Bitstamp) + myMACD(Bitstamp) + myMFI(Bitstamp) + RSI(myCl(Bitstamp)) + mySAR(Bitstamp) + runMean(myCl(Bitstamp)) + runSD(myCl(Bitstamp)))
  
@@ -40,16 +44,16 @@ colnames(df) <- c("importance", "feature")
 > df[order(df$importance, decreasing=T)[1:10],c("feature","importance")]
 
                                         feature importance
-12                               mySMI.Bitstamp  12.741066
-22                              myMACD.Bitstamp   8.896588
-11                               myATR.Bitstamp   8.750648
-21                             myVolat.Bitstamp   8.246261
-13                               myADX.Bitstamp   8.230835
-25                               mySAR.Bitstamp   7.811697
-26                        runMean.myCl.Bitstamp   7.255525
-27                          runSD.myCl.Bitstamp   6.470454
-10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   6.208686
-24                            RSI.myCl.Bitstamp   6.115769
+12                               mySMI.Bitstamp  11.785743
+13                               myADX.Bitstamp  11.173307
+25                               mySAR.Bitstamp   8.666906
+22                              myMACD.Bitstamp   8.262782
+26                        runMean.myCl.Bitstamp   8.034231
+11                               myATR.Bitstamp   7.826723
+21                             myVolat.Bitstamp   6.912960
+10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   6.522096
+20                               myEMV.Bitstamp   6.285862
+23                               myMFI.Bitstamp   6.147083
 
 > varImpPlot(rf@fitted.model, type = 1)
 ~~~
@@ -60,7 +64,17 @@ colnames(df) <- c("importance", "feature")
 > fivenum(as.numeric(abs(Next(Delt(Bitstamp["2011-09-13/2013-04-09","Close"], Bitstamp["2011-09-13/2013-04-09","Close"], k = 1)))))
 [1] 0.000000000 0.005944275 0.016149305 0.036872647 0.561338290
 
-> rf1 <- buildModel(model, method='randomForest', training.per=c('2011-09-13','2013-04-09'), ntree=50, importance=T)
+> margin1 <- 0.016149305 / 0.005175095 * 0.025
+> margin1
+[1] 0.07801453
+
+> model1 <- specifyModel(T.ind(Bitstamp,tgt.margin=0.078) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
+  myBB(Bitstamp) + myChaikinVol(Bitstamp) + myCLV(Bitstamp) + CMO(myCl(Bitstamp)) + EMA(Delt(myCl(Bitstamp))) + myEMV(Bitstamp) +
+  myVolat(Bitstamp) + myMACD(Bitstamp) + myMFI(Bitstamp) + RSI(myCl(Bitstamp)) + mySAR(Bitstamp) + runMean(myCl(Bitstamp)) + runSD(myCl(Bitstamp)))
+ 
+> set.seed(1234)
+
+> rf1 <- buildModel(model1, method='randomForest', training.per=c('2011-09-13','2013-04-09'), ntree=50, importance=T)
 
 imp1 <- importance(rf1@fitted.model, type = 1)
 df1 <- data.frame(as.numeric(imp1))
@@ -69,17 +83,17 @@ colnames(df1) <- c("importance", "feature")
 
 > df1[order(df1$importance, decreasing=T)[1:10],c("feature","importance")]
 
-                                       feature importance
-13                              myADX.Bitstamp   8.064056
-25                              mySAR.Bitstamp   6.394106
-12                              mySMI.Bitstamp   6.316683
-26                       runMean.myCl.Bitstamp   5.910311
-9  Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   5.299161
-22                             myMACD.Bitstamp   5.284343
-21                            myVolat.Bitstamp   5.134973
-20                              myEMV.Bitstamp   4.904091
-18                           CMO.myCl.Bitstamp   4.866976
-23                              myMFI.Bitstamp   4.724271
+                  feature importance
+12         mySMI.Bitstamp   8.231096
+13         myADX.Bitstamp   7.466146
+21       myVolat.Bitstamp   6.123658
+26  runMean.myCl.Bitstamp   6.056439
+25         mySAR.Bitstamp   5.850159
+22        myMACD.Bitstamp   5.362569
+19 EMA.Delt.myCl.Bitstamp   5.213797
+23         myMFI.Bitstamp   4.770567
+11         myATR.Bitstamp   4.416935
+18      CMO.myCl.Bitstamp   4.044729
 
 > varImpPlot(rf1@fitted.model, type = 1)
 ~~~
@@ -87,6 +101,22 @@ colnames(df1) <- c("importance", "feature")
 
 
 ~~~
+> fivenum(as.numeric(abs(Next(Delt(Bitstamp["2013-04-10/2013-12-04","Close"], Bitstamp["2013-04-10/2013-12-04","Close"], k = 1)))))
+[1] 0.0006303183 0.0088151800 0.0236978952 0.0534042015 0.4851851852
+
+> margin <- 0.0236978952 / 0.005175095 * 0.025
+> margin
+[1] 0.1144805
+
+T.ind <- function(quotes, tgt.margin = 0.115, n.days = 10) {
+  v <- avgPrice(quotes)
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
+
 > rf2 <- buildModel(model, method='randomForest', training.per=c('2013-04-10','2013-12-04'), ntree=50, importance=T)
 
 imp2 <- importance(rf2@fitted.model, type = 1)
