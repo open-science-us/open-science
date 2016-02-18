@@ -50,7 +50,7 @@ for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14",
 
 # extract records for "Bitcoin"
 
-zgrep -E "Digital currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block chain|Blockchain.info" /Wikipedia/2016/2/*.gz > All-201602.txt
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 1/*.gz > All-201501.txt
 
 # filter long titles
 
