@@ -14,9 +14,9 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
 
-val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-*.txt")
+val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-*.txt", 2)
 
-grepRDD.cache()
+// grepRDD.cache()
 
 grepRDD.take(10).foreach(println)
 
