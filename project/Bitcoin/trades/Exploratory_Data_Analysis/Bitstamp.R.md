@@ -61,14 +61,24 @@ T.ind2 <- function(quotes, tgt.margin = 0.025, n.days = 10) {
   else x
 }
 
+T.ind3 <- function(quotes, tgt.margin = 0.075, n.days = 10) {
+  v <- avgPrice(quotes)
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
 
 > candleChart(last(Bitstamp, "3 months"), theme = "white", TA = NULL)
 
-> addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
-> addAvgPrice(on = 1)
+addAvgPrice <- newTA(FUN = avgPrice, col = 1, legend = "AvgPrice")
+addAvgPrice(on = 1)
 
-> addT.ind2 <- newTA(FUN = T.ind2, col = "red", legend = "tgtRet")
-> addT.ind2()
+addT.ind2 <- newTA(FUN = T.ind2, col = "blue")
+addT.ind2()
+
+addT.ind3 <- newTA(FUN = T.ind3, col = "red")
+addT.ind3(on = 2)
 ~~~
 ![Bitstamp_3m](../images/Bitstamp_3m.png)
-
