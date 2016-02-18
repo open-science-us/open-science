@@ -1,5 +1,12 @@
 ### Using R and xts
 ~~~
+> library(xts)
+
+> library('tseries')
+
+> GSPC <- as.xts(get.hist.quote("^GSPC",start="1970-01-01",quote=c("Open", "High", "Low", "Close","Volume","AdjClose")))
+
+
 > head(GSPC)
 
             Open  High   Low Close   Volume AdjClose
@@ -43,6 +50,12 @@
 2016-02-08 1873.25 1873.25 1828.46 1853.44 5636460000  1853.44 1851.717
 2016-02-09 1848.46 1868.25 1834.94 1852.21 5183220000  1852.21 1851.800
 2016-02-10 1857.10 1881.60 1850.32 1851.86 4471170000  1851.86 1861.260
+
+
+> library(quantmod)
+
+> fivenum(as.numeric(abs(Next(Delt(GSPC[,"Close"], GSPC[,"Close"], k = 1)))))
+[1] 0.000000000 0.002271520 0.005175095 0.009839307 0.204669309
 
 
 # Indicator of the tendency, related to the confidence whether the target margin is attainable, in the next k days
