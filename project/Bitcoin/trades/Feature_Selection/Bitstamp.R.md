@@ -1,8 +1,30 @@
 ### Feature Filtering with Random Forest
 ~~~
+> library(xts)
+
+> Bitstamp <- as.xts(read.zoo("/work/R/example/stocks/bitstamp-daily.csv", sep=",", header=T))
+
+
+> avgPrice <- function(p) apply(p[,c("High","Low","Close")], 1, mean)
+
+> library(quantmod)
+
+> fivenum(as.numeric(abs(Next(Delt(Bitstamp["2011-09-13/2016-01-10","Close"], Bitstamp["2011-09-13/2016-01-10","Close"], k = 1)))))
+[1] 0.00000000 0.00667796 0.01643532 0.03659026 0.56133829
+
+T.ind <- function(quotes, tgt.margin = 0.075, n.days = 10) {
+  v <- avgPrice(quotes)
+  r <- matrix(NA, ncol = n.days, nrow = NROW(quotes))
+  for (x in 1:n.days) r[, x] <- Next(Delt(v, quotes[, "Close"], k = x), x)
+  x <- apply(r, 1, function(x) sum(x[x > tgt.margin | x < -tgt.margin]))
+  if (is.xts(quotes)) xts(x, time(quotes))
+  else x
+}
+
+
 > library(randomForest)
 
-> model <- specifyModel(T.ind2(Bitstamp) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
+> model <- specifyModel(T.ind(Bitstamp) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
   myBB(Bitstamp) + myChaikinVol(Bitstamp) + myCLV(Bitstamp) + CMO(myCl(Bitstamp)) + EMA(Delt(myCl(Bitstamp))) + myEMV(Bitstamp) +
   myVolat(Bitstamp) + myMACD(Bitstamp) + myMFI(Bitstamp) + RSI(myCl(Bitstamp)) + mySAR(Bitstamp) + runMean(myCl(Bitstamp)) + runSD(myCl(Bitstamp)))
  
@@ -18,16 +40,16 @@ colnames(df) <- c("importance", "feature")
 > df[order(df$importance, decreasing=T)[1:10],c("feature","importance")]
 
                                         feature importance
-26                        runMean.myCl.Bitstamp  11.522012
-11                               myATR.Bitstamp  10.822567
-12                               mySMI.Bitstamp  10.711132
-22                              myMACD.Bitstamp   9.353580
-13                               myADX.Bitstamp   8.261817
-25                               mySAR.Bitstamp   7.710538
-24                            RSI.myCl.Bitstamp   7.155755
-21                             myVolat.Bitstamp   6.950403
-10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   6.275777
-9   Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   6.262225
+12                               mySMI.Bitstamp  12.741066
+22                              myMACD.Bitstamp   8.896588
+11                               myATR.Bitstamp   8.750648
+21                             myVolat.Bitstamp   8.246261
+13                               myADX.Bitstamp   8.230835
+25                               mySAR.Bitstamp   7.811697
+26                        runMean.myCl.Bitstamp   7.255525
+27                          runSD.myCl.Bitstamp   6.470454
+10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   6.208686
+24                            RSI.myCl.Bitstamp   6.115769
 
 > varImpPlot(rf@fitted.model, type = 1)
 ~~~
