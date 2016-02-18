@@ -119,7 +119,7 @@ val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
 
 bitcoinRDD.take(10).foreach(println)
 
-(ca,Bitcoin,1,33665,20150101)                                                   
+(ca,Bitcoin,1,33665,20150101)
 (cs,Bitcoin,1,0,20150101)
 (de,Bitcoin,14,1134233,20150101)
 (en,Bitcoin,188,20961624,20150101)
@@ -130,48 +130,27 @@ bitcoinRDD.take(10).foreach(println)
 (hu,Bitcoin,1,20909,20150101)
 (id,Bitcoin,1,25061,20150101)
 
-bitcoinRDD.count()
-res17: Long = 8938
-
 bitcoinRDD.map(t => t._3).collect().sum
-res21: Int = 140508
+res22: Int = 5906673
 
-
-val dailyCountRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1)
-
-dailyCountRDD.take(10).foreach(println)
-
-(20160210,10611)
-(20160211,10303)
-(20160215,10672)
-(20160206,6955)
-(20160209,9519)
-(20160202,10323)
-(20160208,9281)
-(20160201,9984)
-(20160205,8643)
-(20160207,7554)
-
-
-dailyCountRDD.coalesce(1).map{ x => 
+val dailyBitcoinRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
-}.take(10).foreach(println)
+}
 
-2016-02-10,10611
-2016-02-11,10303
-2016-02-15,10672
-2016-02-06,6955
-2016-02-09,9519
-2016-02-02,10323
-2016-02-08,9281
-2016-02-01,9984
-2016-02-05,8643
-2016-02-07,7554
+dailyBitcoinRDD.take(10).foreach(println)
 
+2015-01-07,13514                                                                
+2015-02-05,12397
+2015-03-17,25360
+2015-03-21,10399
+2015-09-24,9359
+2015-01-30,9520
+2015-09-23,41870
+2015-06-10,9499
+2015-11-27,8738
+2015-12-02,10740
 
-dailyCountRDD.coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
-}.saveAsTextFile("/work/R/example/stocks/bitcoin-daily.csv")
+dailyBitcoinRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin-2015-daily.csv")
 ~~~
 
 
