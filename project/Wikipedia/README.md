@@ -51,9 +51,24 @@ for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14",
 # extract records for "Bitcoin"
 
 zgrep -E "Digital currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block chain|Blockchain.info" /Wikipedia/2016/2/*.gz > All-201602.txt
+
+# filter long titles
+
+wc -l All-201505.txt
+51288
+
+awk '{ if (length($0) < 2048) print }' All-201505.txt > All-201505-1.txt
+awk '{ if (length($0) >= 2048) print }' All-201505.txt > All-201505-2.txt
+
+wc -l  All-201505-1.txt
+51278
+
+wc -l All-201505-2.txt
+10
 ~~~
 
 ### Raw data issues
 
 1. pagecounts-20150226-200000.gz, size 4.0K
 2. pagecounts-20150401-010000.gz (missing)
+3. pagecounts-201505*.gz contain lines with very long (>= 2048) titles 
