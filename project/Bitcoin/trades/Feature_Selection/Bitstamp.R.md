@@ -181,7 +181,20 @@ colnames(df3) <- c("importance", "feature")
 
 
 ~~~
-> rf4 <- buildModel(model, method='randomForest', training.per=c('2015-01-01','2016-01-10'), ntree=50, importance=T)
+> fivenum(as.numeric(abs(Next(Delt(Bitstamp["2015-01-01/2016-01-10","Close"], Bitstamp["2015-01-01/2016-01-10","Close"], k = 1)))))
+[1] 0.0001113983 0.0055782216 0.0133107022 0.0286513961 0.2448898678
+
+> margin4 <- 0.0133107022 / 0.005175095 * 0.025
+> margin4
+[1] 0.06430173
+
+> model4 <- specifyModel(T.ind(Bitstamp,tgt.margin=0.064) ~ Delt(myCl(Bitstamp),k=1:10) + myATR(Bitstamp) + mySMI(Bitstamp) + myADX(Bitstamp) + myAroon(Bitstamp) +
+  myBB(Bitstamp) + myChaikinVol(Bitstamp) + myCLV(Bitstamp) + CMO(myCl(Bitstamp)) + EMA(Delt(myCl(Bitstamp))) + myEMV(Bitstamp) +
+  myVolat(Bitstamp) + myMACD(Bitstamp) + myMFI(Bitstamp) + RSI(myCl(Bitstamp)) + mySAR(Bitstamp) + runMean(myCl(Bitstamp)) + runSD(myCl(Bitstamp)))
+ 
+> set.seed(1234)
+
+> rf4 <- buildModel(model4, method='randomForest', training.per=c('2015-01-01','2016-01-10'), ntree=50, importance=T)
 
 imp4 <- importance(rf4@fitted.model, type = 1)
 df4 <- data.frame(as.numeric(imp4))
@@ -191,16 +204,17 @@ colnames(df4) <- c("importance", "feature")
 > df4[order(df4$importance, decreasing=T)[1:10],c("feature","importance")]
 
                                         feature importance
-12                               mySMI.Bitstamp   9.625574
-26                        runMean.myCl.Bitstamp   8.263062
-25                               mySAR.Bitstamp   6.141645
-21                             myVolat.Bitstamp   5.876912
-11                               myATR.Bitstamp   5.698511
-10 Delt.myCl.Bitstamp.k.1.10.Delt.10.arithmetic   5.368802
-13                               myADX.Bitstamp   5.147859
-22                              myMACD.Bitstamp   5.079470
-23                               myMFI.Bitstamp   4.495699
-18                            CMO.myCl.Bitstamp   3.735109
+                                       feature importance
+12                              mySMI.Bitstamp  10.856327
+26                       runMean.myCl.Bitstamp   7.618922
+11                              myATR.Bitstamp   6.280552
+25                              mySAR.Bitstamp   5.213275
+13                              myADX.Bitstamp   4.855545
+15                               myBB.Bitstamp   4.419851
+22                             myMACD.Bitstamp   4.265395
+21                            myVolat.Bitstamp   4.195141
+9  Delt.myCl.Bitstamp.k.1.10.Delt.9.arithmetic   4.128201
+14                            myAroon.Bitstamp   4.067601
 
 > varImpPlot(rf4@fitted.model, type = 1)
 ~~~
