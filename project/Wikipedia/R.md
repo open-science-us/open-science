@@ -363,3 +363,26 @@
 > plot(x=log(Bitcoin_faucet), ylab = "log(Volume)", main = "Bitcoin_faucet")
 ~~~
 ![Bitcoin_faucet_2015](images/Bitcoin_faucet_2015.png)
+
+
+~~~
+> Bitcoin_Fog <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Fog-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_Fog)
+[1] 317   1
+
+> colnames(Bitcoin_Fog) <- c("Volume")
+
+> head(Bitcoin_Fog)
+
+           Volume
+2015-01-01      3
+2015-01-03      1
+2015-01-04      1
+2015-01-05      1
+2015-01-06      1
+2015-01-07      1
+
+> plot(x=Bitcoin_Fog, ylab = "Volume", main = "Bitcoin_Fog")
+~~~
+![Bitcoin_Fog_2015](images/Bitcoin_Fog_2015.png)
