@@ -345,6 +345,44 @@ dailyBlockchainRDD.take(10).foreach(println)
 dailyBlockchainRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv")
 
 
+val bitcoinNetworkRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_network")
+
+bitcoinNetworkRDD.take(10).foreach(println)
+
+(en,Bitcoin_network,5,115142,20150101)
+(en,Bitcoin_network,1,22749,20150101)
+(en,Bitcoin_network,4,91002,20150101)
+(en,Bitcoin_network,11,227520,20150101)
+(en,Bitcoin_network,8,159261,20150101)
+(en,Bitcoin_network,3,45504,20150101)
+(en,Bitcoin_network,4,68256,20150101)
+(en,Bitcoin_network,2,45504,20150101)
+(en,Bitcoin_network,6,68256,20150101)
+(en,Bitcoin_network,3,135792,20150101)
+
+bitcoinNetworkRDD.map(t => t._3).collect().sum
+res22: Int = 84307
+
+val dailyBitcoinNetworkRDD = bitcoinNetworkRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyBitcoinNetworkRDD.take(10).foreach(println)
+
+2015-02-05,193                                                                  
+2015-01-07,188
+2015-03-17,352
+2015-03-21,966
+2015-09-24,143
+2015-01-30,133
+2015-09-23,137
+2015-06-10,171
+2015-12-02,115
+2015-06-19,114
+
+dailyBitcoinNetworkRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2015-daily.csv")
+
+
 val blockchainInfoRDD = pvTupleRDD.filter(t => t._2 == "Blockchain.info")
 
 blockchainInfoRDD.take(10).foreach(println)
