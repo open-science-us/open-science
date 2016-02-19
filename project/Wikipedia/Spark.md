@@ -2,6 +2,8 @@
 
 ### Bitcoin record files
 ~~~
+# on a Mac air
+
 bin/spark-shell --master spark://localhost:7077 \
 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
 --executor-cores=2 --num-executors=2
@@ -21,24 +23,24 @@ grepRDD.cache()
 
 grepRDD.take(10).foreach(println)
 
-pagecounts-20150101-000000.gz:ca Bitcoin 1 33665
-pagecounts-20150101-000000.gz:commons.m Category:Cryptocurrency 2 15241
-pagecounts-20150101-000000.gz:commons.m File:Bitcoin-coins.jpg 2 16968
-pagecounts-20150101-000000.gz:commons.m File:Bitcoin_logo.svg 1 10702
-pagecounts-20150101-000000.gz:commons.m File:Sample_Bitcoin_paper_wallet.png 1 9692
-pagecounts-20150101-000000.gz:cs Bitcoin 1 0
-pagecounts-20150101-000000.gz:de Bitcoin 14 1134233
-pagecounts-20150101-000000.gz:el.b %CE%A4%CE%B1_%CF%80%CF%81%CF%8E%CF%84%CE%B1_%CE%B2%CE%AE%CE%BC%CE%B1%CF%84%CE%B1_%CF%83%CF%84%CE%BF_Bitcoin 1 12482
-pagecounts-20150101-000000.gz:en BitPay 7 87807
-pagecounts-20150101-000000.gz:en Bitcoin 188 20961624
+1/pagecounts-20150101-000000.gz:ca Bitcoin 1 33665
+1/pagecounts-20150101-000000.gz:commons.m Category:Cryptocurrency 2 15241
+1/pagecounts-20150101-000000.gz:commons.m File:Bitcoin-coins.jpg 2 16968
+1/pagecounts-20150101-000000.gz:commons.m File:Bitcoin_logo.svg 1 10702
+1/pagecounts-20150101-000000.gz:commons.m File:Sample_Bitcoin_paper_wallet.png 1 9692
+1/pagecounts-20150101-000000.gz:cs Bitcoin 1 0
+1/pagecounts-20150101-000000.gz:de Bitcoin 14 1134233
+1/pagecounts-20150101-000000.gz:el.b %CE%A4%CE%B1_%CF%80%CF%81%CF%8E%CF%84%CE%B1_%CE%B2%CE%AE%CE%BC%CE%B1%CF%84%CE%B1_%CF%83%CF%84%CE%BF_Bitcoin 1 12482
+1/pagecounts-20150101-000000.gz:en BitPay 7 87807
+1/pagecounts-20150101-000000.gz:en Bitcoin 188 20961624
 
 grepRDD.count
-res6: Long = 651670                                                             
+res6: Long = 703885                                                             
 
 val goodRDD = grepRDD.filter(line => line.split(" ").size == 4)
 
 goodRDD.count
-res10: Long = 651665 
+res10: Long = 703878 
 
 
 val pvRDD = goodRDD.map(line => line.split(".gz:")(1))
@@ -85,15 +87,20 @@ pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).t
 
 (Bitcoin,5906673)                                                               
 (Cryptocurrency,309760)
+(Block_chain_(database),256258)
 (History_of_Bitcoin,134661)
+(Digital_currency,90970)
+(Block_chain,84307)
 (Bitcoin_network,67132)
 (Blockchain.info,56625)
 (Coinbase,55445)
+(Block_chain_(transaction_database),38416)
 (Bitcoin_ATM,37064)
 (BitPay,31367)
 (Legality_of_Bitcoin_by_country,30666)
 (Bitcoin_Foundation,29407)
 (Bitcoin_protocol,29199)
+(Digital_currency_exchanger,26562)
 (Bitstamp,26055)
 (Bitcoin_mining,22971)
 (Bitcoin_faucet,21851)
@@ -107,12 +114,7 @@ pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).t
 (LocalBitcoins,8712)
 (File:Bitcoin_October_2013.png,8518)
 (File:BitcoinSign.svg,6696)
-(Category:Cryptocurrency,6164)
-(File:Bitcoin_price_and_volatility.svg,5612)
-(Category:Bitcoin_exchanges,4918)
-(File:Bitcoin-coins.jpg,4836)
-(Bitcoin_XT,4618)
-(File:Bitcoin.svg,4265)
+(Block_chain_%28database%29,6466)
 
 
 val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
