@@ -227,6 +227,29 @@
 
 
 ~~~
+> Bitcoin_Foundation <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Foundation-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_Foundation)
+[1] 364   1
+
+> colnames(Bitcoin_Foundation) <- c("Volume")
+
+> head(Bitcoin_Foundation)
+
+           Volume
+2015-01-01     41
+2015-01-02     74
+2015-01-03     64
+2015-01-04     46
+2015-01-05     71
+2015-01-06     84
+
+> plot(x=log(Bitcoin_Foundation), ylab = "log(Volume)", main = "Bitcoin_Foundation")
+~~~
+![Bitcoin_Foundation_2015](images/Bitcoin_Foundation_2015.png)
+
+
+~~~
 > Bitstamp <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv", sep=",", header=T))
 
 > dim(Bitstamp)
