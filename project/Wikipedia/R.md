@@ -273,6 +273,29 @@
 
 
 ~~~
+> Digital_currency_exchanger <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Digital_currency_exchanger-2015-daily.csv", sep=",", header=T))
+
+> dim(Digital_currency_exchanger)
+[1] 364   1
+
+> colnames(Digital_currency_exchanger) <- c("Volume")
+
+> head(Digital_currency_exchanger)
+
+           Volume
+2015-01-01     47
+2015-01-02     54
+2015-01-03     58
+2015-01-04     39
+2015-01-05     47
+2015-01-06     93
+
+> plot(x=log(Digital_currency_exchanger), ylab = "log(Volume)", main = "Digital_currency_exchanger")
+~~~
+![Digital_currency_exchanger_2015](images/Digital_currency_exchanger_2015.png)
+
+
+~~~
 > Bitstamp <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv", sep=",", header=T))
 
 > dim(Bitstamp)
