@@ -647,6 +647,44 @@ dailyFoundationRDD.take(10).foreach(println)
 dailyFoundationRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Foundation-2015-daily.csv")
 
 
+val protocolRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_protocol")
+
+protocolRDD.take(10).foreach(println)
+
+(en,Bitcoin_protocol,1,23519,20150101)
+(en,Bitcoin_protocol,2,22831,20150101)
+(en,Bitcoin_protocol,2,45672,20150101)
+(en,Bitcoin_protocol,2,45662,20150101)
+(en,Bitcoin_protocol,2,45662,20150101)
+(en,Bitcoin_protocol,1,22831,20150101)
+(en,Bitcoin_protocol,1,22831,20150101)
+(en,Bitcoin_protocol,2,45662,20150101)
+(en,Bitcoin_protocol,3,136249,20150101)
+(en,Bitcoin_protocol,3,136244,20150101)
+
+protocolRDD.map(t => t._3).collect().sum
+res22: Int = 26055
+
+val dailyProtocolRDD = protocolRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyProtocolRDD.take(10).foreach(println)
+
+2015-02-05,340                                                                  
+2015-01-07,49
+2015-03-17,182
+2015-03-21,850
+2015-09-24,50
+2015-01-30,60
+2015-09-23,38
+2015-06-10,72
+2015-12-02,51
+2015-06-19,45
+
+dailyProtocolRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2015-daily.csv")
+
+
 val bitstampRDD = pvTupleRDD.filter(t => t._2 == "Bitstamp")
 
 bitstampRDD.take(10).foreach(println)
