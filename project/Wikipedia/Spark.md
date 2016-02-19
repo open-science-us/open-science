@@ -685,6 +685,44 @@ dailyProtocolRDD.take(10).foreach(println)
 dailyProtocolRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2015-daily.csv")
 
 
+val dceRDD = pvTupleRDD.filter(t => t._2 == "Digital_currency_exchanger")
+
+dceRDD.take(10).foreach(println)
+
+(en,Digital_currency_exchanger,4,71565,20150101)
+(en,Digital_currency_exchanger,1,17890,20150101)
+(en,Digital_currency_exchanger,5,53688,20150101)
+(en,Digital_currency_exchanger,4,71569,20150101)
+(en,Digital_currency_exchanger,1,17899,20150101)
+(en,Digital_currency_exchanger,2,35798,20150101)
+(en,Digital_currency_exchanger,1,17890,20150101)
+(en,Digital_currency_exchanger,3,35798,20150101)
+(en,Digital_currency_exchanger,4,71596,20150101)
+(en,Digital_currency_exchanger,2,35798,20150101)
+
+dceRDD.map(t => t._3).collect().sum
+res22: Int = 26055
+
+val dailyDceRDD = dceRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyDceRDD.take(10).foreach(println)
+
+2015-01-07,54                                                                   
+2015-02-05,67
+2015-03-17,184
+2015-03-21,841
+2015-09-24,49
+2015-01-30,47
+2015-09-23,44
+2015-06-10,44
+2015-11-27,45
+2015-12-02,35
+
+dailyDceRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency_exchanger-2015-daily.csv")
+
+
 val bitstampRDD = pvTupleRDD.filter(t => t._2 == "Bitstamp")
 
 bitstampRDD.take(10).foreach(println)
