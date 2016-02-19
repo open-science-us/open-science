@@ -875,42 +875,42 @@ dailyFogRDD.take(10).foreach(println)
 dailyFogRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Fog-2015-daily.csv")
 
 
-val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
+val cctRDD = pvTupleRDD.filter(t => t._2 == "Cryptocurrency_tumbler")
 
-bitPayRDD.take(10).foreach(println)
+cctRDD.take(10).foreach(println)
 
-(en,BitPay,7,87807,20150101)
-(en,BitPay,2,58538,20150101)
-(en,BitPay,1,29269,20150101)
-(en,BitPay,4,58538,20150101)
-(en,BitPay,3,193341,20150101)
-(en,BitPay,3,58538,20150101)
-(en,BitPay,1,0,20150101)
-(en,BitPay,6,58538,20150101)
-(en,BitPay,6,87807,20150101)
-(en,BitPay,6,0,20150101)
+(en,Cryptocurrency_tumbler,23,377922,20150517)
+(en,Cryptocurrency_tumbler,77,1484420,20150517)
+(en,Cryptocurrency_tumbler,34,889496,20150517)
+(en,Cryptocurrency_tumbler,8,191620,20150517)
+(en,Cryptocurrency_tumbler,6,202801,20150517)
+(en,Cryptocurrency_tumbler,1,11331,20150517)
+(en,Cryptocurrency_tumbler,1,11331,20150517)
+(en,Cryptocurrency_tumbler,1,42263,20150518)
+(en,Cryptocurrency_tumbler,1,11331,20150518)
+(en,Cryptocurrency_tumbler,2,84526,20150518)
 
-bitPayRDD.map(t => t._3).collect().sum
-res22: Int = 31367
+cctRDD.map(t => t._3).collect().sum
+res22: Int = 10048
 
-val dailyBitPayRDD = bitPayRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+val dailyCctRDD = cctRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
 }
 
-dailyBitPayRDD.take(10).foreach(println)
+dailyCctRDD.take(10).foreach(println)
 
-2015-02-05,66                                                                   
-2015-01-07,188
-2015-03-17,213
-2015-03-21,860
-2015-09-24,75
-2015-01-30,51
-2015-09-23,54
-2015-06-10,66
-2015-12-02,79
-2015-06-19,97
+2015-06-15,48                                                                   
+2015-11-28,46
+2015-09-24,36
+2015-11-27,30
+2015-09-23,58
+2015-06-10,36
+2015-11-15,32
+2015-06-25,42
+2015-12-02,51
+2015-06-21,19
 
-dailyBitPayRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
+dailyCctRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency_tumbler-2015-daily.csv")
 ~~~
 
 
