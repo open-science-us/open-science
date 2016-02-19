@@ -10,6 +10,7 @@ curl -OL http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts
 curl -OL http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-010000.gz
 curl -OL http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-020000.gz
 
+
 # download daily gzip files
 
 for i in {0..9}; do addr=http://dumps.wikimedia.org/other/pagecounts-raw/2016/2016-02/pagecounts-20160201-0; addr+=$i; addr+=0000.gz; echo $addr; wget $addr; done
@@ -48,27 +49,29 @@ or
 for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"}; do where=`pwd`; $where/downloadWiki.sh 2015 11 $i; done
 
 
-# extract records for "Bitcoin"
+# extract lines with Bitcoin-related titles
 
 zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 1/*.gz > All-201501.txt
+
 
 # filter long titles
 
 wc -l All-201505.txt
-51288
+54732
 
-awk '{ if (length($0) < 2048) print }' All-201505.txt > All-201505-1.txt
-awk '{ if (length($0) >= 2048) print }' All-201505.txt > All-201505-2.txt
+awk '{ if (length($0) < 1024) print }' All-201505.txt > All-201505-1.txt
 
 wc -l  All-201505-1.txt
-51278
+54719
+
+awk '{ if (length($0) >= 1024) print }' All-201505.txt > All-201505-2.txt
 
 wc -l All-201505-2.txt
-10
+13
 ~~~
 
 ### Raw data issues
 
 1. pagecounts-20150226-200000.gz, size 4.0K
 2. pagecounts-20150401-010000.gz (missing)
-3. pagecounts-201505*.gz contain lines with very long (>= 2048) titles 
+3. pagecounts-201505*.gz contain lines with very long (>= 1024) titles 
