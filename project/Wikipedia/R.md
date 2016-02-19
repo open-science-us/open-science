@@ -224,3 +224,27 @@
 > plot(x=log(Legality_of_Bitcoin_by_country), ylab = "log(Volume)", main = "Legality_of_Bitcoin_by_country")
 ~~~
 ![Legality_of_Bitcoin_by_country_2015](images/Legality_of_Bitcoin_by_country_2015.png)
+
+
+~~~
+> Bitstamp <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitstamp)
+[1] 364   1
+
+> colnames(Bitstamp) <- c("Volume")
+
+> head(Bitstamp)
+
+           Volume
+2015-01-01     65
+2015-01-02     61
+2015-01-03     38
+2015-01-04     42
+2015-01-05    647
+2015-01-06    695
+2015-01-06    110
+
+> plot(x=log(Bitstamp), ylab = "log(Volume)", main = "Bitstamp")
+~~~
+![Bitstamp_2015](images/Bitstamp_2015.png)
