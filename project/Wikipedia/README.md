@@ -1,6 +1,6 @@
 ## [Page view statistics](https://dumps.wikimedia.org/other/pagecounts-raw/)
 
-### Download compressed gzip files
+### Downloading gzip files
 ~~~
 cd /Wikipedia/2016/2
 
@@ -51,10 +51,10 @@ for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14",
 or 
 
 for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"}; do where=`pwd`; $where/downloadWiki.sh 2016 02 $i; done
+~~~
 
-
-# extract lines with Bitcoin-related titles
-
+### Filtering in lines with Bitcoin-related titles
+~~~
 zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 1/*.gz > All-201501.txt
 ~~~
 
