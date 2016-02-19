@@ -157,3 +157,25 @@
 > plot(x=log(Coinbase), ylab = "log(Volume)", main = "Coinbase")
 ~~~
 ![Coinbase_2015](images/Coinbase_2015.png)
+
+
+> Bitcoin_ATM <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_ATM)
+[1] 364   1
+
+> colnames(Bitcoin_ATM) <- c("Volume")
+
+> head(Bitcoin_ATM)
+
+           Volume
+2015-01-01     41
+2015-01-02    124
+2015-01-03     78
+2015-01-04     55
+2015-01-05     82
+2015-01-06    109
+
+> plot(x=log(Bitcoin_ATM), ylab = "log(Volume)", main = "Bitcoin_ATM")
+~~~
+![Bitcoin_ATM_2015](images/Bitcoin_ATM_2015.png)
