@@ -317,3 +317,27 @@
 > plot(x=log(Bitstamp), ylab = "log(Volume)", main = "Bitstamp")
 ~~~
 ![Bitstamp_2015](images/Bitstamp_2015.png)
+
+
+~~~
+> Bitcoin_mining <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_mining-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_mining)
+[1] 364   1
+
+> colnames(Bitcoin_mining) <- c("Volume")
+
+> head(Bitcoin_mining)
+
+           Volume
+2015-01-01     32
+2015-01-02     49
+2015-01-03     46
+2015-01-04     59
+2015-01-05     55
+2015-01-06     72
+
+> plot(x=log(Bitcoin_mining), ylab = "log(Volume)", main = "Bitcoin_mining")
+~~~
+![Bitcoin_mining_2015](images/Bitcoin_mining_2015.png)
+
