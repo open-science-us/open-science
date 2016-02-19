@@ -22,7 +22,7 @@
 
 > plot(x=log(Bitcoin), ylab = "log(Volume)", main = "Bitcoin")
 ~~~
-![Bitcoin_2015](../images/Bitcoin_2015.png)
+![Bitcoin_2015](images/Bitcoin_2015.png)
 
 ~~~
 > Cryptocurrency <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2015-daily.csv", sep=",", header=T))
@@ -44,5 +44,5 @@
 
 > plot(x=log(Cryptocurrency), ylab = "log(Volume)", main = "Cryptocurrency")
 ~~~
-![Cryptocurrency_2015](../images/Cryptocurrency_2015.png)
+![Cryptocurrency_2015](images/Cryptocurrency_2015.png)
 
