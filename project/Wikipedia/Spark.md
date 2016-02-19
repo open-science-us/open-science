@@ -609,6 +609,44 @@ dailyLegalityRDD.take(10).foreach(println)
 dailyLegalityRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2015-daily.csv")
 
 
+val foundationRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_Foundation")
+
+foundationRDD.take(10).foreach(println)
+
+(en,Bitcoin_Foundation,1,14226,20150101)
+(ru,Bitcoin_Foundation,1,13517,20150101)
+(en,Bitcoin_Foundation,2,28456,20150101)
+(en,Bitcoin_Foundation,1,0,20150101)
+(en,Bitcoin_Foundation,2,28460,20150101)
+(en,Bitcoin_Foundation,2,28460,20150101)
+(en,Bitcoin_Foundation,1,14230,20150101)
+(en,Bitcoin_Foundation,2,28460,20150101)
+(en,Bitcoin_Foundation,1,14230,20150101)
+(en,Bitcoin_Foundation,5,112760,20150101)
+
+foundationRDD.map(t => t._3).collect().sum
+res22: Int = 26055
+
+val dailyFoundationRDD = foundationRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyFoundationRDD.take(10).foreach(println)
+
+2015-01-07,140                                                                  
+2015-02-05,64
+2015-03-17,200
+2015-03-21,845
+2015-09-24,59
+2015-01-30,75
+2015-09-23,93
+2015-06-10,62
+2015-11-27,20
+2015-12-02,48
+
+dailyFoundationRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Foundation-2015-daily.csv")
+
+
 val bitstampRDD = pvTupleRDD.filter(t => t._2 == "Bitstamp")
 
 bitstampRDD.take(10).foreach(println)
