@@ -113,3 +113,25 @@
 ~~~
 ![Digital_currency_2015](images/Digital_currency_2015.png)
 
+
+~~~
+> Coinbase <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Coinbase-2015-daily.csv", sep=",", header=T))
+
+> dim(Coinbase)
+[1] 364   1
+
+> colnames(Coinbase) <- c("Volume")
+
+> head(Coinbase)
+
+           Volume
+2015-01-01    199
+2015-01-02    330
+2015-01-03    243
+2015-01-04    211
+2015-01-05    304
+2015-01-06    322
+
+> plot(x=log(Coinbase), ylab = "log(Volume)", main = "Coinbase")
+~~~
+![Coinbase_2015](images/Coinbase_2015.png)
