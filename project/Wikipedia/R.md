@@ -250,6 +250,29 @@
 
 
 ~~~
+> Bitcoin_protocol <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_protocol)
+[1] 364   1
+
+> colnames(Bitcoin_protocol) <- c("Volume")
+
+> head(Bitcoin_protocol)
+
+           Volume
+2015-01-01     36
+2015-01-02     45
+2015-01-03     51
+2015-01-04     34
+2015-01-05     56
+2015-01-06     50
+
+> plot(x=log(Bitcoin_protocol), ylab = "log(Volume)", main = "Bitcoin_protocol")
+~~~
+![Bitcoin_protocol_2015](images/Bitcoin_protocol_2015.png)
+
+
+~~~
 > Bitstamp <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv", sep=",", header=T))
 
 > dim(Bitstamp)
