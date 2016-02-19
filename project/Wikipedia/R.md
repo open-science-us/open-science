@@ -113,7 +113,7 @@
 ~~~
 ![Digital_currency_2015](images/Digital_currency_2015.png)
 
-
+~~~
 > Blockchain_info <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv", sep=",", header=T))
 
 > dim(Blockchain_info)
@@ -158,7 +158,7 @@
 ~~~
 ![Coinbase_2015](images/Coinbase_2015.png)
 
-
+~~~
 > Bitcoin_ATM <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv", sep=",", header=T))
 
 > dim(Bitcoin_ATM)
@@ -179,3 +179,26 @@
 > plot(x=log(Bitcoin_ATM), ylab = "log(Volume)", main = "Bitcoin_ATM")
 ~~~
 ![Bitcoin_ATM_2015](images/Bitcoin_ATM_2015.png)
+
+~~~
+> BitPay <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv", sep=",", header=T))
+
+> dim(BitPay)
+[1] 364   1
+
+> colnames(BitPay) <- c("Volume")
+
+> head(BitPay)
+
+           Volume
+2015-01-01    118
+2015-01-02    110
+2015-01-03     73
+2015-01-04     97
+2015-01-05    102
+2015-01-06    110
+
+> plot(x=log(BitPay), ylab = "log(Volume)", main = "BitPay")
+~~~
+![BitPay_2015](images/BitPay_2015.png)
+
