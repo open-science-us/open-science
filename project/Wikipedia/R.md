@@ -24,6 +24,7 @@
 ~~~
 ![Bitcoin_2015](images/Bitcoin_2015.png)
 
+
 ~~~
 > Cryptocurrency <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2015-daily.csv", sep=",", header=T))
 
@@ -46,6 +47,7 @@
 ~~~
 ![Cryptocurrency_2015](images/Cryptocurrency_2015.png)
 
+
 ~~~
 > BlockchainDB <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2015-daily.csv", sep=",", header=T))
 
@@ -67,6 +69,7 @@
 > plot(x=BlockchainDB, ylab = "Volume", main = "Block_chain_(database)")
 ~~~
 ![Blockchain_database_2015](images/Blockchain_database_2015.png)
+
 
 ~~~
 > History_of_Bitcoin <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/History_of_Bitcoin-2015-daily.csv", sep=",", header=T))
@@ -113,6 +116,7 @@
 ~~~
 ![Digital_currency_2015](images/Digital_currency_2015.png)
 
+
 ~~~
 > Blockchain_info <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv", sep=",", header=T))
 
@@ -158,6 +162,7 @@
 ~~~
 ![Coinbase_2015](images/Coinbase_2015.png)
 
+
 ~~~
 > Bitcoin_ATM <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv", sep=",", header=T))
 
@@ -179,6 +184,7 @@
 > plot(x=log(Bitcoin_ATM), ylab = "log(Volume)", main = "Bitcoin_ATM")
 ~~~
 ![Bitcoin_ATM_2015](images/Bitcoin_ATM_2015.png)
+
 
 ~~~
 > BitPay <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv", sep=",", header=T))
@@ -386,3 +392,26 @@
 > plot(x=Bitcoin_Fog, ylab = "Volume", main = "Bitcoin_Fog")
 ~~~
 ![Bitcoin_Fog_2015](images/Bitcoin_Fog_2015.png)
+
+
+~~~
+> Cryptocurrency_tumbler <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency_tumbler-2015-daily.csv", sep=",", header=T))
+
+> dim(Cryptocurrency_tumbler)
+[1] 228   1
+
+> colnames(Cryptocurrency_tumbler) <- c("Volume")
+
+> head(Cryptocurrency_tumbler)
+
+           Volume
+2015-05-17    150
+2015-05-18     29
+2015-05-19     34
+2015-05-20     22
+2015-05-21     14
+2015-05-22     19
+
+> plot(x=log(Cryptocurrency_tumbler), ylab = "log(Volume)", main = "Cryptocurrency_tumbler")
+~~~
+![Cryptocurrency_tumbler_2015](images/Cryptocurrency_tumbler_2015.png)
