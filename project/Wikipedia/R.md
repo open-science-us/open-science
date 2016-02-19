@@ -158,7 +158,7 @@
 ~~~
 ![Coinbase_2015](images/Coinbase_2015.png)
 
-
+~~~
 > Bitcoin_ATM <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv", sep=",", header=T))
 
 > dim(Bitcoin_ATM)
