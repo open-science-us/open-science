@@ -497,6 +497,44 @@ dailyBctdRDD.take(10).foreach(println)
 dailyBctdRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_transaction_database-2015-daily.csv")
 
 
+val bitcoinATMRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_ATM")
+
+bitcoinATMRDD.take(10).foreach(println)
+
+(en,Bitcoin_ATM,1,13396,20150101)
+(en,Bitcoin_ATM,1,13406,20150101)
+(en,Bitcoin_ATM,1,13401,20150101)
+(en,Bitcoin_ATM,1,13396,20150101)
+(en,Bitcoin_ATM,4,40188,20150101)
+(en,Bitcoin_ATM,3,40188,20150101)
+(en,Bitcoin_ATM,1,13396,20150101)
+(en,Bitcoin_ATM,2,26814,20150101)
+(en,Bitcoin_ATM,1,13407,20150101)
+(en,Bitcoin_ATM,5,144261,20150101)
+
+bitcoinATMRDD.map(t => t._3).collect().sum
+res22: Int = 37064
+
+val dailyBitcoinATMRDD = bitcoinATMRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+}
+
+dailyBitcoinATMRDD.take(10).foreach(println)
+
+2015-02-05,113                                                                  
+2015-01-07,93
+2015-03-17,234
+2015-03-21,858
+2015-09-24,105
+2015-01-30,102
+2015-09-23,90
+2015-06-10,69
+2015-12-02,81
+2015-06-19,64
+
+dailyBitcoinATMRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv")
+
+
 val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
 
 bitPayRDD.take(10).foreach(println)
