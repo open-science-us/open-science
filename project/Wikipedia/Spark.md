@@ -799,80 +799,80 @@ dailyMiningRDD.take(10).foreach(println)
 dailyMiningRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_mining-2015-daily.csv")
 
 
-val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
+val faucetRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_faucet")
 
-bitPayRDD.take(10).foreach(println)
+faucetRDD.take(10).foreach(println)
 
-(en,BitPay,7,87807,20150101)
-(en,BitPay,2,58538,20150101)
-(en,BitPay,1,29269,20150101)
-(en,BitPay,4,58538,20150101)
-(en,BitPay,3,193341,20150101)
-(en,BitPay,3,58538,20150101)
-(en,BitPay,1,0,20150101)
-(en,BitPay,6,58538,20150101)
-(en,BitPay,6,87807,20150101)
-(en,BitPay,6,0,20150101)
+(en,Bitcoin_faucet,2,19830,20150101)
+(en,Bitcoin_faucet,2,9153,20150101)
+(en,Bitcoin_faucet,1,9164,20150101)
+(en,Bitcoin_faucet,1,9164,20150101)
+(en,Bitcoin_faucet,1,30698,20150101)
+(en,Bitcoin_faucet,1,9164,20150101)
+(en,Bitcoin_faucet,1,9164,20150101)
+(en,Bitcoin_faucet,1,9164,20150101)
+(en,Bitcoin_faucet,1,30698,20150101)
+(en,Bitcoin_faucet,4,40578,20150101)
 
-bitPayRDD.map(t => t._3).collect().sum
-res22: Int = 31367
+faucetRDD.map(t => t._3).collect().sum
+res22: Int = 21851
 
-val dailyBitPayRDD = bitPayRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+val dailyFaucetRDD = faucetRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
 }
 
-dailyBitPayRDD.take(10).foreach(println)
+dailyFaucetRDD.take(10).foreach(println)
 
-2015-02-05,66                                                                   
-2015-01-07,188
-2015-03-17,213
-2015-03-21,860
-2015-09-24,75
-2015-01-30,51
-2015-09-23,54
-2015-06-10,66
-2015-12-02,79
-2015-06-19,97
+2015-01-07,24                                                                   
+2015-02-05,27
+2015-03-17,159
+2015-03-21,859
+2015-09-24,40
+2015-01-30,30
+2015-09-23,33
+2015-06-10,49
+2015-11-27,46
+2015-12-02,43
 
-dailyBitPayRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
+dailyFaucetRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_faucet-2015-daily.csv")
 
 
-val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
+val fogRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_Fog")
 
-bitPayRDD.take(10).foreach(println)
+fogRDD.take(10).foreach(println)
 
-(en,BitPay,7,87807,20150101)
-(en,BitPay,2,58538,20150101)
-(en,BitPay,1,29269,20150101)
-(en,BitPay,4,58538,20150101)
-(en,BitPay,3,193341,20150101)
-(en,BitPay,3,58538,20150101)
-(en,BitPay,1,0,20150101)
-(en,BitPay,6,58538,20150101)
-(en,BitPay,6,87807,20150101)
-(en,BitPay,6,0,20150101)
+(en,Bitcoin_Fog,1,7511,20150101)
+(en,Bitcoin_Fog,2,13692,20150101)
+(en,Bitcoin_Fog,1,6850,20150103)
+(en,Bitcoin_Fog,1,24268,20150104)
+(en,Bitcoin_Fog,1,6850,20150105)
+(en,Bitcoin_Fog,1,6886,20150106)
+(en,Bitcoin_Fog,1,6854,20150107)
+(en,Bitcoin_Fog,1,6855,20150110)
+(en,Bitcoin_Fog,1,6847,20150110)
+(en,Bitcoin_Fog,1,6852,20150111)
 
-bitPayRDD.map(t => t._3).collect().sum
-res22: Int = 31367
+fogRDD.map(t => t._3).collect().sum
+res22: Int = 13537
 
-val dailyBitPayRDD = bitPayRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+val dailyFogRDD = fogRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
 }
 
-dailyBitPayRDD.take(10).foreach(println)
+dailyFogRDD.take(10).foreach(println)
 
-2015-02-05,66                                                                   
-2015-01-07,188
-2015-03-17,213
-2015-03-21,860
-2015-09-24,75
-2015-01-30,51
-2015-09-23,54
-2015-06-10,66
-2015-12-02,79
-2015-06-19,97
+2015-01-07,1                                                                    
+2015-06-15,88
+2015-12-16,53
+2015-02-05,1
+2015-11-28,67
+2015-04-13,5
+2015-09-24,51
+2015-11-27,87
+2015-02-11,4
+2015-01-30,1
 
-dailyBitPayRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
+dailyFogRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Fog-2015-daily.csv")
 
 
 val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
