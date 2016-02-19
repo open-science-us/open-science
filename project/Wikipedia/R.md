@@ -341,3 +341,25 @@
 ~~~
 ![Bitcoin_mining_2015](images/Bitcoin_mining_2015.png)
 
+
+~~~
+> Bitcoin_faucet <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_faucet-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_faucet)
+[1] 364   1
+
+> colnames(Bitcoin_faucet) <- c("Volume")
+
+> head(Bitcoin_faucet)
+
+           Volume
+2015-01-01     16
+2015-01-02     27
+2015-01-03     35
+2015-01-04     27
+2015-01-05     21
+2015-01-06     42
+
+> plot(x=log(Bitcoin_faucet), ylab = "log(Volume)", main = "Bitcoin_faucet")
+~~~
+![Bitcoin_faucet_2015](images/Bitcoin_faucet_2015.png)
