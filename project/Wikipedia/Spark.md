@@ -134,7 +134,7 @@ bitcoinRDD.map(t => t._3).collect().sum
 res22: Int = 5906673
 
 val dailyBitcoinRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBitcoinRDD.take(10).foreach(println)
@@ -150,7 +150,7 @@ dailyBitcoinRDD.take(10).foreach(println)
 2015-11-27,8738
 2015-12-02,10740
 
-dailyBitcoinRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin-2015-daily.csv")
+dailyBitcoinRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin-2015-daily.csv")
 
 
 val cryptocurrencyRDD = pvTupleRDD.filter(t => t._2 == "Cryptocurrency")
@@ -172,7 +172,7 @@ cryptocurrencyRDD.map(t => t._3).collect().sum
 res22: Int = 309760
 
 val dailyCryptocurrencyRDD = cryptocurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyCryptocurrencyRDD.take(10).foreach(println)
@@ -188,7 +188,7 @@ dailyCryptocurrencyRDD.take(10).foreach(println)
 2015-12-02,846
 2015-06-19,563
 
-dailyCryptocurrencyRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2015-daily.csv")
+dailyCryptocurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2015-daily.csv")
 
 
 val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(database)")
@@ -210,7 +210,7 @@ bcdRDD.map(t => t._3).collect().sum
 res22: Int = 256258
 
 val dailyBcdRDD = bcdRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBcdRDD.take(10).foreach(println)
@@ -226,7 +226,7 @@ dailyBcdRDD.take(10).foreach(println)
 2015-12-02,2068
 2015-06-21,194
 
-dailyBcdRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2015-daily.csv")
+dailyBcdRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2015-daily.csv")
 
 
 val historyOfBitcoinRDD = pvTupleRDD.filter(t => t._2 == "History_of_Bitcoin")
@@ -248,7 +248,7 @@ historyOfBitcoinRDD.map(t => t._3).collect().sum
 res22: Int = 134661
 
 val dailyHistoryOfBitcoinRDD = historyOfBitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyHistoryOfBitcoinRDD.take(10).foreach(println)
@@ -264,7 +264,7 @@ dailyHistoryOfBitcoinRDD.take(10).foreach(println)
 2015-11-27,225
 2015-12-02,346
 
-dailyHistoryOfBitcoinRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/History_of_Bitcoin-2015-daily.csv")
+dailyHistoryOfBitcoinRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/History_of_Bitcoin-2015-daily.csv")
 
 
 val digitalcurrencyRDD = pvTupleRDD.filter(t => t._2 == "Digital_currency")
@@ -286,7 +286,7 @@ digitalcurrencyRDD.map(t => t._3).collect().sum
 res22: Int = 90970
 
 val dailyDigitalcurrencyRDD = digitalcurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyDigitalcurrencyRDD.take(10).foreach(println)
@@ -302,7 +302,7 @@ dailyDigitalcurrencyRDD.take(10).foreach(println)
 2015-12-02,272
 2015-06-19,162
 
-dailyDigitalcurrencyRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency-2015-daily.csv")
+dailyDigitalcurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency-2015-daily.csv")
 
 
 val blockchainRDD = pvTupleRDD.filter(t => t._2 == "Block_chain")
@@ -324,7 +324,7 @@ blockchainRDD.map(t => t._3).collect().sum
 res22: Int = 84307
 
 val dailyBlockchainRDD = blockchainRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBlockchainRDD.take(10).foreach(println)
@@ -340,7 +340,7 @@ dailyBlockchainRDD.take(10).foreach(println)
 2015-11-27,350
 2015-12-02,296
 
-dailyBlockchainRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv")
+dailyBlockchainRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv")
 
 
 val bitcoinNetworkRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_network")
@@ -362,7 +362,7 @@ bitcoinNetworkRDD.map(t => t._3).collect().sum
 res22: Int = 84307
 
 val dailyBitcoinNetworkRDD = bitcoinNetworkRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBitcoinNetworkRDD.take(10).foreach(println)
@@ -378,7 +378,7 @@ dailyBitcoinNetworkRDD.take(10).foreach(println)
 2015-12-02,115
 2015-06-19,114
 
-dailyBitcoinNetworkRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2015-daily.csv")
+dailyBitcoinNetworkRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2015-daily.csv")
 
 
 val blockchainInfoRDD = pvTupleRDD.filter(t => t._2 == "Blockchain.info")
@@ -400,7 +400,7 @@ blockchainInfoRDD.map(t => t._3).collect().sum
 res22: Int = 56625
 
 val dailyBlockchainInfoRDD = blockchainInfoRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBlockchainInfoRDD.take(10).foreach(println)
@@ -416,7 +416,7 @@ dailyBlockchainInfoRDD.take(10).foreach(println)
 2015-11-27,117
 2015-12-02,107
 
-dailyBlockchainInfoRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv")
+dailyBlockchainInfoRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv")
 
 
 val coinbaseRDD = pvTupleRDD.filter(t => t._2 == "Coinbase")
@@ -438,7 +438,7 @@ coinbaseRDD.map(t => t._3).collect().sum
 res22: Int = 55445
 
 val dailyCoinbaseRDD = coinbaseRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyCoinbaseRDD.take(10).foreach(println)
@@ -454,7 +454,7 @@ dailyCoinbaseRDD.take(10).foreach(println)
 2015-12-02,153
 2015-06-19,106
 
-dailyCoinbaseRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Coinbase-2015-daily.csv")
+dailyCoinbaseRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Coinbase-2015-daily.csv")
 
 
 val bctdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)")
@@ -476,7 +476,7 @@ bctdRDD.map(t => t._3).collect().sum
 res22: Int = 38416
 
 val dailyBctdRDD = bctdRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBctdRDD.take(10).foreach(println)
@@ -492,7 +492,7 @@ dailyBctdRDD.take(10).foreach(println)
 2015-11-27,10
 2015-12-02,4
 
-dailyBctdRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_transaction_database-2015-daily.csv")
+dailyBctdRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_transaction_database-2015-daily.csv")
 
 
 val bitcoinATMRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_ATM")
@@ -514,7 +514,7 @@ bitcoinATMRDD.map(t => t._3).collect().sum
 res22: Int = 37064
 
 val dailyBitcoinATMRDD = bitcoinATMRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBitcoinATMRDD.take(10).foreach(println)
@@ -530,7 +530,7 @@ dailyBitcoinATMRDD.take(10).foreach(println)
 2015-12-02,81
 2015-06-19,64
 
-dailyBitcoinATMRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv")
+dailyBitcoinATMRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2015-daily.csv")
 
 
 val bitPayRDD = pvTupleRDD.filter(t => t._2 == "BitPay")
@@ -552,7 +552,7 @@ bitPayRDD.map(t => t._3).collect().sum
 res22: Int = 31367
 
 val dailyBitPayRDD = bitPayRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBitPayRDD.take(10).foreach(println)
@@ -568,7 +568,7 @@ dailyBitPayRDD.take(10).foreach(println)
 2015-12-02,79
 2015-06-19,97
 
-dailyBitPayRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
+dailyBitPayRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
 
 
 val legalityRDD = pvTupleRDD.filter(t => t._2 == "Legality_of_Bitcoin_by_country")
@@ -590,7 +590,7 @@ legalityRDD.map(t => t._3).collect().sum
 res22: Int = 31367
 
 val dailyLegalityRDD = legalityRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyLegalityRDD.take(10).foreach(println)
@@ -606,7 +606,7 @@ dailyLegalityRDD.take(10).foreach(println)
 2015-11-27,4
 2015-12-02,7
 
-dailyLegalityRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2015-daily.csv")
+dailyLegalityRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2015-daily.csv")
 
 
 val foundationRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_Foundation")
@@ -628,7 +628,7 @@ foundationRDD.map(t => t._3).collect().sum
 res22: Int = 26055
 
 val dailyFoundationRDD = foundationRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyFoundationRDD.take(10).foreach(println)
@@ -644,7 +644,7 @@ dailyFoundationRDD.take(10).foreach(println)
 2015-11-27,20
 2015-12-02,48
 
-dailyFoundationRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Foundation-2015-daily.csv")
+dailyFoundationRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Foundation-2015-daily.csv")
 
 
 val protocolRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_protocol")
@@ -666,7 +666,7 @@ protocolRDD.map(t => t._3).collect().sum
 res22: Int = 26055
 
 val dailyProtocolRDD = protocolRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyProtocolRDD.take(10).foreach(println)
@@ -682,7 +682,7 @@ dailyProtocolRDD.take(10).foreach(println)
 2015-12-02,51
 2015-06-19,45
 
-dailyProtocolRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2015-daily.csv")
+dailyProtocolRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2015-daily.csv")
 
 
 val dceRDD = pvTupleRDD.filter(t => t._2 == "Digital_currency_exchanger")
@@ -704,7 +704,7 @@ dceRDD.map(t => t._3).collect().sum
 res22: Int = 26055
 
 val dailyDceRDD = dceRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyDceRDD.take(10).foreach(println)
@@ -720,7 +720,7 @@ dailyDceRDD.take(10).foreach(println)
 2015-11-27,45
 2015-12-02,35
 
-dailyDceRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency_exchanger-2015-daily.csv")
+dailyDceRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency_exchanger-2015-daily.csv")
 
 
 val bitstampRDD = pvTupleRDD.filter(t => t._2 == "Bitstamp")
@@ -742,7 +742,7 @@ bitstampRDD.map(t => t._3).collect().sum
 res22: Int = 26055
 
 val dailyBitstampRDD = bitstampRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyBitstampRDD.take(10).foreach(println)
@@ -758,7 +758,7 @@ dailyBitstampRDD.take(10).foreach(println)
 2015-11-27,16
 2015-12-02,47
 
-dailyBitstampRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv")
+dailyBitstampRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitstamp-2015-daily.csv")
 
 
 val miningRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_mining")
@@ -780,7 +780,7 @@ miningRDD.map(t => t._3).collect().sum
 res22: Int = 22971
 
 val dailyMiningRDD = miningRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyMiningRDD.take(10).foreach(println)
@@ -796,7 +796,7 @@ dailyMiningRDD.take(10).foreach(println)
 2015-11-27,91
 2015-12-02,190
 
-dailyMiningRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_mining-2015-daily.csv")
+dailyMiningRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_mining-2015-daily.csv")
 
 
 val faucetRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_faucet")
@@ -818,7 +818,7 @@ faucetRDD.map(t => t._3).collect().sum
 res22: Int = 21851
 
 val dailyFaucetRDD = faucetRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyFaucetRDD.take(10).foreach(println)
@@ -834,7 +834,7 @@ dailyFaucetRDD.take(10).foreach(println)
 2015-11-27,46
 2015-12-02,43
 
-dailyFaucetRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_faucet-2015-daily.csv")
+dailyFaucetRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_faucet-2015-daily.csv")
 
 
 val fogRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_Fog")
@@ -856,7 +856,7 @@ fogRDD.map(t => t._3).collect().sum
 res22: Int = 13537
 
 val dailyFogRDD = fogRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyFogRDD.take(10).foreach(println)
@@ -872,7 +872,7 @@ dailyFogRDD.take(10).foreach(println)
 2015-02-11,4
 2015-01-30,1
 
-dailyFogRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Fog-2015-daily.csv")
+dailyFogRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Fog-2015-daily.csv")
 
 
 val cctRDD = pvTupleRDD.filter(t => t._2 == "Cryptocurrency_tumbler")
@@ -894,7 +894,7 @@ cctRDD.map(t => t._3).collect().sum
 res22: Int = 10048
 
 val dailyCctRDD = cctRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6) + "," + x._2
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
 }
 
 dailyCctRDD.take(10).foreach(println)
@@ -910,7 +910,7 @@ dailyCctRDD.take(10).foreach(println)
 2015-12-02,51
 2015-06-21,19
 
-dailyCctRDD.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency_tumbler-2015-daily.csv")
+dailyCctRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency_tumbler-2015-daily.csv")
 ~~~
 
 
