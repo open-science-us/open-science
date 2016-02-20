@@ -101,7 +101,20 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 88. pagecounts-20140423-160002.gz
 89. pagecounts-20140425-200001.gz
 90. pagecounts-20140430-140001.gz
-91. 
+91. pagecounts-20140301-160001.gz
+92. pagecounts-20140302-050001.gz
+93. pagecounts-20140303-170002.gz
+94. pagecounts-20140306-090001.gz
+95. pagecounts-20140306-170001.gz
+96. pagecounts-20140308-190001.gz
+97. pagecounts-20140310-100001.gz
+98. pagecounts-20140311-230001.gz
+99. pagecounts-20140313-030001.gz
+100. pagecounts-20140314-120001.gz
+101. pagecounts-20140314-190001.gz
+102. pagecounts-20140317-160001.gz
+103. pagecounts-20140319-030011.gz
+104. 
 
 ### Using Spark
 
