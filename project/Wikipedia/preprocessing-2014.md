@@ -162,4 +162,42 @@ dailyBitcoinRDD.take(10).foreach(println)
 dailyBitcoinRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin-2014-daily.csv")
 
 
+val cryptocurrencyRDD = pvTupleRDD.filter(t => t._2 == "Cryptocurrency")
+
+cryptocurrencyRDD.take(10).foreach(println)
+
+(en,Cryptocurrency,60,1055286,20140101)
+(en,Cryptocurrency,76,1368081,20140101)
+(en,Cryptocurrency,59,1034192,20140101)
+(en,Cryptocurrency,63,1199954,20140101)
+(en,Cryptocurrency,37,712061,20140101)
+(en,Cryptocurrency,43,748242,20140101)
+(en,Cryptocurrency,45,808301,20140101)
+(en,Cryptocurrency,42,807432,20140101)
+(id,Cryptocurrency,1,5937,20140101)
+(nl,Cryptocurrency,3,42729,20140101)
+
+cryptocurrencyRDD.map(t => t._3).collect().sum
+res22: Int = 309760
+
+val dailyCryptocurrencyRDD = cryptocurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyCryptocurrencyRDD.take(10).foreach(println)
+
+(2014-03-23,1598)                                                               
+(2014-10-31,717)
+(2014-01-05,389)
+(2014-10-15,980)
+(2014-12-29,774)
+(2014-07-20,674)
+(2014-02-17,3614)
+(2014-03-30,1650)
+(2014-06-18,1397)
+(2014-04-24,1350)
+
+dailyCryptocurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2014-daily.csv")
+
+~~~
 
