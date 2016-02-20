@@ -350,8 +350,5 @@ dailyBitcoinNetworkRDD.take(10).foreach(println)
 (2014-06-18,371)
 
 dailyBitcoinNetworkRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2014-daily.csv")
-
-
-
 ~~~
 
