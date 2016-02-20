@@ -193,6 +193,9 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 170. pagecounts-20140127-020003.gz
 171. pagecounts-20140128-220002.gz
 
+~~~
+grep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" pagecounts-2014*.gz > All-2014-missing.txt &
+~~~
 
 ### Using Spark
 
