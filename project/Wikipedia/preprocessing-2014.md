@@ -140,7 +140,7 @@ bitcoinRDD.take(10).foreach(println)
 (hy,Bitcoin,1,20403,20140101)
 
 bitcoinRDD.map(t => t._3).collect().sum
-res22: Int = 5906673
+res22: Int = 9229277
 
 val dailyBitcoinRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -178,7 +178,7 @@ cryptocurrencyRDD.take(10).foreach(println)
 (nl,Cryptocurrency,3,42729,20140101)
 
 cryptocurrencyRDD.map(t => t._3).collect().sum
-res22: Int = 309760
+res22: Int = 525946
 
 val dailyCryptocurrencyRDD = cryptocurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -216,7 +216,7 @@ historyOfBitcoinRDD.take(10).foreach(println)
 (en,History_of_Bitcoin,23,1046681,20140101)
 
 historyOfBitcoinRDD.map(t => t._3).collect().sum
-res22: Int = 134661
+res22: Int = 199944
 
 val dailyHistoryOfBitcoinRDD = historyOfBitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -254,7 +254,7 @@ digitalcurrencyRDD.take(10).foreach(println)
 (en,Digital_currency,32,534693,20140101)
 
 digitalcurrencyRDD.map(t => t._3).collect().sum
-res22: Int = 90970
+res22: Int = 131844
 
 val dailyDigitalcurrencyRDD = digitalcurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -274,6 +274,83 @@ dailyDigitalcurrencyRDD.take(10).foreach(println)
 (2014-04-24,316)
 
 dailyDigitalcurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency-2014-daily.csv")
+
+
+val protocolRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_protocol")
+
+protocolRDD.take(10).foreach(println)
+
+(en,Bitcoin_protocol,20,357450,20140101)
+(en,Bitcoin_protocol,50,895428,20140101)
+(en,Bitcoin_protocol,27,496462,20140101)
+(en,Bitcoin_protocol,25,378199,20140101)
+(en,Bitcoin_protocol,25,476558,20140101)
+(en,Bitcoin_protocol,18,319628,20140101)
+(en,Bitcoin_protocol,65,1211566,20140101)
+(en,Bitcoin_protocol,28,495414,20140101)
+(en,Bitcoin_protocol,37,755501,20140101)
+(en,Bitcoin_protocol,36,637343,20140101)
+
+protocolRDD.map(t => t._3).collect().sum
+res25: Int = 110453   
+
+val dailyProtocolRDD = protocolRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyProtocolRDD.take(10).foreach(println)
+
+(2014-03-23,109)                                                                
+(2014-10-31,43)
+(2014-01-05,219)
+(2014-10-15,100)
+(2014-12-29,50)
+(2014-07-20,58)
+(2014-02-17,1128)
+(2014-03-30,101)
+(2014-06-18,83)
+(2014-04-24,76)
+
+dailyProtocolRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2014-daily.csv")
+
+
+val bitcoinNetworkRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_network")
+
+bitcoinNetworkRDD.take(10).foreach(println)
+
+(en,Bitcoin_network,1,7003,20140114)
+(en,Bitcoin_network,50,1576517,20140302)
+(en,Bitcoin_network,8,211091,20140302)
+(en,Bitcoin_network,3,60412,20140302)
+(en,Bitcoin_network,1,20469,20140303)
+(en,Bitcoin_network,2,20483,20140303)
+(en,Bitcoin_network,2,42147,20140303)
+(en,Bitcoin_network,30,1132072,20140303)
+(en,Bitcoin_network,7,134155,20140303)
+(en,Bitcoin_network,4,76660,20140303)
+
+bitcoinNetworkRDD.map(t => t._3).collect().sum
+res33: Int = 67281 
+
+val dailyBitcoinNetworkRDD = bitcoinNetworkRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyBitcoinNetworkRDD.take(10).foreach(println)
+
+(2014-09-23,325)                                                                
+(2014-03-23,367)
+(2014-05-17,153)
+(2014-10-31,137)
+(2014-10-15,178)
+(2014-12-29,173)
+(2014-06-25,169)
+(2014-06-16,582)
+(2014-03-30,337)
+(2014-06-18,371)
+
+dailyBitcoinNetworkRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2014-daily.csv")
+
 
 
 ~~~
