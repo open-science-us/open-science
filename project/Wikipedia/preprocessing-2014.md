@@ -9,6 +9,71 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 3/*.gz > All-201403.txt
 ~~~
 
+### Raw data issues
+
+1. pagecounts-20141212-140001.gz
+2. pagecounts-20141225-190001.gz
+3. pagecounts-20141225-195959.gz
+4. pagecounts-20141225-200001.gz
+5. pagecounts-20141111-020001.gz
+6. pagecounts-20141123-080001.gz
+7. pagecounts-20141010-010001.gz
+8. pagecounts-20141016-160001.gz
+9. pagecounts-20141029-040001.gz
+10. pagecounts-20140919-070001.gz
+11. pagecounts-20140804-090001.gz
+12. pagecounts-20140808-180001.gz
+13. pagecounts-20140812-200001.gz
+14. pagecounts-20140817-050013.gz
+15. pagecounts-20140824-080001.gz
+16. pagecounts-20140825-100001.gz
+17. pagecounts-20140825-210001.gz
+18. pagecounts-20140826-220015.gz
+19. pagecounts-20140826-230001.gz
+20. pagecounts-20140827-000013.gz
+21. pagecounts-20140827-010006.gz
+22. pagecounts-20140827-020003.gz
+23. pagecounts-20140827-030015.gz
+24. pagecounts-20140827-050001.gz
+25. pagecounts-20140827-070014.gz
+26. pagecounts-20140827-080017.gz
+27. pagecounts-20140827-100015.gz
+28. pagecounts-20140827-120015.gz
+29. pagecounts-20140827-160001.gz
+30. pagecounts-20140827-170007.gz
+31. pagecounts-20140827-180013.gz
+32. pagecounts-20140827-190016.gz
+33. pagecounts-20140702-200001.gz
+34. pagecounts-20140703-230001.gz
+35. pagecounts-20140704-070001.gz
+36. pagecounts-20140705-080001.gz
+37. pagecounts-20140706-170002.gz
+38. pagecounts-20140707-160001.gz
+39. pagecounts-20140709-220001.gz
+40. pagecounts-20140711-060001.gz
+41. pagecounts-20140713-110001.gz
+42. pagecounts-20140715-110001.gz
+43. pagecounts-20140718-220001.gz
+44. pagecounts-20140720-030001.gz
+45. pagecounts-20140720-140001.gz
+46. pagecounts-20140721-140001.gz
+47. pagecounts-20140725-080001.gz
+48. pagecounts-20140728-190001.gz
+49. pagecounts-20140731-150001.gz
+50. pagecounts-20140601-160001.gz
+51. pagecounts-20140604-130003.gz
+52. pagecounts-20140604-190002.gz
+53. pagecounts-20140605-220001.gz
+54. pagecounts-20140608-080001.gz
+55. pagecounts-20140609-090002.gz
+56. pagecounts-20140613-020001.gz
+57. pagecounts-20140614-090001.gz
+58. pagecounts-20140617-100001.gz
+59. pagecounts-20140621-180001.gz
+60. pagecounts-20140625-120001.gz
+61. pagecounts-20140629-050001.gz
+62. 
+
 ### Using Spark
 
 ~~~
