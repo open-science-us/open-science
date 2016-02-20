@@ -52,32 +52,3 @@ or
 
 for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"}; do where=`pwd`; $where/downloadWiki.sh 2016 02 $i; done
 ~~~
-
-### Filtering in lines with Bitcoin-related titles
-~~~
-zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 1/*.gz > All-201501.txt
-~~~
-
-### Raw data issues
-
-1. pagecounts-20150226-200000.gz, size 4.0K
-2. pagecounts-20150401-010000.gz (missing)
-3. pagecounts-201505*.gz contain lines with very long (>= 1024) titles
-~~~
-# filter long titles
-
-wc -l All-201505.txt
-54732
-
-awk '{ if (length($0) < 1024) print }' All-201505.txt > All-201505-1.txt
-
-wc -l  All-201505-1.txt
-54719
-
-awk '{ if (length($0) >= 1024) print }' All-201505.txt > All-201505-2.txt
-
-wc -l All-201505-2.txt
-13
-~~~
-4. (TBD)
-5. 
