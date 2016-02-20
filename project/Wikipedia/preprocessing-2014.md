@@ -22,6 +22,7 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 9. pagecounts-20141029-040001.gz
 10. pagecounts-20140908-010001.gz
 10. pagecounts-20140919-070001.gz
+11. pagecounts-20140929-180001.gz
 11. pagecounts-20140804-090001.gz
 12. pagecounts-20140808-180001.gz
 13. pagecounts-20140812-200001.gz
