@@ -1,6 +1,7 @@
 ## [Page view statistics](https://dumps.wikimedia.org/other/pagecounts-raw/)
 
 ### Downloading gzip files
+
 ~~~
 cd /Wikipedia/2016/2
 
@@ -33,11 +34,6 @@ chmod +x downloadWiki.sh
 ./downloadWiki.sh 2016 01 01
 
 
-# check daily gzip files under monthly folders
-
-ls -l 2016/2/*.gz | grep -v ^l | wc -l
-
-
 # download monthly gzip files
 
 vi monthlyWiki.sh
@@ -51,4 +47,13 @@ for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14",
 or 
 
 for i in {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"}; do where=`pwd`; $where/downloadWiki.sh 2016 02 $i; done
+
+
+# check monthly gzip file count under monthly folders
+
+ls -l 2016/2/*.gz | grep -v ^l | wc -l
+
+# check monthly gzip file size under monthly folders
+
+ls -Sl 2016/2/*.gz
 ~~~
