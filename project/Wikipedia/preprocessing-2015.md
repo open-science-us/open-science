@@ -17,7 +17,8 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 
 zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" pagecounts-20150106-120001.gz > All-20150106-12-1.txt
 
-diff All-20150106-12.txt All-20150106-12-1.txt 
+diff All-20150106-12.txt All-20150106-12-1.txt
+
 6c6
 < commons.m File:Bitcoin_exchange_BTC-e_log_scale.png 1 9747
 ---
@@ -112,9 +113,11 @@ diff All-20150106-12.txt All-20150106-12-1.txt
 ---
 > sl Bitcoin 16 375672
 ~~~
+
 2. pagecounts-20150226-200000.gz, size 4.0K
 3. pagecounts-20150401-010000.gz (missing)
 4. pagecounts-201505*.gz contain lines with very long (>= 1024) titles
+
 ~~~
 # filter out lines with long titles
 
@@ -131,6 +134,7 @@ awk '{ if (length($0) >= 1024) print }' All-201505.txt > All-201505-2.txt
 wc -l All-201505-2.txt
 13
 ~~~
+
 
 ### Using Spark
 
