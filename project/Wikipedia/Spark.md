@@ -1,6 +1,5 @@
-## Using Spark
+## Preprocessing with Spark
 
-### Preprocessing on a Mac laptop
 ~~~
 bin/spark-shell --master spark://localhost:7077 \
 --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
