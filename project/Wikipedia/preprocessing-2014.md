@@ -26,7 +26,10 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 11. pagecounts-20140804-090001.gz
 12. pagecounts-20140808-180001.gz
 13. pagecounts-20140812-200001.gz
+14. pagecounts-20140817-000001.gz
 14. pagecounts-20140817-050013.gz
+15. pagecounts-20140819-010002.gz
+16. pagecounts-20140821-030001.gz
 15. pagecounts-20140824-080001.gz
 16. pagecounts-20140825-100001.gz
 17. pagecounts-20140825-210001.gz
@@ -75,6 +78,7 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 60. pagecounts-20140625-120001.gz
 61. pagecounts-20140629-050001.gz
 62. pagecounts-20140502-090001.gz
+63. pagecounts-20140502-120001.gz
 63. pagecounts-20140506-070001.gz
 64. pagecounts-20140507-190001.gz
 65. pagecounts-20140511-010001.gz
@@ -89,6 +93,7 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 74. pagecounts-20140527-230001.gz
 75. pagecounts-20140528-110001.gz
 76. pagecounts-20140530-220001.gz
+77. pagecounts-20140403-140001.gz
 77. pagecounts-20140408-010001.gz
 78. pagecounts-20140410-120011.gz
 79. pagecounts-20140411-130001.gz
@@ -121,6 +126,7 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 106. pagecounts-20140324-000001.gz
 107. pagecounts-20140324-160001.gz
 108. pagecounts-20140325-210001.gz
+109. pagecounts-20140331-040001.gz
 109. pagecounts-20140201-100001.gz
 110. pagecounts-20140202-190001.gz
 111. pagecounts-20140204-030001.gz
@@ -130,6 +136,7 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 115. pagecounts-20140210-230002.gz
 116. pagecounts-20140212-090001.gz
 117. pagecounts-20140217-200001.gz
+118. pagecounts-20140218-110002.gz
 118. pagecounts-20140219-170001.gz
 119. pagecounts-20140222-070001.gz
 120. pagecounts-20140225-090002.gz
@@ -137,7 +144,54 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 122. pagecounts-20140228-170001.gz
 123. pagecounts-20140101-030001.gz
 124. pagecounts-20140101-040008.gz
-125. 
+125. pagecounts-20140101-050001.gz
+126. pagecounts-20140101-080008.gz
+127. pagecounts-20140101-100008.gz
+128. pagecounts-20140101-110011.gz
+129. pagecounts-20140101-140002.gz
+130. pagecounts-20140101-180004.gz
+131. pagecounts-20140101-190013.gz
+132. pagecounts-20140101-200001.gz
+133. pagecounts-20140101-210012.gz
+134. pagecounts-20140101-220012.gz
+135. pagecounts-20140102-020011.gz
+136. pagecounts-20140102-040003.gz
+137. pagecounts-20140102-050011.gz
+138. pagecounts-20140102-060008.gz
+139. pagecounts-20140102-070005.gz
+140. pagecounts-20140102-100001.gz
+141. pagecounts-20140102-130015.gz
+142. pagecounts-20140102-140004.gz
+143. pagecounts-20140102-150001.gz
+144. pagecounts-20140102-160014.gz
+145. pagecounts-20140102-170015.gz
+146. pagecounts-20140102-210014.gz
+147. pagecounts-20140102-230013.gz
+148. pagecounts-20140103-050001.gz
+149. pagecounts-20140103-100001.gz
+150. pagecounts-20140103-140001.gz
+151. pagecounts-20140103-190001.gz
+152. pagecounts-20140103-200013.gz
+153. pagecounts-20140103-220006.gz
+154. pagecounts-20140104-000014.gz
+155. pagecounts-20140104-030001.gz
+156. pagecounts-20140104-080001.gz
+157. pagecounts-20140104-090005.gz
+158. pagecounts-20140104-120001.gz
+159. pagecounts-20140104-160013.gz
+160. pagecounts-20140104-170006.gz
+161. pagecounts-20140104-180006.gz
+162. pagecounts-20140104-210004.gz
+163. pagecounts-20140104-230001.gz
+164. pagecounts-20140105-040001.gz
+165. pagecounts-20140112-020001.gz
+166. pagecounts-20140114-180001.gz
+167. pagecounts-20140118-080001.gz
+168. pagecounts-20140120-020001.gz
+169. pagecounts-20140123-020001.gz
+170. pagecounts-20140127-020003.gz
+171. pagecounts-20140128-220002.gz
+172. 
 
 ### Using Spark
 
