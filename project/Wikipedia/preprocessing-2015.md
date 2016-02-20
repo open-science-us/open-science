@@ -1,4 +1,37 @@
-## Preprocessing with Spark
+## Preprocessing
+
+
+### Filtering in lines with Bitcoin-related titles
+
+~~~
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 1/*.gz > All-201501.txt
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 2/*.gz > All-201502.txt
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" 3/*.gz > All-201503.txt
+~~~
+
+### Raw data issues
+
+1. pagecounts-20150226-200000.gz, size 4.0K
+2. pagecounts-20150401-010000.gz (missing)
+3. pagecounts-201505*.gz contain lines with very long (>= 1024) titles
+~~~
+# filter out lines with long titles
+
+wc -l All-201505.txt
+54732
+
+awk '{ if (length($0) < 1024) print }' All-201505.txt > All-201505-1.txt
+
+wc -l  All-201505-1.txt
+54719
+
+awk '{ if (length($0) >= 1024) print }' All-201505.txt > All-201505-2.txt
+
+wc -l All-201505-2.txt
+13
+~~~
+
+### Using Spark
 
 ~~~
 bin/spark-shell --master spark://localhost:7077 \
