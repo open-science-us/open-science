@@ -218,7 +218,7 @@ pvTupleRDD.take(10).foreach(println)
 (en,BitPay,7,87807,20150101)
 (en,Bitcoin,188,20961624,20150101)
 
-pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(30).foreach(println)
+pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(50).foreach(println)
 
 (Bitcoin,5906673)                                                               
 (Cryptocurrency,309760)
@@ -1068,6 +1068,44 @@ dailyCctRDD.take(10).foreach(println)
 2015-06-21,19
 
 dailyCctRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency_tumbler-2015-daily.csv")
+
+
+val legalStatusRDD = pvTupleRDD.filter(t => t._2 == "Legal_status_of_Bitcoin")
+
+legalStatusRDD.take(10).foreach(println)
+
+(en,Legal_status_of_Bitcoin,1,44490,20150101)
+(en,Legal_status_of_Bitcoin,1,44481,20150101)
+(en,Legal_status_of_Bitcoin,3,134149,20150101)
+(en,Legal_status_of_Bitcoin,1,44481,20150102)
+(en,Legal_status_of_Bitcoin,1,216259,20150102)
+(en,Legal_status_of_Bitcoin,1,44484,20150102)
+(en,Legal_status_of_Bitcoin,1,44484,20150102)
+(en,Legal_status_of_Bitcoin,1,44481,20150103)
+(en,Legal_status_of_Bitcoin,2,88962,20150103)
+(en,Legal_status_of_Bitcoin,1,44480,20150104)
+
+legalStatusRDD.map(t => t._3).collect().sum
+res78: Int = 2825                                                              
+
+val dailyLegalStatusRDD = legalStatusRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyLegalStatusRDD.take(10).foreach(println)
+
+(2015-02-05,4)                                                                  
+(2015-01-07,3)
+(2015-12-16,5)
+(2015-06-15,2)
+(2015-11-28,2)
+(2015-04-13,4)
+(2015-02-11,3)
+(2015-03-17,11)
+(2015-03-21,6)
+(2015-01-30,5)
+
+dailyLegalStatusRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2015-daily.csv")
 ~~~
 
 
