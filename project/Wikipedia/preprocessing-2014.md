@@ -884,20 +884,41 @@ dailyBlockchainInfoRDD.take(10).foreach(println)
 dailyBlockchainInfoRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2014-daily.csv")
 
 
+val legalStatusRDD = pvTupleRDD.filter(t => t._2 == "Legal_status_of_Bitcoin")
 
+legalStatusRDD.take(10).foreach(println)
 
+(en,Legal_status_of_Bitcoin,20,596598,20140101)
+(en,Legal_status_of_Bitcoin,11,331792,20140101)
+(en,Legal_status_of_Bitcoin,3,137435,20140101)
+(en,Legal_status_of_Bitcoin,3,72171,20140101)
+(en,Legal_status_of_Bitcoin,5,121300,20140101)
+(en,Legal_status_of_Bitcoin,8,193484,20140101)
+(en,Legal_status_of_Bitcoin,12,290806,20140101)
+(en,Legal_status_of_Bitcoin,3,72183,20140101)
+(en,Legal_status_of_Bitcoin,5,210623,20140101)
+(en,Legal_status_of_Bitcoin,1,24058,20140102)
 
+legalStatusRDD.map(t => t._3).collect().sum
+res78: Int = 18203                                                              
 
+val dailyLegalStatusRDD = legalStatusRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
 
+dailyLegalStatusRDD.take(10).foreach(println)
 
+(2014-09-23,2)                                                                  
+(2014-03-23,28)
+(2014-01-23,191)
+(2014-05-17,12)
+(2014-10-31,6)
+(2014-01-05,11)
+(2014-12-29,7)
+(2014-02-22,129)
+(2014-02-17,204)
+(2014-06-16,24)
 
-
-
-
-
-
-
-
-
+dailyLegalStatusRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2014-daily.csv")
 ~~~
 
