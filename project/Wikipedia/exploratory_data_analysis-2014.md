@@ -388,7 +388,7 @@
 2014-01-05      2
 2014-01-06     10
 
-> plot(x=Blockchain, ylab = "Volume", main = "Block_chain")
+> plot(x=log(Blockchain), ylab = "log(Volume)", main = "Block_chain")
 ~~~
 ![Blockchain_2014](images/Blockchain_2014.png)
 
