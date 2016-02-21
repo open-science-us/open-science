@@ -68,3 +68,4 @@
 ~~~
 ![History_of_Bitcoin_2014](images/History_of_Bitcoin_2014.png)
 
+
