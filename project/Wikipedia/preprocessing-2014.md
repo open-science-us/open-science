@@ -280,7 +280,7 @@ pvTupleRDD.take(10).foreach(println)
 (commons.m,File:Electrum_Bitcoin_Wallet.png,1,10418,20140101)
 (commons.m,File:Screenshot_of_Bitcoin-qt.png,3,28296,20140101)
 
-pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(30).foreach(println)
+pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(50).foreach(println)
 
 (Bitcoin,9481480)                                                               
 (Cryptocurrency,539869)
@@ -312,6 +312,26 @@ pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).t
 (Legal_status_of_Bitcoin,18203)
 (File:Bitcoin_Transaction_Visual.png,17972)
 (File:Bitcoin_winkdex.png,14257)
+(File:Bitcoin_screenshot.png,13681)
+(File:Bitcoin_screenshot_windows7.png,12995)
+(File:Bitcoin_Transaction_Visual.svg,12649)
+(Block_chain,12530)
+(Block_chain_(transaction_database),11988)
+(Category:Cryptocurrency,11943)
+(Bitcoinp,11636)
+(File:Bitcoin_exchange_mtgox_-_Feb2012-Feb2014_-_log_scale.png,11256)
+(Category:Bitcoin_exchanges,10320)
+(File:BitcoinSign.svg,9011)
+(File:Bitcoin.png,8650)
+(LocalBitcoins,7950)
+(Protocol_of_Bitcoin,7801)
+(%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:Bitcoin_screenshot_windows7.png,7483)
+(en:Bitcoin,6811)
+(File:Screenshot_of_Bitcoin-qt.png,6713)
+(File:Bitcoin.svg,6173)
+(File:Butterfly_Labs_60GH_Bitcoin_Miner_Single_SC.jpg,5728)
+(%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:De_Waag_Bitcoin.jpg,5566)
+(File:Bitcoinpaymentverification.png,5454)
 
 
 val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
@@ -920,5 +940,80 @@ dailyLegalStatusRDD.take(10).foreach(println)
 (2014-06-16,24)
 
 dailyLegalStatusRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2014-daily.csv")
-~~~
 
+
+val bcRDD = pvTupleRDD.filter(t => t._2 == "Block_chain")
+
+bcRDD.take(10).foreach(println)
+
+(en,Block_chain,4,33249,20140101)
+(en,Block_chain,4,33200,20140101)
+(en,Block_chain,2,8300,20140101)
+(en,Block_chain,1,25719,20140101)
+(en,Block_chain,1,8313,20140101)
+(en,Block_chain,1,8313,20140101)
+(en,Block_chain,2,16626,20140101)
+(en,Block_chain,1,8313,20140101)
+(en,Block_chain,2,17614,20140101)
+(en,Block_chain,2,34043,20140102)
+
+bcRDD.map(t => t._3).collect().sum
+res22: Int = 12530
+
+val dailyBcRDD = bcRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyBcRDD.take(10).foreach(println)
+
+(2014-03-23,44)                                                                 
+(2014-10-31,31)
+(2014-01-05,2)
+(2014-10-15,38)
+(2014-12-29,21)
+(2014-07-20,25)
+(2014-02-17,56)
+(2014-03-30,50)
+(2014-06-18,34)
+(2014-04-24,73)
+
+dailyBcRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2014-daily.csv")
+
+
+val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)" || t._2 == "Block_chain_(database)")
+
+bcdRDD.take(10).foreach(println)
+
+(en,Block_chain_(transaction_database),4,29615,20140728)
+(en,Block_chain_(transaction_database),1,7405,20140731)
+(en,Block_chain_(transaction_database),4,29701,20140808)
+(en,Block_chain_(transaction_database),7,53031,20140812)
+(en,Block_chain_(transaction_database),1,7422,20140817)
+(en,Block_chain_(transaction_database),3,22267,20140819)
+(en,Block_chain_(transaction_database),2,14849,20140821)
+(en,Block_chain_(transaction_database),1,7423,20140824)
+(en,Block_chain_(transaction_database),1,7428,20140825)
+(en,Block_chain_(transaction_database),3,22336,20140826)
+
+bcdRDD.map(t => t._3).collect().sum
+res22: Int = 11988
+
+val dailyBcdRDD = bcdRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyBcdRDD.take(10).foreach(println)
+
+(2014-09-23,45)                                                                 
+(2014-11-27,73)
+(2014-09-16,35)
+(2014-10-27,192)
+(2014-12-14,74)
+(2014-10-31,120)
+(2014-08-03,15)
+(2014-10-15,122)
+(2014-12-07,125)
+(2014-07-20,16)
+
+dailyBcdRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2014-daily.csv")
+~~~
