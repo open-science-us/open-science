@@ -161,3 +161,25 @@
 ~~~
 ![Coinbase_2014](images/Coinbase_2014.png)
 
+
+> Legality_of_Bitcoin_by_country <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2014-daily.csv", sep=",", header=T))
+
+> dim(Legality_of_Bitcoin_by_country)
+[1] 308   1
+
+> colnames(Legality_of_Bitcoin_by_country) <- c("Volume")
+
+> head(Legality_of_Bitcoin_by_country)
+
+           Volume
+2014-02-26      9
+2014-02-27     54
+2014-02-28    332
+2014-03-01    214
+2014-03-02    212
+2014-03-03    779
+
+> plot(x=log(Legality_of_Bitcoin_by_country), ylab = "log(Volume)", main = "Legality_of_Bitcoin_by_country")
+~~~
+![Legality_of_Bitcoin_by_country_2014](images/Legality_of_Bitcoin_by_country_2014.png)
+
