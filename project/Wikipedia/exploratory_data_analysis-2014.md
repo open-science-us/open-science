@@ -300,3 +300,27 @@
 ~~~
 ![Bitcoin_Foundation_2014](images/Bitcoin_Foundation_2014.png)
 
+
+~~~
+> BitPay <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/BitPay-2014-daily.csv", sep=",", header=T))
+
+> dim(BitPay)
+[1] 357  1
+
+> colnames(BitPay) <- c("Volume")
+
+> head(BitPay)
+
+           Volume
+2014-01-02      3
+2014-01-03      3
+2014-01-06      1
+2014-01-07      2
+2014-01-09      2
+2014-01-12      1
+
+> plot(x=log(BitPay), ylab = "log(Volume)", main = "BitPay")
+~~~
+![BitPay_2014](images/BitPay_2014.png)
+
+
