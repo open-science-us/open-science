@@ -277,3 +277,26 @@
 ~~~
 ![Bitstamp_2014](images/Bitstamp_2014.png)
 
+
+~~~
+> Bitcoin_Foundation <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_Foundation-2014-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_Foundation)
+[1] 364   1
+
+> colnames(Bitcoin_Foundation) <- c("Volume")
+
+> head(Bitcoin_Foundation)
+
+           Volume
+2014-01-01     81
+2014-01-02    112
+2014-01-03    109
+2014-01-04     85
+2014-01-05     15
+2014-01-06     51
+
+> plot(x=log(Bitcoin_Foundation), ylab = "log(Volume)", main = "Bitcoin_Foundation")
+~~~
+![Bitcoin_Foundation_2014](images/Bitcoin_Foundation_2014.png)
+
