@@ -508,19 +508,19 @@ val bitcoinNetworkRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_network")
 
 bitcoinNetworkRDD.take(10).foreach(println)
 
-(en,Bitcoin_network,1,7003,20140114)
-(en,Bitcoin_network,50,1576517,20140302)
-(en,Bitcoin_network,8,211091,20140302)
-(en,Bitcoin_network,3,60412,20140302)
-(en,Bitcoin_network,1,20469,20140303)
-(en,Bitcoin_network,2,20483,20140303)
-(en,Bitcoin_network,2,42147,20140303)
-(en,Bitcoin_network,30,1132072,20140303)
-(en,Bitcoin_network,7,134155,20140303)
-(en,Bitcoin_network,4,76660,20140303)
+(en,Bitcoin_network,9,168680,20140303)
+(en,Bitcoin_network,4,58020,20140306)
+(en,Bitcoin_network,21,451119,20140306)
+(en,Bitcoin_network,7,115301,20140308)
+(en,Bitcoin_network,5,129585,20140310)
+(en,Bitcoin_network,15,263095,20140311)
+(en,Bitcoin_network,6,76296,20140313)
+(en,Bitcoin_network,5,95481,20140314)
+(en,Bitcoin_network,15,393057,20140314)
+(en,Bitcoin_network,33,573074,20140317)
 
 bitcoinNetworkRDD.map(t => t._3).collect().sum
-res33: Int = 67281 
+res33: Int = 68410 
 
 val dailyBitcoinNetworkRDD = bitcoinNetworkRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -529,15 +529,15 @@ val dailyBitcoinNetworkRDD = bitcoinNetworkRDD.map(t => (t._5, t._3)).reduceByKe
 dailyBitcoinNetworkRDD.take(10).foreach(println)
 
 (2014-09-23,325)                                                                
-(2014-03-23,367)
-(2014-05-17,153)
+(2014-03-23,399)
+(2014-05-17,156)
 (2014-10-31,137)
 (2014-10-15,178)
 (2014-12-29,173)
-(2014-06-25,169)
+(2014-06-25,181)
+(2014-07-20,121)
 (2014-06-16,582)
 (2014-03-30,337)
-(2014-06-18,371)
 
 dailyBitcoinNetworkRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2014-daily.csv")
 ~~~
