@@ -213,19 +213,19 @@
 > Legality_of_Bitcoin_by_country <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2015-daily.csv", sep=",", header=T))
 
 > dim(Legality_of_Bitcoin_by_country)
-[1] 363   1
+[1] 364   1
 
 > colnames(Legality_of_Bitcoin_by_country) <- c("Volume")
 
 > head(Legality_of_Bitcoin_by_country)
 
            Volume
-2015-01-01    150
-2015-01-02    264
-2015-01-03    221
-2015-01-04    234
-2015-01-05    368
-2015-01-06    342
+2015-01-01    160
+2015-01-02    269
+2015-01-03    227
+2015-01-04    238
+2015-01-05    377
+2015-01-06    353
 
 > plot(x=log(Legality_of_Bitcoin_by_country), ylab = "log(Volume)", main = "Legality_of_Bitcoin_by_country")
 ~~~
