@@ -11,6 +11,8 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 
 ### Raw data issues
 
+Gzip file names do not end with "0000.gz".
+
 1. pagecounts-20141212-140001.gz
 2. pagecounts-20141225-190001.gz
 3. pagecounts-20141225-195959.gz
@@ -194,7 +196,7 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 171. pagecounts-20140128-220002.gz
 
 ~~~
-grep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" pagecounts-2014*.gz > All-2014-missing.txt &
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" pagecounts-2014*.gz > All-2014-missing.txt &
 ~~~
 
 ### Using Spark
@@ -231,27 +233,27 @@ grepRDD.take(10).foreach(println)
 1/pagecounts-20140101-000000.gz:commons.m File:Screenshot_of_Bitcoin-qt.png 4 37726
 
 grepRDD.count
-res3: Long = 719837                                                             
+res3: Long = 736262                                                             
 
 val goodRDD = grepRDD.filter(line => line.split(" ").size == 4)
 
 goodRDD.count
-res4: Long = 718543
+res4: Long = 734968
 
 val pvRDD = goodRDD.map(line => line.split(".gz:")(1))
 
 pvRDD.take(10).foreach(println)
 
-commons.m Category:Bitcoin 2 26423
 commons.m Category:Cryptocurrency 1 5885
-commons.m Category:Cryptocurrencym 1 5885
-commons.m File:Bitcoin-client-0.7.1.png 1 10412
-commons.m File:Bitcoin.svg 1 9260
-commons.m File:Bitcoin_exchange.png 8 136213
-commons.m File:Bitcoin_logo.svg 1 10277
-commons.m File:Bitcoin_screenshot_windows7.png 1 10414
-commons.m File:De_Waag_Bitcoin.jpg 1 9713
-commons.m File:Screenshot_of_Bitcoin-qt.png 4 37726
+commons.m Category:Cryptocurrencyn 1 5885
+commons.m File:Bitcoin-0.6.0.png 1 8615
+commons.m File:Bitcoin.png 3 94290
+commons.m File:Bitcoin_Transaction_Visual.png 1 10791
+commons.m File:Bitcoin_exchange.png 6 73461
+commons.m File:Bitcoin_logo.svg 1 10270
+commons.m File:Bitcoin_screenshot_windows7.png 1 10413
+commons.m File:Electrum_Bitcoin_Wallet.png 1 10418
+commons.m File:Screenshot_of_Bitcoin-qt.png 3 28296
 
 
 val pvTupleRDD = goodRDD.map{ line => 
@@ -267,68 +269,68 @@ val pvTupleRDD = goodRDD.map{ line =>
 
 pvTupleRDD.take(10).foreach(println)
 
-(commons.m,Category:Bitcoin,2,26423,20140101)
 (commons.m,Category:Cryptocurrency,1,5885,20140101)
-(commons.m,Category:Cryptocurrencym,1,5885,20140101)
-(commons.m,File:Bitcoin-client-0.7.1.png,1,10412,20140101)
-(commons.m,File:Bitcoin.svg,1,9260,20140101)
-(commons.m,File:Bitcoin_exchange.png,8,136213,20140101)
-(commons.m,File:Bitcoin_logo.svg,1,10277,20140101)
-(commons.m,File:Bitcoin_screenshot_windows7.png,1,10414,20140101)
-(commons.m,File:De_Waag_Bitcoin.jpg,1,9713,20140101)
-(commons.m,File:Screenshot_of_Bitcoin-qt.png,4,37726,20140101)
+(commons.m,Category:Cryptocurrencyn,1,5885,20140101)
+(commons.m,File:Bitcoin-0.6.0.png,1,8615,20140101)
+(commons.m,File:Bitcoin.png,3,94290,20140101)
+(commons.m,File:Bitcoin_Transaction_Visual.png,1,10791,20140101)
+(commons.m,File:Bitcoin_exchange.png,6,73461,20140101)
+(commons.m,File:Bitcoin_logo.svg,1,10270,20140101)
+(commons.m,File:Bitcoin_screenshot_windows7.png,1,10413,20140101)
+(commons.m,File:Electrum_Bitcoin_Wallet.png,1,10418,20140101)
+(commons.m,File:Screenshot_of_Bitcoin-qt.png,3,28296,20140101)
 
 pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(30).foreach(println)
 
-(Bitcoin,9229277)                                                               
-(Cryptocurrency,525946)
-(History_of_Bitcoin,199944)
-(Digital_currency,131844)
-(Bitcoin_protocol,110453)
-(Bitcoin_network,67281)
-(Coinbase,52644)
-(Legality_of_Bitcoins_by_country,50524)
-(Bitcoin_mining,39298)
-(File:De_Waag_Bitcoin.jpg,39109)
-(Bitcoins,38090)
-(Bitcoin_ATM,37198)
-(Legality_of_Bitcoin_by_country,35935)
-(Digital_currency_exchanger,35773)
-(File:Bitcoin-coins.jpg,34145)
-(File:Bitcoin_October_2013.png,32600)
-(Bitstamp,32060)
-(File:Bitcoin_exchange.png,29530)
-(Bitcoin_Foundation,26248)
-(File:Bitcoin_logo.svg,25468)
-(BitPay,22623)
-(Blockchain.info,22038)
-(Talk:Bitcoin,21287)
-(File:Bitcoin_paper_wallet_generated_at_bitaddress.jpg,20211)
-(Category:Bitcoin,19661)
-(File:Electrum_Bitcoin_Wallet.png,19478)
-(File:BitstampUSD_weekly.png,17995)
-(Legal_status_of_Bitcoin,17664)
-(File:Bitcoin_Transaction_Visual.png,16965)
-(File:Bitcoin_winkdex.png,13852)
+(Bitcoin,9481480)                                                               
+(Cryptocurrency,539869)
+(History_of_Bitcoin,204831)
+(Digital_currency,135307)
+(Bitcoin_protocol,114584)
+(Bitcoin_network,68410)
+(Coinbase,53817)
+(Legality_of_Bitcoins_by_country,51679)
+(Bitcoin_mining,40617)
+(File:De_Waag_Bitcoin.jpg,40538)
+(Bitcoins,39107)
+(Bitcoin_ATM,37778)
+(Digital_currency_exchanger,36707)
+(Legality_of_Bitcoin_by_country,36197)
+(File:Bitcoin-coins.jpg,35267)
+(File:Bitcoin_October_2013.png,33578)
+(Bitstamp,33111)
+(File:Bitcoin_exchange.png,30653)
+(Bitcoin_Foundation,26914)
+(File:Bitcoin_logo.svg,26216)
+(BitPay,22887)
+(Blockchain.info,22351)
+(Talk:Bitcoin,21895)
+(File:Bitcoin_paper_wallet_generated_at_bitaddress.jpg,20986)
+(File:Electrum_Bitcoin_Wallet.png,20196)
+(Category:Bitcoin,20162)
+(File:BitstampUSD_weekly.png,18491)
+(Legal_status_of_Bitcoin,18203)
+(File:Bitcoin_Transaction_Visual.png,17972)
+(File:Bitcoin_winkdex.png,14257)
 
 
 val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
 
 bitcoinRDD.take(10).foreach(println)
 
-(cs,Bitcoin,6,160908,20140101)
-(da,Bitcoin,3,23560,20140101)
-(de,Bitcoin,21,1933805,20140101)
-(el,Bitcoin,3,69842,20140101)
-(en,Bitcoin,1038,64958400,20140101)
-(es,Bitcoin,90,3033703,20140101)
-(et,Bitcoin,2,28882,20140101)
-(fi,Bitcoin,9,255834,20140101)
-(fr,Bitcoin,38,1598390,20140101)
-(hy,Bitcoin,1,20403,20140101)
+(cs,Bitcoin,4,80454,20140101)
+(da,Bitcoin,2,23560,20140101)
+(de,Bitcoin,36,2602878,20140101)
+(el,Bitcoin,2,0,20140101)
+(en,Bitcoin,898,54800696,20140101)
+(es,Bitcoin,47,1550497,20140101)
+(et,Bitcoin,1,14441,20140101)
+(fi,Bitcoin,4,113688,20140101)
+(fr,Bitcoin,20,622835,20140101)
+(hr,Bitcoin,1,0,20140101)
 
 bitcoinRDD.map(t => t._3).collect().sum
-res22: Int = 9229277
+res22: Int = 9481480
 
 val dailyBitcoinRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -336,16 +338,16 @@ val dailyBitcoinRDD = bitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coal
 
 dailyBitcoinRDD.take(10).foreach(println)
 
-(2014-03-23,24083)                                                              
+(2014-03-23,26328)                                                              
 (2014-10-31,10410)
-(2014-01-05,6279)
-(2014-10-15,16448)
+(2014-01-05,7177)
 (2014-12-29,14758)
-(2014-07-20,10852)
-(2014-02-17,42804)
-(2014-03-30,21796)
+(2014-07-20,11714)
+(2014-02-17,44765)
+(2014-10-15,16448)
 (2014-06-18,21536)
 (2014-04-24,19196)
+(2014-03-30,21796)
 
 dailyBitcoinRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin-2014-daily.csv")
 
@@ -354,19 +356,19 @@ val cryptocurrencyRDD = pvTupleRDD.filter(t => t._2 == "Cryptocurrency")
 
 cryptocurrencyRDD.take(10).foreach(println)
 
-(en,Cryptocurrency,60,1055286,20140101)
-(en,Cryptocurrency,76,1368081,20140101)
-(en,Cryptocurrency,59,1034192,20140101)
-(en,Cryptocurrency,63,1199954,20140101)
-(en,Cryptocurrency,37,712061,20140101)
-(en,Cryptocurrency,43,748242,20140101)
-(en,Cryptocurrency,45,808301,20140101)
-(en,Cryptocurrency,42,807432,20140101)
-(id,Cryptocurrency,1,5937,20140101)
-(nl,Cryptocurrency,3,42729,20140101)
+(en,Cryptocurrency,59,907602,20140101)
+(en,Cryptocurrency,39,821175,20140101)
+(en,Cryptocurrency,66,1200845,20140101)
+(en,Cryptocurrency,69,1107968,20140101)
+(en,Cryptocurrency,58,1197453,20140101)
+(en,Cryptocurrency,37,754296,20140101)
+(en,Cryptocurrency,57,1145927,20140101)
+(en,Cryptocurrency,82,1447924,20140101)
+(id,Cryptocurrency,1,5941,20140101)
+(en,Cryptocurrency,69,1245881,20140101)
 
 cryptocurrencyRDD.map(t => t._3).collect().sum
-res22: Int = 525946
+res22: Int = 539869
 
 val dailyCryptocurrencyRDD = cryptocurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -374,16 +376,16 @@ val dailyCryptocurrencyRDD = cryptocurrencyRDD.map(t => (t._5, t._3)).reduceByKe
 
 dailyCryptocurrencyRDD.take(10).foreach(println)
 
-(2014-03-23,1598)                                                               
+(2014-03-23,1750)                                                               
 (2014-10-31,717)
-(2014-01-05,389)
-(2014-10-15,980)
+(2014-01-05,449)
 (2014-12-29,774)
-(2014-07-20,674)
-(2014-02-17,3614)
-(2014-03-30,1650)
+(2014-07-20,728)
+(2014-02-17,3786)
+(2014-10-15,980)
 (2014-06-18,1397)
 (2014-04-24,1350)
+(2014-03-30,1650)
 
 dailyCryptocurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2014-daily.csv")
 
@@ -392,19 +394,19 @@ val historyOfBitcoinRDD = pvTupleRDD.filter(t => t._2 == "History_of_Bitcoin")
 
 historyOfBitcoinRDD.take(10).foreach(println)
 
-(en,History_of_Bitcoin,22,909595,20140101)
-(en,History_of_Bitcoin,23,1713781,20140101)
-(en,History_of_Bitcoin,11,501388,20140101)
-(en,History_of_Bitcoin,8,319449,20140101)
-(en,History_of_Bitcoin,16,894912,20140101)
-(en,History_of_Bitcoin,12,667385,20140101)
-(en,History_of_Bitcoin,18,486368,20140101)
-(en,History_of_Bitcoin,21,500561,20140101)
-(en,History_of_Bitcoin,18,638902,20140101)
-(en,History_of_Bitcoin,23,1046681,20140101)
+(en,History_of_Bitcoin,9,363969,20140101)
+(en,History_of_Bitcoin,13,1046574,20140101)
+(en,History_of_Bitcoin,10,455943,20140101)
+(en,History_of_Bitcoin,36,941362,20140101)
+(en,History_of_Bitcoin,9,409535,20140101)
+(en,History_of_Bitcoin,30,803911,20140101)
+(en,History_of_Bitcoin,24,866492,20140101)
+(en,History_of_Bitcoin,37,1676081,20140101)
+(en,History_of_Bitcoin,25,1141613,20140101)
+(fa,History_of_Bitcoin,1,7212,20140101)
 
 historyOfBitcoinRDD.map(t => t._3).collect().sum
-res22: Int = 199944
+res22: Int = 204831
 
 val dailyHistoryOfBitcoinRDD = historyOfBitcoinRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -412,13 +414,13 @@ val dailyHistoryOfBitcoinRDD = historyOfBitcoinRDD.map(t => (t._5, t._3)).reduce
 
 dailyHistoryOfBitcoinRDD.take(10).foreach(println)
 
-(2014-03-23,531)                                                                
+(2014-03-23,573)                                                                
 (2014-10-31,290)
-(2014-01-05,91)
 (2014-10-15,457)
+(2014-01-05,105)
 (2014-12-29,389)
-(2014-07-20,277)
-(2014-02-17,933)
+(2014-07-20,305)
+(2014-02-17,983)
 (2014-03-30,558)
 (2014-06-18,426)
 (2014-04-24,587)
@@ -430,19 +432,19 @@ val digitalcurrencyRDD = pvTupleRDD.filter(t => t._2 == "Digital_currency")
 
 digitalcurrencyRDD.take(10).foreach(println)
 
-(en,Digital_currency,10,172857,20140101)
-(en,Digital_currency,19,260881,20140101)
-(en,Digital_currency,12,304186,20140101)
-(en,Digital_currency,24,389856,20140101)
-(en,Digital_currency,15,289962,20140101)
-(en,Digital_currency,20,418155,20140101)
-(en,Digital_currency,21,331947,20140101)
-(en,Digital_currency,19,375086,20140101)
-(en,Digital_currency,33,693305,20140101)
-(en,Digital_currency,32,534693,20140101)
+(en,Digital_currency,11,187209,20140101)
+(en,Digital_currency,14,201626,20140101)
+(en,Digital_currency,15,347532,20140101)
+(en,Digital_currency,34,423326,20140101)
+(en,Digital_currency,15,335570,20140101)
+(en,Digital_currency,15,245280,20140101)
+(en,Digital_currency,28,911389,20140101)
+(en,Digital_currency,23,331765,20140101)
+(en,Digital_currency,22,389451,20140101)
+(en,Digital_currency,29,463151,20140101)
 
 digitalcurrencyRDD.map(t => t._3).collect().sum
-res22: Int = 131844
+res22: Int = 135307
 
 val dailyDigitalcurrencyRDD = digitalcurrencyRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -450,13 +452,13 @@ val dailyDigitalcurrencyRDD = digitalcurrencyRDD.map(t => (t._5, t._3)).reduceBy
 
 dailyDigitalcurrencyRDD.take(10).foreach(println)
 
-(2014-03-23,335)                                                                
+(2014-03-23,369)                                                                
 (2014-10-31,177)
-(2014-01-05,91)
 (2014-10-15,373)
+(2014-01-05,107)
 (2014-12-29,266)
-(2014-07-20,173)
-(2014-02-17,621)
+(2014-07-20,181)
+(2014-02-17,647)
 (2014-03-30,326)
 (2014-06-18,279)
 (2014-04-24,316)
@@ -468,19 +470,19 @@ val protocolRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_protocol")
 
 protocolRDD.take(10).foreach(println)
 
-(en,Bitcoin_protocol,20,357450,20140101)
-(en,Bitcoin_protocol,50,895428,20140101)
-(en,Bitcoin_protocol,27,496462,20140101)
-(en,Bitcoin_protocol,25,378199,20140101)
-(en,Bitcoin_protocol,25,476558,20140101)
-(en,Bitcoin_protocol,18,319628,20140101)
-(en,Bitcoin_protocol,65,1211566,20140101)
-(en,Bitcoin_protocol,28,495414,20140101)
-(en,Bitcoin_protocol,37,755501,20140101)
-(en,Bitcoin_protocol,36,637343,20140101)
+(en,Bitcoin_protocol,32,517261,20140101)
+(en,Bitcoin_protocol,25,456201,20140101)
+(en,Bitcoin_protocol,23,398061,20140101)
+(en,Bitcoin_protocol,38,459569,20140101)
+(en,Bitcoin_protocol,20,436344,20140101)
+(en,Bitcoin_protocol,31,633401,20140101)
+(en,Bitcoin_protocol,28,575826,20140101)
+(en,Bitcoin_protocol,41,1032503,20140101)
+(en,Bitcoin_protocol,30,538016,20140101)
+(en,Bitcoin_protocol,30,556414,20140101)
 
 protocolRDD.map(t => t._3).collect().sum
-res25: Int = 110453   
+res25: Int = 114584   
 
 val dailyProtocolRDD = protocolRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -488,16 +490,16 @@ val dailyProtocolRDD = protocolRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).co
 
 dailyProtocolRDD.take(10).foreach(println)
 
-(2014-03-23,109)                                                                
+(2014-03-23,118)                                                                
 (2014-10-31,43)
-(2014-01-05,219)
-(2014-10-15,100)
+(2014-01-05,259)
 (2014-12-29,50)
-(2014-07-20,58)
-(2014-02-17,1128)
-(2014-03-30,101)
+(2014-07-20,63)
+(2014-02-17,1180)
+(2014-10-15,100)
 (2014-06-18,83)
 (2014-04-24,76)
+(2014-03-30,101)
 
 dailyProtocolRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2014-daily.csv")
 
