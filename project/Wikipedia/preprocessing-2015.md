@@ -348,23 +348,62 @@ dailyCryptocurrencyRDD.take(10).foreach(println)
 dailyCryptocurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2015-daily.csv")
 
 
-val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(database)")
+val bcRDD = pvTupleRDD.filter(t => t._2 == "Block_chain")
+
+bcRDD.take(10).foreach(println)
+
+(en,Block_chain,2,16010,20150101)
+(en,Block_chain,1,8005,20150101)
+(en,Block_chain,1,7995,20150101)
+(en,Block_chain,1,7995,20150101)
+(en,Block_chain,1,7995,20150101)
+(en,Block_chain,1,7995,20150101)
+(en,Block_chain,1,7995,20150101)
+(en,Block_chain,2,7995,20150101)
+(en,Block_chain,1,7995,20150101)
+(en,Block_chain,1,7995,20150101)
+
+bcRDD.map(t => t._3).collect().sum
+res22: Int = 84307
+
+val dailyBcRDD = bcRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyBcRDD.take(10).foreach(println)
+
+(2015-01-07,37)                                                                 
+(2015-02-05,31)
+(2015-09-24,377)
+(2015-11-27,350)
+(2015-03-17,36)
+(2015-01-30,23)
+(2015-09-23,526)
+(2015-06-10,23)
+(2015-12-02,296)
+(2015-06-19,14)
+
+dailyBcRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv")
+
+
+// val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(database)")
+val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)" || t._2 == "Block_chain_(database)")
 
 bcdRDD.take(10).foreach(println)
 
-(en,Block_chain_(database),10,179444,20150530)                                  
-(en,Block_chain_(database),2,56502,20150530)
-(en,Block_chain_(database),1,0,20150530)
-(en,Block_chain_(database),1,11072,20150530)
-(en,Block_chain_(database),1,11072,20150530)
-(en,Block_chain_(database),2,22144,20150530)
-(en,Block_chain_(database),1,11072,20150530)
-(en,Block_chain_(database),3,34957,20150530)
-(en,Block_chain_(database),3,34180,20150530)
-(en,Block_chain_(database),1,11080,20150531)
+(en,Block_chain_(transaction_database),2,220492,20150101)
+(en,Block_chain_(transaction_database),2,219808,20150101)
+(en,Block_chain_(transaction_database),5,548254,20150101)
+(en,Block_chain_(transaction_database),1,109921,20150101)
+(en,Block_chain_(transaction_database),1,109909,20150101)
+(en,Block_chain_(transaction_database),2,219302,20150101)
+(en,Block_chain_(transaction_database),3,328967,20150101)
+(en,Block_chain_(transaction_database),4,438632,20150101)
+(en,Block_chain_(transaction_database),5,549384,20150101)
+(en,Block_chain_(transaction_database),1,109658,20150101)
 
 bcdRDD.map(t => t._3).collect().sum
-res22: Int = 256258
+res22: Int = 294674
 
 val dailyBcdRDD = bcdRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -372,16 +411,16 @@ val dailyBcdRDD = bcdRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).
 
 dailyBcdRDD.take(10).foreach(println)
 
-2015-06-15,402                                                                  
-2015-11-28,783
-2015-09-24,1309
-2015-11-27,1533
-2015-09-23,1545
-2015-06-10,697
-2015-11-15,850
-2015-06-25,485
-2015-12-02,2068
-2015-06-21,194
+(2015-01-07,222)                                                                
+(2015-02-05,139)
+(2015-03-17,256)
+(2015-03-21,97)
+(2015-09-24,1318)
+(2015-01-30,141)
+(2015-09-23,1561)
+(2015-06-10,737)
+(2015-12-02,2072)
+(2015-06-19,446)
 
 dailyBcdRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2015-daily.csv")
 
