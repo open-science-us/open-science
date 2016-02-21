@@ -324,3 +324,24 @@
 ![BitPay_2014](images/BitPay_2014.png)
 
 
+~~~
+> Blockchain_info <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2014-daily.csv", sep=",", header=T))
+
+> dim(Blockchain_info)
+[1] 360   1
+
+> colnames(Blockchain_info) <- c("Volume")
+
+> head(Blockchain_info)
+
+           Volume
+2014-01-04      1
+2014-01-06      1
+2014-01-07      3
+2014-01-08      1
+2014-01-09    126
+2014-01-10     47
+
+> plot(x=log(Blockchain_info), ylab = "log(Volume)", main = "Blockchain_info")
+~~~
+![Blockchain_info_2014](images/Blockchain_info_2014.png)
