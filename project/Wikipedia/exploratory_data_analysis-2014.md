@@ -139,3 +139,25 @@
 ~~~
 ![Bitcoin_network_2014](images/Bitcoin_network_2014.png)
 
+
+> Coinbase <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Coinbase-2014-daily.csv", sep=",", header=T))
+
+> dim(Coinbase)
+[1] 364   1
+
+> colnames(Coinbase) <- c("Volume")
+
+> head(Coinbase)
+
+           Volume
+2014-01-01    117
+2014-01-02    190
+2014-01-03    213
+2014-01-04    164
+2014-01-05     42
+2014-01-06    129
+
+> plot(x=log(Coinbase), ylab = "log(Volume)", main = "Coinbase")
+~~~
+![Coinbase_2014](images/Coinbase_2014.png)
+
