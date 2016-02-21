@@ -25,6 +25,7 @@
 ![Bitcoin_2014](images/Bitcoin_2014.png)
 
 
+~~~
 > Cryptocurrency <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency-2014-daily.csv", sep=",", header=T))
 
 > dim(Cryptocurrency)
@@ -47,6 +48,7 @@
 ![Cryptocurrency_2014](images/Cryptocurrency_2014.png)
 
 
+~~~
 > History_of_Bitcoin <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/History_of_Bitcoin-2014-daily.csv", sep=",", header=T))
 
 > dim(History_of_Bitcoin)
@@ -69,6 +71,7 @@
 ![History_of_Bitcoin_2014](images/History_of_Bitcoin_2014.png)
 
 
+~~~
 > Digital_currency <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Digital_currency-2014-daily.csv", sep=",", header=T))
 
 > dim(Digital_currency)
@@ -91,6 +94,7 @@
 ![Digital_currency_2014](images/Digital_currency_2014.png)
 
 
+~~~
 > Bitcoin_protocol <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2014-daily.csv", sep=",", header=T))
 
 > dim(Bitcoin_protocol)
@@ -111,4 +115,27 @@
 > plot(x=log(Bitcoin_protocol), ylab = "log(Volume)", main = "Bitcoin_protocol")
 ~~~
 ![Bitcoin_protocol_2014](images/Bitcoin_protocol_2014.png)
+
+
+~~~
+> Bitcoin_network <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2014-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_network)
+[1] 305   1
+
+> colnames(Bitcoin_network) <- c("Volume")
+
+> head(Bitcoin_network)
+
+           Volume
+2014-01-14      1
+2014-03-02     61
+2014-03-03    148
+2014-03-04    173
+2014-03-05    223
+2014-03-06    214
+
+> plot(x=log(Bitcoin_network), ylab = "log(Volume)", main = "Bitcoin_network")
+~~~
+![Bitcoin_network_2014](images/Bitcoin_network_2014.png)
 
