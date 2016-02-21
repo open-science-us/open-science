@@ -370,6 +370,30 @@
 ![Legal_status_of_Bitcoin_2014](images/Legal_status_of_Bitcoin_2014.png)
 
 
+~~~
+> Blockchain <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Block_chain-2014-daily.csv", sep=",", header=T))
+
+> dim(Blockchain)
+[1] 364   1
+
+> colnames(Blockchain) <- c("Volume")
+
+> head(Blockchain)
+
+           Volume
+2014-01-01     30
+2014-01-02     26
+2014-01-03     23
+2014-01-04     34
+2014-01-05      2
+2014-01-06     10
+
+> plot(x=Blockchain, ylab = "Volume", main = "Block_chain")
+~~~
+![Blockchain_2014](images/Blockchain_2014.png)
+
+
+~~~
 > BlockchainDB <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2014-daily.csv", sep=",", header=T))
 
 > dim(BlockchainDB)
@@ -390,4 +414,5 @@
 > plot(x=BlockchainDB, ylab = "Volume", main = "Block_chain_database")
 ~~~
 ![Blockchain_database_2014](images/Blockchain_database_2014.png)
+
 
