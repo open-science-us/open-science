@@ -89,3 +89,26 @@
 > plot(x=log(Digital_currency), ylab = "log(Volume)", main = "Digital_currency")
 ~~~
 ![Digital_currency_2014](images/Digital_currency_2014.png)
+
+
+> Bitcoin_protocol <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_protocol-2014-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_protocol)
+[1] 364   1
+
+> colnames(Bitcoin_protocol) <- c("Volume")
+
+> head(Bitcoin_protocol)
+
+           Volume
+2014-01-01    774
+2014-01-02   1279
+2014-01-03   1471
+2014-01-04   1153
+2014-01-05    259
+2014-01-06    808
+
+> plot(x=log(Bitcoin_protocol), ylab = "log(Volume)", main = "Bitcoin_protocol")
+~~~
+![Bitcoin_protocol_2014](images/Bitcoin_protocol_2014.png)
+
