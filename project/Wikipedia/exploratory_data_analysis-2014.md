@@ -368,3 +368,26 @@
 > plot(x=log(Legal_status_of_Bitcoin), ylab = "log(Volume)", main = "Legal_status_of_Bitcoin")
 ~~~
 ![Legal_status_of_Bitcoin_2014](images/Legal_status_of_Bitcoin_2014.png)
+
+
+> BlockchainDB <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2014-daily.csv", sep=",", header=T))
+
+> dim(BlockchainDB)
+[1] 165   1
+
+> colnames(BlockchainDB) <- c("Volume")
+
+> head(BlockchainDB)
+
+           Volume
+2014-07-19      8
+2014-07-20     16
+2014-07-21     20
+2014-07-22     35
+2014-07-23     36
+2014-07-24     32
+
+> plot(x=BlockchainDB, ylab = "Volume", main = "Block_chain_database")
+~~~
+![Blockchain_database_2014](images/Blockchain_database_2014.png)
+
