@@ -440,6 +440,7 @@
 ![Cryptocurrency_tumbler_2015](images/Cryptocurrency_tumbler_2015.png)
 
 
+~~~
 > Legal_status_of_Bitcoin <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2015-daily.csv", sep=",", header=T))
 
 > dim(Legal_status_of_Bitcoin)
