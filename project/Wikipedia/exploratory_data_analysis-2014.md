@@ -231,3 +231,24 @@
 ~~~
 ![Bitcoin_ATM_2014](images/Bitcoin_ATM_2014.png)
 
+
+> Digital_currency_exchanger <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Digital_currency_exchanger-2014-daily.csv", sep=",", header=T))
+
+> dim(Digital_currency_exchanger)
+[1] 364   1
+
+> colnames(Digital_currency_exchanger) <- c("Volume")
+
+> head(Digital_currency_exchanger)
+
+           Volume
+2014-01-01    145
+2014-01-02    184
+2014-01-03    144
+2014-01-04    142
+2014-01-05     27
+2014-01-06     79
+
+> plot(x=log(Digital_currency_exchanger), ylab = "log(Volume)", main = "Digital_currency_exchanger")
+~~~
+![Digital_currency_exchanger_2014](images/Digital_currency_exchanger_2014.png)
