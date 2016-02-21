@@ -140,6 +140,7 @@
 ![Bitcoin_network_2014](images/Bitcoin_network_2014.png)
 
 
+~~~
 > Coinbase <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Coinbase-2014-daily.csv", sep=",", header=T))
 
 > dim(Coinbase)
@@ -162,6 +163,7 @@
 ![Coinbase_2014](images/Coinbase_2014.png)
 
 
+~~~
 > Legality_of_Bitcoin_by_country <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2014-daily.csv", sep=",", header=T))
 
 > dim(Legality_of_Bitcoin_by_country)
@@ -182,4 +184,27 @@
 > plot(x=log(Legality_of_Bitcoin_by_country), ylab = "log(Volume)", main = "Legality_of_Bitcoin_by_country")
 ~~~
 ![Legality_of_Bitcoin_by_country_2014](images/Legality_of_Bitcoin_by_country_2014.png)
+
+
+~~~
+> Bitcoin_mining <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_mining-2014-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_mining)
+[1] 364   1
+
+> colnames(Bitcoin_mining) <- c("Volume")
+
+> head(Bitcoin_mining)
+
+           Volume
+2014-01-01    381
+2014-01-02    463
+2014-01-03    414
+2014-01-04    359
+2014-01-05     79
+2014-01-06     58
+
+> plot(x=log(Bitcoin_mining), ylab = "log(Volume)", main = "Bitcoin_mining")
+~~~
+![Bitcoin_mining_2014](images/Bitcoin_mining_2014.png)
 
