@@ -208,3 +208,26 @@
 ~~~
 ![Bitcoin_mining_2014](images/Bitcoin_mining_2014.png)
 
+
+~~~
+> Bitcoin_ATM <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_ATM-2014-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_ATM)
+[1] 362   1
+
+> colnames(Bitcoin_ATM) <- c("Volume")
+
+> head(Bitcoin_ATM)
+
+           Volume
+2014-01-01      1
+2014-01-02      1
+2014-01-03      6
+2014-01-04      7
+2014-01-05      2
+2014-01-06      1
+
+> plot(x=log(Bitcoin_ATM), ylab = "log(Volume)", main = "Bitcoin_ATM")
+~~~
+![Bitcoin_ATM_2014](images/Bitcoin_ATM_2014.png)
+
