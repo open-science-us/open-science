@@ -11,9 +11,113 @@ zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block
 
 ### Raw data issues
 
-1. pagecounts-20150226-200000.gz, size 4.0K
-2. pagecounts-20150401-010000.gz (missing)
-3. pagecounts-201505*.gz contain lines with very long (>= 1024) titles
+1. pagecounts-20150106-120001.gz
+~~~
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" pagecounts-20150106-120000.gz > All-20150106-12.txt
+
+zgrep -E "Digital_currency|Cryptocurrency|Bitcoin|Bitstamp|Coinbase|BitPay|Block_chain|Blockchain.info" pagecounts-20150106-120001.gz > All-20150106-12-1.txt
+
+diff All-20150106-12.txt All-20150106-12-1.txt
+
+6c6
+< commons.m File:Bitcoin_exchange_BTC-e_log_scale.png 1 9747
+---
+> commons.m File:Bitcoin_exchange_BTC-e_log_scale.png 1 10444
+8,9c8,9
+< commons.m File:Bitcoin_winkdex.png 1 10194
+< cs Bitcoin 9 265341
+---
+> commons.m File:Bitcoin_winkdex.png 1 10893
+> cs Bitcoin 9 266040
+12c12
+< de Bitcoin 82 6814555
+---
+> de Bitcoin 78 6818067
+14,15c14
+< de Diskussion:Bitcoin 16 681187
+< el Bitcoin 2 48150
+---
+> de Diskussion:Bitcoin 16 692341
+16a16,17
+> el Bitcoin 2 48150
+> en.d Bitstamp 2 33726
+18c19
+< en Bitcoin 309 43069253
+---
+> en Bitcoin 298 42854167
+25c26
+< en Bitcoin_network 8 182016
+---
+> en Bitcoin_network 8 182780
+28c29
+< en Bitstamp 34 398888
+---
+> en Bitstamp 34 399558
+34c35
+< en Block_chain 3 23999
+---
+> en Block_chain 3 24697
+36c37
+< en Blockchain.info 11 139821
+---
+> en Blockchain.info 11 140504
+40c41
+< en Cryptocurrency 40 1881604
+---
+> en Cryptocurrency 39 1852339
+42c43
+< en Digital_currency 11 238653
+---
+> en Digital_currency 11 239337
+44c45
+< en File:Bitcoin.svg 1 9814
+---
+> en File:Bitcoin.svg 1 10515
+49c50
+< en Legality_of_Bitcoin_by_country 9 219254
+---
+> en Legality_of_Bitcoin_by_country 9 220016
+54c55
+< en Talk:Bitcoin 5 557911
+---
+> en Talk:Bitcoin 5 558609
+59d59
+< en.d Bitstamp 2 33726
+61c61
+< fi Bitcoin 6 182190
+---
+> fi Bitcoin 6 182940
+63c63
+< fr Bitcoin 23 1059633
+---
+> fr Bitcoin 23 1060316
+75c75
+< nl Bitcoin 15 213359
+---
+> nl Bitcoin 16 228600
+77c77
+< pl Bitcoin 63 1599969
+---
+> pl Bitcoin 62 1573740
+79a80
+> ru.n %d0%94%d0%b2%d0%b5_%d0%ba%d1%80%d1%83%d0%bf%d0%bd%d0%b5%d0%b9%d1%88%d0%b8%d0%b5_%d0%b1%d0%b8%d1%80%d0%b6%d0%b8_Bitcoin_%d1%81%d1%82%d0%b0%d0%bb%d0%b8_%d0%b6%d0%b5%d1%80%d1%82%d0%b2%d0%b0%d0%bc%d0%b8_DDoS-%d0%b0%d1%82%d0%b0%d0%ba 1 19992
+81,83c82,83
+< ru Bitcoin 29 2980938
+< ru Bitcoin_Foundation 2 27052
+< ru.n %d0%94%d0%b2%d0%b5_%d0%ba%d1%80%d1%83%d0%bf%d0%bd%d0%b5%d0%b9%d1%88%d0%b8%d0%b5_%d0%b1%d0%b8%d1%80%d0%b6%d0%b8_Bitcoin_%d1%81%d1%82%d0%b0%d0%bb%d0%b8_%d0%b6%d0%b5%d1%80%d1%82%d0%b2%d0%b0%d0%bc%d0%b8_DDoS-%d0%b0%d1%82%d0%b0%d0%ba 1 19293
+---
+> ru Bitcoin 29 2989334
+> ru Bitcoin_Foundation 2 27721
+85c85
+< sl Bitcoin 17 391254
+---
+> sl Bitcoin 16 375672
+~~~
+
+2. pagecounts-20150226-200000.gz, size 4.0K
+3. pagecounts-20150401-010000.gz (missing)
+4. pagecounts-201505*.gz contain lines with very long (>= 1024) titles
+
 ~~~
 # filter out lines with long titles
 
@@ -31,6 +135,7 @@ wc -l All-201505-2.txt
 13
 ~~~
 
+
 ### Using Spark
 
 ~~~
@@ -47,7 +152,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 
 
-val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-*.txt", 4)
+val grepRDD =  sc.textFile("/work/R/example/Wikipedia/Bitcoin/All-2015*.txt", 4)
 
 grepRDD.cache()
 

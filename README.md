@@ -1,4 +1,4 @@
-# open-science
+# Open Science
 
 Where will Data Science be in 2065?
 
