@@ -118,6 +118,29 @@
 
 
 ~~~
+> Bitcoin_network <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_network)
+[1] 364   1
+
+> colnames(Bitcoin_network) <- c("Volume")
+
+> head(Bitcoin_network)
+
+           Volume
+2015-01-01     94
+2015-01-02    146
+2015-01-03    123
+2015-01-04    148
+2015-01-05    180
+2015-01-06    186
+
+> plot(x=log(Bitcoin_network), ylab = "log(Volume)", main = "Bitcoin_network")
+~~~
+![Bitcoin_network_2015](images/Bitcoin_network_2015.png)
+
+
+~~~
 > Blockchain_info <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv", sep=",", header=T))
 
 > dim(Blockchain_info)
@@ -415,3 +438,25 @@
 > plot(x=log(Cryptocurrency_tumbler), ylab = "log(Volume)", main = "Cryptocurrency_tumbler")
 ~~~
 ![Cryptocurrency_tumbler_2015](images/Cryptocurrency_tumbler_2015.png)
+
+
+> Legal_status_of_Bitcoin <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2015-daily.csv", sep=",", header=T))
+
+> dim(Legal_status_of_Bitcoin)
+[1] 352   1
+
+> colnames(Legal_status_of_Bitcoin) <- c("Volume")
+
+> head(Legal_status_of_Bitcoin)
+
+           Volume
+2015-01-01      5
+2015-01-02      4
+2015-01-03      3
+2015-01-04      2
+2015-01-05      1
+2015-01-06      4
+
+> plot(x=log(Legal_status_of_Bitcoin), ylab = "log(Volume)", main = "Legal_status_of_Bitcoin")
+~~~
+![Legal_status_of_Bitcoin_2015](images/Legal_status_of_Bitcoin_2015.png)
