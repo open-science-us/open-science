@@ -386,7 +386,6 @@ dailyBcRDD.take(10).foreach(println)
 dailyBcRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv")
 
 
-// val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(database)")
 val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)" || t._2 == "Block_chain_(database)")
 
 bcdRDD.take(10).foreach(println)
@@ -499,44 +498,6 @@ dailyDigitalcurrencyRDD.take(10).foreach(println)
 2015-06-19,162
 
 dailyDigitalcurrencyRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Digital_currency-2015-daily.csv")
-
-
-val blockchainRDD = pvTupleRDD.filter(t => t._2 == "Block_chain")
-
-blockchainRDD.take(10).foreach(println)
-
-(en,Block_chain,2,16010,20150101)
-(en,Block_chain,1,8005,20150101)
-(en,Block_chain,1,7995,20150101)
-(en,Block_chain,1,7995,20150101)
-(en,Block_chain,1,7995,20150101)
-(en,Block_chain,1,7995,20150101)
-(en,Block_chain,1,7995,20150101)
-(en,Block_chain,2,7995,20150101)
-(en,Block_chain,1,7995,20150101)
-(en,Block_chain,1,7995,20150101)
-
-blockchainRDD.map(t => t._3).collect().sum
-res22: Int = 84307
-
-val dailyBlockchainRDD = blockchainRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
-  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
-}
-
-dailyBlockchainRDD.take(10).foreach(println)
-
-2015-01-07,37                                                                   
-2015-02-05,31
-2015-03-17,36
-2015-03-21,24
-2015-09-24,377
-2015-01-30,23
-2015-09-23,526
-2015-06-10,23
-2015-11-27,350
-2015-12-02,296
-
-dailyBlockchainRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv")
 
 
 val bitcoinNetworkRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_network")
@@ -653,6 +614,7 @@ dailyCoinbaseRDD.take(10).foreach(println)
 dailyCoinbaseRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Coinbase-2015-daily.csv")
 
 
+/*
 val bctdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)")
 
 bctdRDD.take(10).foreach(println)
@@ -689,6 +651,7 @@ dailyBctdRDD.take(10).foreach(println)
 2015-12-02,4
 
 dailyBctdRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain_transaction_database-2015-daily.csv")
+*/
 
 
 val bitcoinATMRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin_ATM")
