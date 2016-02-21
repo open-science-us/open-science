@@ -540,5 +540,82 @@ dailyBitcoinNetworkRDD.take(10).foreach(println)
 (2014-03-30,337)
 
 dailyBitcoinNetworkRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2014-daily.csv")
+
+
+val coinbaseRDD = pvTupleRDD.filter(t => t._2 == "Coinbase")
+
+coinbaseRDD.take(10).foreach(println)
+
+(de,Coinbase,1,6031,20140101)
+(en,Coinbase,10,115986,20140101)
+(en,Coinbase,5,50642,20140101)
+(en,Coinbase,5,51577,20140101)
+(en,Coinbase,1,10121,20140101)
+(en,Coinbase,2,20248,20140101)
+(en,Coinbase,2,21227,20140101)
+(en,Coinbase,2,21227,20140101)
+(en,Coinbase,6,60744,20140101)
+(en,Coinbase,7,71782,20140101)
+
+coinbaseRDD.map(t => t._3).collect().sum
+res41: Int = 53817 
+
+val dailyCoinbaseRDD = coinbaseRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyCoinbaseRDD.take(10).foreach(println)
+
+(2014-03-23,92)                                                                 
+(2014-10-31,88)
+(2014-01-05,42)
+(2014-12-29,90)
+(2014-07-20,149)
+(2014-02-17,181)
+(2014-10-15,291)
+(2014-06-18,137)
+(2014-04-24,137)
+(2014-03-30,126)
+
+dailyCoinbaseRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Coinbase-2014-daily.csv")
+
+
+val legalityRDD = pvTupleRDD.filter(t => t._2 == "Legality_of_Bitcoins_by_country" || t._2 == "Legality_of_Bitcoin_by_country")
+
+legalityRDD.take(10).foreach(println)
+
+(en,Legality_of_Bitcoins_by_country,15,631339,20140228)
+(en,Legality_of_Bitcoins_by_country,51,1990600,20140228)
+(en,Legality_of_Bitcoins_by_country,6,86681,20140301)
+(en,Legality_of_Bitcoins_by_country,7,145469,20140302)
+(en,Legality_of_Bitcoins_by_country,28,630987,20140303)
+(en,Legality_of_Bitcoins_by_country,20,643648,20140306)
+(en,Legality_of_Bitcoins_by_country,24,492396,20140306)
+(en,Legality_of_Bitcoins_by_country,14,323323,20140308)
+(en,Legality_of_Bitcoins_by_country,11,440903,20140310)
+(en,Legality_of_Bitcoins_by_country,14,528906,20140311)
+
+legalityRDD.map(t => t._3).collect().sum
+res46: Int = 87876                                                              
+
+val dailyLegalityRDD = legalityRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyLegalityRDD.take(10).foreach(println)
+
+(2014-09-23,314)                                                                
+(2014-03-23,185)
+(2014-05-17,123)
+(2014-10-31,307)
+(2014-10-15,312)
+(2014-12-29,681)
+(2014-06-25,181)
+(2014-07-20,290)
+(2014-06-16,207)
+(2014-03-30,337)
+
+dailyLegalityRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2014-daily.csv")
+
 ~~~
 
