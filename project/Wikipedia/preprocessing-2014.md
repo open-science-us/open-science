@@ -980,7 +980,7 @@ dailyBcRDD.take(10).foreach(println)
 dailyBcRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Block_chain-2014-daily.csv")
 
 
-val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)")
+val bcdRDD = pvTupleRDD.filter(t => t._2 == "Block_chain_(transaction_database)" || t._2 == "Block_chain_(database)")
 
 bcdRDD.take(10).foreach(println)
 
