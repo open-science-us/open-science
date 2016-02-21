@@ -218,7 +218,7 @@ pvTupleRDD.take(10).foreach(println)
 (en,BitPay,7,87807,20150101)
 (en,Bitcoin,188,20961624,20150101)
 
-pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(30).foreach(println)
+pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).take(50).foreach(println)
 
 (Bitcoin,5906673)                                                               
 (Cryptocurrency,309760)
@@ -250,6 +250,26 @@ pvTupleRDD.map(t => (t._2, t._3)).reduceByKey(_+_, 1).sortBy(t => t._2, false).t
 (File:Bitcoin_October_2013.png,8518)
 (File:BitcoinSign.svg,6696)
 (Block_chain_%28database%29,6466)
+(Category:Cryptocurrency,6164)
+(File:Bitcoin_price_and_volatility.svg,5612)
+(Category:Bitcoin_exchanges,4918)
+(File:Bitcoin-coins.jpg,4836)
+(Bitcoin_XT,4618)
+(File:Bitcoin.svg,4265)
+(File:De_Waag_Bitcoin.jpg,4129)
+(Bitcoin_exchange,4049)
+(File:Cryptocurrency_Mining_Farm.jpg,3971)
+(File:Bitcoin_paper_wallet_generated_at_bitaddress.jpg,3963)
+(Bitcoin_Protocol,2827)
+(Legal_status_of_Bitcoin,2825)
+(File:Electrum_Bitcoin_Wallet.png,2824)
+(Legality_of_Bitcoins_by_country,2437)
+(File:Bitcoin_Foundation_logo.png,2430)
+(Template:Bitcoin,2388)
+(File:BitstampUSD_weekly.png,2130)
+(List_of_Bitcoin_companies,2036)
+(File:Bitcoin_exchange.png,2035)
+(Category:People_associated_with_Bitcoin,2004)
 
 
 val bitcoinRDD = pvTupleRDD.filter(t => t._2 == "Bitcoin")
@@ -708,23 +728,23 @@ dailyBitPayRDD.take(10).foreach(println)
 dailyBitPayRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/BitPay-2015-daily.csv")
 
 
-val legalityRDD = pvTupleRDD.filter(t => t._2 == "Legality_of_Bitcoin_by_country")
+val legalityRDD = pvTupleRDD.filter(t => t._2 == "Legality_of_Bitcoins_by_country" || t._2 ==  "Legality_of_Bitcoin_by_country")
 
 legalityRDD.take(10).foreach(println)
 
 (en,Legality_of_Bitcoin_by_country,7,133210,20150101)
 (en,Legality_of_Bitcoin_by_country,6,177615,20150101)
 (en,Legality_of_Bitcoin_by_country,3,44404,20150101)
+(en,Legality_of_Bitcoins_by_country,1,44483,20150101)
 (en,Legality_of_Bitcoin_by_country,5,222020,20150101)
 (en,Legality_of_Bitcoin_by_country,2,88808,20150101)
 (en,Legality_of_Bitcoin_by_country,6,267100,20150101)
 (en,Legality_of_Bitcoin_by_country,1,0,20150101)
+(en,Legality_of_Bitcoins_by_country,2,88966,20150101)
 (en,Legality_of_Bitcoin_by_country,11,88808,20150101)
-(en,Legality_of_Bitcoin_by_country,4,88808,20150101)
-(en,Legality_of_Bitcoin_by_country,5,222027,20150101)
 
 legalityRDD.map(t => t._3).collect().sum
-res22: Int = 31367
+res22: Int = 33103
 
 val dailyLegalityRDD = legalityRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
   (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
@@ -732,16 +752,16 @@ val dailyLegalityRDD = legalityRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).co
 
 dailyLegalityRDD.take(10).foreach(println)
 
-2015-01-07,335                                                                  
-2015-02-05,271
-2015-03-17,191
-2015-03-21,837
-2015-09-24,24
-2015-01-30,277
-2015-09-23,30
-2015-06-10,16
-2015-11-27,4
-2015-12-02,7
+(2015-02-05,277)                                                                
+(2015-01-07,343)
+(2015-03-17,204)
+(2015-03-21,846)
+(2015-09-24,26)
+(2015-01-30,285)
+(2015-09-23,32)
+(2015-06-10,19)
+(2015-12-02,16)
+(2015-06-19,26)
 
 dailyLegalityRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2015-daily.csv")
 
@@ -1048,6 +1068,44 @@ dailyCctRDD.take(10).foreach(println)
 2015-06-21,19
 
 dailyCctRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Cryptocurrency_tumbler-2015-daily.csv")
+
+
+val legalStatusRDD = pvTupleRDD.filter(t => t._2 == "Legal_status_of_Bitcoin")
+
+legalStatusRDD.take(10).foreach(println)
+
+(en,Legal_status_of_Bitcoin,1,44490,20150101)
+(en,Legal_status_of_Bitcoin,1,44481,20150101)
+(en,Legal_status_of_Bitcoin,3,134149,20150101)
+(en,Legal_status_of_Bitcoin,1,44481,20150102)
+(en,Legal_status_of_Bitcoin,1,216259,20150102)
+(en,Legal_status_of_Bitcoin,1,44484,20150102)
+(en,Legal_status_of_Bitcoin,1,44484,20150102)
+(en,Legal_status_of_Bitcoin,1,44481,20150103)
+(en,Legal_status_of_Bitcoin,2,88962,20150103)
+(en,Legal_status_of_Bitcoin,1,44480,20150104)
+
+legalStatusRDD.map(t => t._3).collect().sum
+res78: Int = 2825                                                              
+
+val dailyLegalStatusRDD = legalStatusRDD.map(t => (t._5, t._3)).reduceByKey(_+_, 1).coalesce(1).map{ x => 
+  (x._1.substring(0,4) + "-" + x._1.substring(4,6) + "-" + x._1.substring(6), x._2)
+}
+
+dailyLegalStatusRDD.take(10).foreach(println)
+
+(2015-02-05,4)                                                                  
+(2015-01-07,3)
+(2015-12-16,5)
+(2015-06-15,2)
+(2015-11-28,2)
+(2015-04-13,4)
+(2015-02-11,3)
+(2015-03-17,11)
+(2015-03-21,6)
+(2015-01-30,5)
+
+dailyLegalStatusRDD.map{x => (x._1 + "," + x._2)}.saveAsTextFile("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2015-daily.csv")
 ~~~
 
 

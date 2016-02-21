@@ -118,6 +118,29 @@
 
 
 ~~~
+> Bitcoin_network <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Bitcoin_network-2015-daily.csv", sep=",", header=T))
+
+> dim(Bitcoin_network)
+[1] 364   1
+
+> colnames(Bitcoin_network) <- c("Volume")
+
+> head(Bitcoin_network)
+
+           Volume
+2015-01-01     94
+2015-01-02    146
+2015-01-03    123
+2015-01-04    148
+2015-01-05    180
+2015-01-06    186
+
+> plot(x=log(Bitcoin_network), ylab = "log(Volume)", main = "Bitcoin_network")
+~~~
+![Bitcoin_network_2015](images/Bitcoin_network_2015.png)
+
+
+~~~
 > Blockchain_info <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Blockchain_info-2015-daily.csv", sep=",", header=T))
 
 > dim(Blockchain_info)
@@ -213,19 +236,19 @@
 > Legality_of_Bitcoin_by_country <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legality_of_Bitcoin_by_country-2015-daily.csv", sep=",", header=T))
 
 > dim(Legality_of_Bitcoin_by_country)
-[1] 363   1
+[1] 364   1
 
 > colnames(Legality_of_Bitcoin_by_country) <- c("Volume")
 
 > head(Legality_of_Bitcoin_by_country)
 
            Volume
-2015-01-01    150
-2015-01-02    264
-2015-01-03    221
-2015-01-04    234
-2015-01-05    368
-2015-01-06    342
+2015-01-01    160
+2015-01-02    269
+2015-01-03    227
+2015-01-04    238
+2015-01-05    377
+2015-01-06    353
 
 > plot(x=log(Legality_of_Bitcoin_by_country), ylab = "log(Volume)", main = "Legality_of_Bitcoin_by_country")
 ~~~
@@ -415,3 +438,26 @@
 > plot(x=log(Cryptocurrency_tumbler), ylab = "log(Volume)", main = "Cryptocurrency_tumbler")
 ~~~
 ![Cryptocurrency_tumbler_2015](images/Cryptocurrency_tumbler_2015.png)
+
+
+~~~
+> Legal_status_of_Bitcoin <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Legal_status_of_Bitcoin-2015-daily.csv", sep=",", header=T))
+
+> dim(Legal_status_of_Bitcoin)
+[1] 352   1
+
+> colnames(Legal_status_of_Bitcoin) <- c("Volume")
+
+> head(Legal_status_of_Bitcoin)
+
+           Volume
+2015-01-01      5
+2015-01-02      4
+2015-01-03      3
+2015-01-04      2
+2015-01-05      1
+2015-01-06      4
+
+> plot(x=log(Legal_status_of_Bitcoin), ylab = "log(Volume)", main = "Legal_status_of_Bitcoin")
+~~~
+![Legal_status_of_Bitcoin_2015](images/Legal_status_of_Bitcoin_2015.png)
