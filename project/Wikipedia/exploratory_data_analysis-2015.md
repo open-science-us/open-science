@@ -47,26 +47,48 @@
 ~~~
 ![Cryptocurrency_2015](images/Cryptocurrency_2015.png)
 
+~~~
+> Blockchain <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Block_chain-2015-daily.csv", sep=",", header=T))
+
+> dim(Blockchain)
+[1] 364   1
+
+> colnames(Blockchain) <- c("Volume")
+
+> head(Blockchain)
+
+           Volume
+2015-01-01     16
+2015-01-02     31
+2015-01-03     21
+2015-01-04     49
+2015-01-05     40
+2015-01-06     53
+
+> plot(x=log(Blockchain), ylab = "log(Volume)", main = "Block_chain")
+~~~
+![Blockchain_2015](images/Blockchain_2015.png)
+
 
 ~~~
 > BlockchainDB <- as.xts(read.zoo("/work/R/example/Wikipedia/Bitcoin/Block_chain_database-2015-daily.csv", sep=",", header=T))
 
 > dim(BlockchainDB)
-[1] 215   1
+[1] 364   1
 
 > colnames(BlockchainDB) <- c("Volume")
 
 > head(BlockchainDB)
 
            Volume
-2015-05-30     24
-2015-05-31     32
-2015-06-01     67
-2015-06-02     74
-2015-06-03     89
-2015-06-04    404
+2015-01-01     70
+2015-01-02    127
+2015-01-03    114
+2015-01-04    125
+2015-01-05    277
+2015-01-06    294
 
-> plot(x=BlockchainDB, ylab = "Volume", main = "Block_chain_(database)")
+> plot(x=BlockchainDB, ylab = "Volume", main = "Block_chain_database")
 ~~~
 ![Blockchain_database_2015](images/Blockchain_database_2015.png)
 
