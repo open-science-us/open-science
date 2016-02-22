@@ -181,3 +181,89 @@ Key to watch:  tpubD8PV1e3sSciaKx9eBRmzgkCcFLRRDH4En35bQqe5ZZE1wnv9PasB3jxNCUdBj
 
 Yep, that's my key.
 ~~~
+
+
+### Fetching the Genesis Block
+~~~
+import java.io.File
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.bitcoinj.core.NetworkParameters
+import org.bitcoinj.core.Block
+import org.bitcoinj.core.BlockChain
+import org.bitcoinj.core.Wallet
+import org.bitcoinj.core.PeerGroup
+import org.bitcoinj.core.Peer
+import org.bitcoinj.core.PeerAddress
+import org.bitcoinj.net.discovery.DnsDiscovery
+import org.bitcoinj.core.AbstractPeerEventListener
+import org.bitcoinj.core.Sha256Hash
+import org.bitcoinj.store.BlockStore
+import org.bitcoinj.store.BlockStoreException
+import org.bitcoinj.store.MemoryBlockStore
+import org.bitcoinj.params._
+
+import org.bitcoinj.utils.BriefLogFormatter
+
+
+object FetchingGenesisBlock {
+  def main(args: Array[String]) {
+    BriefLogFormatter.init();
+    
+    if (args.length != 1) {
+        System.err.println("Usage: FetchingGenesisBlock [regtest|testnet|production]");
+        return;
+    }
+    
+    var params: NetworkParameters = null
+    
+    if (args(0) == "testnet") {
+      params = TestNet3Params.get()
+    } else if (args(0) == "regtest") {
+      params = RegTestParams.get()
+    } else if (args(0) == "production") {
+      params = MainNetParams.get()
+    } else {
+      System.err.println("Usage: FetchingGenesisBlock [regtest|testnet|production]");
+      return;
+    }
+
+    val blockStore = new MemoryBlockStore(params)
+    val blockChain = new BlockChain(params, blockStore)
+    val peerGroup = new PeerGroup(params, blockChain)
+    
+    peerGroup.setUserAgent("Sample App", "1.0")
+    peerGroup.addAddress(new PeerAddress(InetAddress.getLocalHost(), 8333))
+    
+    val walletFile = new File("/work/bitcoinj/" + args(0) + ".wallet")
+    val wallet = Wallet.loadFromFile(walletFile)
+    peerGroup.addWallet(wallet)
+    
+    peerGroup.addPeerDiscovery(new DnsDiscovery(params))
+    
+    peerGroup.start
+    println("PeerGroup is running? " + peerGroup.isRunning()) 
+    
+    println("START DOWNLOADING BLOCKCHAIN")
+    val start = System.currentTimeMillis
+    peerGroup.downloadBlockChain()
+    println("DOWNLOADING BLOCKCHAIN takes " + (System.currentTimeMillis - start) / 1000 + " seconds.")
+    
+    println("number of connected peers: " + peerGroup.getConnectedPeers.size)
+    
+    val peer = peerGroup.getDownloadPeer
+    
+    val blockFuture = peer.getBlock(new Sha256Hash("000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943"))
+    
+    val block = blockFuture.get
+    println("Here is the genesis block:\n" + block);
+    
+    
+    peerGroup.stop
+    
+    println("DONE; BALANCE IS :" + wallet.getBalance)
+  }
+}
+~~~
