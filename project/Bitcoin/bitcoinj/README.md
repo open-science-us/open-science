@@ -267,3 +267,23 @@ object FetchingGenesisBlock {
   }
 }
 ~~~
+
+Output
+~~~
+Is peerGroup running: true
+START DOWNLOADING BLOCKCHAIN
+DOWNLOADING BLOCKCHAIN takes 131 seconds.
+number of connected peers: 1
+Here is the genesis block:
+v1 block: 
+   previous block: 0000000000000000000000000000000000000000000000000000000000000000
+   merkle root: 4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
+   time: [1296688602] 2011-02-02T23:16:42Z
+   difficulty target (nBits): 486604799
+   nonce: 414098458
+   with 1 transaction(s):
+  4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b: Unknown confidence level.
+     == COINBASE TXN (scriptSig PUSHDATA(4)[ffff001d] PUSHDATA(1)[04] PUSHDATA(69)[5468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73])  (scriptPubKey PUSHDATA(65)[04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f] CHECKSIG)
+
+DONE; BALANCE IS :0
+~~~
