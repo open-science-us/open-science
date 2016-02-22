@@ -39,3 +39,11 @@ object CreatingAddress {
   }
 }
 ~~~
+
+Output
+~~~
+We created key:
+ECKey{pub HEX=033299e4d8f016545263172422779a33d6682a3efa17082051a8d00670eee15076, creationTimeSeconds=1456155057, isEncrypted=false, isPubKeyOnly=false}
+On the testnet network, we can use this address:
+n3Xi9VVU58sEy4tku2qCf76nvzgMoFYhd6
+~~~
