@@ -186,9 +186,11 @@ Yep, that's my key.
 ### Fetching the Genesis Block
 ~~~
 import java.io.File
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.IOException
+import java.net.InetAddress
+import java.net.UnknownHostException
+
+import scala.collection.JavaConversions._
 
 import org.bitcoinj.core.NetworkParameters
 import org.bitcoinj.core.Block
@@ -217,6 +219,7 @@ object FetchingGenesisBlock {
         return;
     }
     
+    
     var params: NetworkParameters = null
     
     if (args(0) == "testnet") {
@@ -230,6 +233,7 @@ object FetchingGenesisBlock {
       return;
     }
 
+        
     val blockStore = new MemoryBlockStore(params)
     val blockChain = new BlockChain(params, blockStore)
     val peerGroup = new PeerGroup(params, blockChain)
@@ -251,7 +255,12 @@ object FetchingGenesisBlock {
     peerGroup.downloadBlockChain()
     println("DOWNLOADING BLOCKCHAIN takes " + (System.currentTimeMillis - start) / 1000 + " seconds.")
     
-    println("number of connected peers: " + peerGroup.getConnectedPeers.size)
+    
+    val peers = peerGroup.getConnectedPeers 
+    println("number of connected peers: " + peers.size)
+    
+    peers.foreach { println }
+    
     
     val peer = peerGroup.getDownloadPeer
     
@@ -261,8 +270,7 @@ object FetchingGenesisBlock {
     println("Here is the genesis block:\n" + block);
     
     
-    peerGroup.stop
-    
+    peerGroup.stop    
     println("DONE; BALANCE IS :" + wallet.getBalance)
   }
 }
@@ -270,10 +278,11 @@ object FetchingGenesisBlock {
 
 Output
 ~~~
-Is peerGroup running: true
+PeerGroup is running? true
 START DOWNLOADING BLOCKCHAIN
-DOWNLOADING BLOCKCHAIN takes 131 seconds.
+DOWNLOADING BLOCKCHAIN takes 61 seconds.
 number of connected peers: 1
+[52.1.165.219]:18333
 Here is the genesis block:
 v1 block: 
    previous block: 0000000000000000000000000000000000000000000000000000000000000000
