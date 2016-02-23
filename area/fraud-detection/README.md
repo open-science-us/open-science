@@ -39,15 +39,15 @@
 (3) H2O
 
 
-### Example - [Sales](/data/example/DMwR-sales/)
+### Example - [Sales](/project/DMwR/sales/)
 
-(1) [Box Plot with R](/data/example/DMwR-sales/Outlier_Ranking/BoxPlot.md)
+(1) [Box Plot with R](/project/DMwR/sales/Outlier_Ranking/BoxPlot.md)
 
-(2) [Local Outlier Factor with Spark](/data/example/DMwR-sales/Outlier_Ranking/LOF.md)
+(2) [Local Outlier Factor with Spark](/project/DMwR/sales/Outlier_Ranking/LOF.md)
 
-(3) [Naive Bayes with R](/data/example/DMwR-sales/Outlier_Ranking/NaiveBayes.md)
+(3) [Naive Bayes with R](/project/DMwR/sales/Outlier_Ranking/NaiveBayes.md)
 
-(4) [Deep Learning with H2O](/data/example/DMwR-sales/Outlier_Ranking/DeepLearning.md)
+(4) [Deep Learning with H2O](/project/DMwR/sales/Outlier_Ranking/DeepLearning.md)
 
 
 ### Reference
