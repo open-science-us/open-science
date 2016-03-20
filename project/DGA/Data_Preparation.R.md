@@ -1,5 +1,6 @@
-### Data Preparation using R
+## Data Preparation using R
 
+### Overall
 ~~~
 > library(dga)
 
@@ -40,4 +41,48 @@
 33394 wiuhegvgxbpaany.ru wiuhegvgxbpaany  ru   dga cryptolocker
 30721  vifgurkyjepqju.ru  vifgurkyjepqju  ru   dga cryptolocker
 15149    hqmvumpdumrc.ru    hqmvumpdumrc  ru   dga cryptolocker
+~~~
+
+### n-gram
+~~~
+> install.packages('stringdist')
+
+> library(stringdist)
+
+> qgrams("facebook", q=3)
+
+   fac ook ace ceb ebo boo
+V1   1   1   1   1   1   1
+
+> qgrams("sandbandcandy", q=3)
+
+   san and ndb ndc ndy dba dca ban can
+V1   1   3   1   1   1   1   1   1   1
+
+> qgrams("kykwdvibps", q=3)
+
+   kyk ykw wdv vib kwd dvi ibp bps
+V1   1   1   1   1   1   1   1   1
+
+
+> ldomain <- sampledga$domain[sampledga$class=="legit"]
+
+> l3gram <- qgrams(ldomain, q=3)
+
+> class(l3gram)
+[1] "matrix"
+ 
+> mode(l3gram)
+[1] "numeric"
+
+> nrow(l3gram)
+[1] 1
+
+> ncol(l3gram)
+[1] 7362
+
+> l3gram[1, head(order(-l3gram), 10), drop=F]
+
+   ing ter ine the lin ion est ent ers and
+V1 161 138 130 113 111 106 103 102 100  93
 ~~~
