@@ -41,6 +41,11 @@
 33394 wiuhegvgxbpaany.ru wiuhegvgxbpaany  ru   dga cryptolocker
 30721  vifgurkyjepqju.ru  vifgurkyjepqju  ru   dga cryptolocker
 15149    hqmvumpdumrc.ru    hqmvumpdumrc  ru   dga cryptolocker
+
+> table(sampledga$subclass)
+
+       alexa      opendns cryptolocker          goz       newgoz 
+        4948           52         1667         1667         1666 
 ~~~
 
 ### n-gram
