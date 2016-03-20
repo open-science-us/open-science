@@ -1,40 +1,43 @@
 ### Data Preparation using R
+
 ~~~
-> install.packages('devtools')
-
-> library('devtools')
-
-> remove.packages('nlme')
-
-> install.packages("nlme",repos="http://cran.r-project.org",type="binary")
-
-> install.packages('caret')
-
-> library('caret')
-
-> devtools::install_github("jayjacobs/tldextract")
-
-> devtools::install_github("jayjacobs/dga")
-
 > library(dga)
 
-> good <- c("facebook.com", "google.com", "sina.com.cn", "twitter.com", "yandex.ru", "msn.com")
+> data(sampledga)
 
-> bad <- c("kqcrotywqigo.ru", "rlvukicfjceajm.ru", "ibxaoddvcped.ru", "tntuqxxbvxytpif.ru", "heksblnvanyeug.ru", "kbmqwdsrfzfqpdp.ru")
+> head(sampledga, 5)
 
-> dgaPredict(c(good, bad))
+          host   domain tld class subclass
+1   google.com   google com legit    alexa
+2 facebook.com facebook com legit    alexa
+3  youtube.com  youtube com legit    alexa
+4    yahoo.com    yahoo com legit    alexa
+5    baidu.com    baidu com legit    alexa
 
-              name class prob
-1         facebook legit 1.00
-2           google legit 1.00
-3             sina legit 1.00
-4          twitter legit 1.00
-5           yandex legit 1.00
-6              msn legit 1.00
-7     kqcrotywqigo   dga 1.00
-8   rlvukicfjceajm   dga 1.00
-9     ibxaoddvcped   dga 1.00
-10 tntuqxxbvxytpif   dga 1.00
-11  heksblnvanyeug   dga 0.98
-12 kbmqwdsrfzfqpdp   dga 1.00
+> tail(sampledga, 5)
+
+                                host                     domain tld class subclass
+47771 r3o3mt1q7qhld1mp4g2akzqs37.biz r3o3mt1q7qhld1mp4g2akzqs37 biz   dga   newgoz
+50826  b05q9rw9lv1d1aq5po08iyjn5.org  b05q9rw9lv1d1aq5po08iyjn5 org   dga   newgoz
+52350  sgem711uuk2vmyl1qlrdymhvl.org  sgem711uuk2vmyl1qlrdymhvl org   dga   newgoz
+45591  ozhujl16ayo6crwwdf7fxskdk.org  ozhujl16ayo6crwwdf7fxskdk org   dga   newgoz
+51407  9hw0nq1p9binuc6jrifi1noiu.biz  9hw0nq1p9binuc6jrifi1noiu biz   dga   newgoz
+
+> sampledga[sample(which(sampledga$subclass=="opendns"), 5), ]
+
+                           host                domain   tld class subclass
+980482       newburylibrary.net        newburylibrary   net legit  opendns
+973900 dncvirtualsolutions14.us dncvirtualsolutions14    us legit  opendns
+978481     cleansebyclare.co.uk        cleansebyclare co.uk legit  opendns
+985590     hallhealthcenter.com      hallhealthcenter   com legit  opendns
+984832              dewmate.com               dewmate   com legit  opendns
+
+> sampledga[sample(which(sampledga$subclass=="cryptolocker"), 5), ]
+
+                    host          domain tld class     subclass
+14920  wlcspnpwiencec.ru  wlcspnpwiencec  ru   dga cryptolocker
+14325    hdlyjxohahdq.ru    hdlyjxohahdq  ru   dga cryptolocker
+33394 wiuhegvgxbpaany.ru wiuhegvgxbpaany  ru   dga cryptolocker
+30721  vifgurkyjepqju.ru  vifgurkyjepqju  ru   dga cryptolocker
+15149    hqmvumpdumrc.ru    hqmvumpdumrc  ru   dga cryptolocker
 ~~~
