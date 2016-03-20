@@ -114,6 +114,18 @@ V1 161 138 130 113 111 106 103 102 100  93
        2.681241        4.121560        2.949878        2.748188        3.763802        0.602060 
 ~~~
 
+### dictionary matching
+~~~
+> wmatch(c("facebook", "oxfordlawtrove", "uipgqhfrojbnjo"))
+[1] 1.0000000 1.0000000 0.4285714
+
+> wmatch(good)
+[1] 1.0000000 1.0000000 1.0000000 1.0000000 0.8000000 0.7777778
+ 
+> wmatch(bad)
+[1] 0.6923077 0.7142857 0.4285714 0.7333333 0.7692308 0.2142857
+~~~
+
 ### all
 ~~~
 > sampledga$lngram3 <- getngram(lngram3, sampledga$domain)
@@ -121,6 +133,8 @@ V1 161 138 130 113 111 106 103 102 100  93
 > sampledga$entropy=entropy(sampledga$domain)
 
 > sampledga$length=nchar(sampledga$domain)
+
+> sampledga$dictionary <- wmatch(sampledga$domain)
 
 > head(sampledga)
 
