@@ -128,7 +128,7 @@ V1 161 138 130 113 111 106 103 102 100  93
 
 ### all
 ~~~
-> sampledga$lngram3 <- getngram(lngram3, sampledga$domain)
+> sampledga$gram3 <- getngram(lngram3, sampledga$domain)
 
 > sampledga$entropy=entropy(sampledga$domain)
 
@@ -138,11 +138,47 @@ V1 161 138 130 113 111 106 103 102 100  93
 
 > head(sampledga)
 
-           host    domain tld class subclass  entropy length  lngram3
-1    google.com    google com legit    alexa 1.918296      6 7.550393
-2  facebook.com  facebook com legit    alexa 2.750000      8 7.263576
-3   youtube.com   youtube com legit    alexa 2.521641      7 6.674159
-4     yahoo.com     yahoo com legit    alexa 1.921928      5 2.593286
-5     baidu.com     baidu com legit    alexa 2.321928      5 0.698970
-6 wikipedia.org wikipedia org legit    alexa 2.641604      9 7.568363
+           host    domain tld class subclass  entropy length    gram3 dictionary
+1    google.com    google com legit    alexa 1.918296      6 7.550393  1.0000000
+2  facebook.com  facebook com legit    alexa 2.750000      8 7.263576  1.0000000
+3   youtube.com   youtube com legit    alexa 2.521641      7 6.674159  1.0000000
+4     yahoo.com     yahoo com legit    alexa 1.921928      5 2.593286  1.0000000
+5     baidu.com     baidu com legit    alexa 2.321928      5 0.698970  0.8000000
+6 wikipedia.org wikipedia org legit    alexa 2.641604      9 7.568363  0.7777778
+
+> sampledga[c(sample(5000, 3), sample(5000, 3)+5000),]
+
+                                  host                      domain tld class subclass  entropy length     gram3 dictionary
+25                          tumblr.com                      tumblr com legit    alexa 2.584963      6  2.209515  0.5000000
+534206                        senaf.it                       senaf  it legit    alexa 2.321928      5  2.518514  1.0000000
+465220                    freeradio.cz                   freeradio  cz legit    alexa 2.725481      9 10.315485  1.0000000
+44580    o3kxkf19ttvw1vw801m4fy09h.org   o3kxkf19ttvw1vw801m4fy09h org   dga   newgoz 3.893661     25  0.000000  0.4000000
+51882  1ksosm5sralfu1epvx1s1bm3s48.org 1ksosm5sralfu1epvx1s1bm3s48 org   dga   newgoz 3.954530     27  5.153998  0.5925926
+51092    1de526ck9zea73pu3hjo6op8r.net   1de526ck9zea73pu3hjo6op8r net   dga   newgoz 4.243856     25  0.000000  0.5200000
 ~~~
+
+### feature visualization
+~~~
+> install.packages('GGally')
+
+> library(GGally)
+
+> library(ggplot2)
+  
+> gg <- ggpairs(sampledga, 
+        columns = c("entropy", "length", "gram3", "dictionary", "class"),
+        mapping = aes(color = class),
+        lower = list(continuous = wrap('smooth', alpha = 0.5)),
+        upper = list(continuous = wrap('density', alpha = 0.5), combo = wrap('box', alpha = 0.5)),
+        axisLabels = 'show'
+  )
+  
+> for(i in 1:gg$nrow) {
+    for(j in 1:gg$ncol) {
+      gg[i,j] <- gg[i,j] + scale_fill_manual(values=c("green", "red")) + scale_color_manual(values=c("green", "red"))  
+    }
+  }
+  
+> print(gg)
+~~~
+![features](images/features.png)
