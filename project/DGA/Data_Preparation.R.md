@@ -180,7 +180,7 @@ V1 161 138 130 113 111 106 103 102 100  93
   
 > for(i in 1:gg$nrow) {
     for(j in 1:gg$ncol) {
-      gg[i,j] <- gg[i,j] + scale_fill_manual(values=c("green", "red")) + scale_color_manual(values=c("green", "red"))  
+      gg[i,j] <- gg[i,j] + scale_fill_manual(values=c("#00CC00", "#CC0000")) + scale_color_manual(values=c("#00CC00", "#CC0000"))  
     }
   }
   
