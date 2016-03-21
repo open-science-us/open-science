@@ -77,4 +77,29 @@
 43714 19g6afw1xzq6sd1a6ai5m1hukls7.net 19g6afw1xzq6sd1a6ai5m1hukls7 net   dga   newgoz 4.110577     28  0.4642857 74.75867 12.578069 0.4771213     0     0 0.4771213
 47408   c4li3j1b88jcs80jzvb1voekfz.net   c4li3j1b88jcs80jzvb1voekfz net   dga   newgoz 3.950064     26  0.5384615 68.78791 12.097082 0.0000000     0     0 0.0000000
 50826    b05q9rw9lv1d1aq5po08iyjn5.org    b05q9rw9lv1d1aq5po08iyjn5 org   dga   newgoz 4.133661     25  0.4000000 63.44397  7.971196 0.0000000     0     0 0.0000000
+
+
+> fields2 <- c("class", "length",  "dictionary", "gram345")
+
+> train2 <- sampledga[trainindex, fields2]
+
+> head(train2)
+
+  class length dictionary   gram345
+1 legit      6        1.0 16.867008
+2 legit      8        1.0 10.978241
+3 legit      7        1.0  9.184704
+4 legit      5        1.0  4.024650
+5 legit      5        0.8  0.698970
+7 legit      2        0.0  0.000000
+ 
+> tail(train2)
+
+      class length dictionary  gram345
+52551   dga     24  0.4166667 2.149219
+52577   dga     25  0.4000000 0.602060
+47771   dga     26  0.4615385 0.000000
+52350   dga     25  0.3200000 1.301030
+45591   dga     25  0.2800000 0.602060
+51407   dga     25  0.6400000 3.648848
 ~~~
