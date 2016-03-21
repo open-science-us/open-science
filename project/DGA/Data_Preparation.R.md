@@ -54,69 +54,12 @@
 
 > library(stringdist)
 
-> qgrams("facebook", q=3)
-
-   fac ook ace ceb ebo boo
-V1   1   1   1   1   1   1
-
-> qgrams("sandbandcandy", q=3)
-
-   san and ndb ndc ndy dba dca ban can
-V1   1   3   1   1   1   1   1   1   1
-
-> qgrams("kykwdvibps", q=3)
-
-   kyk ykw wdv vib kwd dvi ibp bps
-V1   1   1   1   1   1   1   1   1
-
-
-> ldomain <- sampledga$domain[sampledga$class=="legit"]
-
-> lqgram3 <- qgrams(ldomain, q=3)
-
-> class(lqgram3)
-[1] "matrix"
- 
-> mode(lqgram3)
-[1] "numeric"
-
-> nrow(lqgram3)
-[1] 1
-
-> ncol(lqgram3)
-[1] 7362
-
-> lqgram3[1, head(order(-lqgram3), 10), drop=F]
-
-   ing ter ine the lin ion est ent ers and
-V1 161 138 130 113 111 106 103 102 100  93
-
-> good <- c("facebook", "google", "youtube", "yahoo", "baidu", "wikipedia")
-
-> getngram(lqgram3, good)
-
- facebook    google   youtube     yahoo     baidu wikipedia 
-      125       309       122        25         9       178 
-
-
-> lngram3 <- ngram(ldomain, 3)
-
-> lngram3[1, head(order(-lngram3), 10), drop=F]
-
-          ing      ter      ine      the      lin      ion      est    ent ers      and
-[1,] 2.206826 2.139879 2.113943 2.053078 2.045323 2.025306 2.012837 2.0086   2 1.968483
-
-> getngram(lngram3, good)
-
- facebook    google   youtube     yahoo     baidu wikipedia 
- 7.263576  7.550393  6.674159  2.593286  0.698970  7.568363 
-
-> bad <- c("hwenbesxjwrwa", "oovftsaempntpx", "uipgqhfrojbnjo", "igpjponmegrxjtr", "eoitadcdyaeqh", "bqadfgvmxmypkr")
-
-> getngram(lngram3, bad)
-
-  hwenbesxjwrwa  oovftsaempntpx  uipgqhfrojbnjo igpjponmegrxjtr   eoitadcdyaeqh  bqadfgvmxmypkr 
-       2.681241        4.121560        2.949878        2.748188        3.763802        0.602060 
+lngram1 <- ngram(ldomain, 1)
+lngram2 <- ngram(ldomain, 2)
+lngram3 <- ngram(ldomain, 3)
+lngram4 <- ngram(ldomain, 4)
+lngram5 <- ngram(ldomain, 5)
+lngram345 <- ngram(ldomain, c(3,4,5))
 ~~~
 
 ### dictionary matching
@@ -133,33 +76,38 @@ V1 161 138 130 113 111 106 103 102 100  93
 
 ### all
 ~~~
-> sampledga$gram3 <- getngram(lngram3, sampledga$domain)
-
 > sampledga$entropy=entropy(sampledga$domain)
 
 > sampledga$length=nchar(sampledga$domain)
 
 > sampledga$dictionary <- wmatch(sampledga$domain)
 
+sampledga$gram1 <- getngram(lngram1, sampledga$domain)
+sampledga$gram2 <- getngram(lngram2, sampledga$domain)
+sampledga$gram3 <- getngram(lngram3, sampledga$domain)
+sampledga$gram4 <- getngram(lngram4, sampledga$domain)
+sampledga$gram5 <- getngram(lngram5, sampledga$domain)
+sampledga$gram345 <- getngram(lngram345, sampledga$domain)
+
 > head(sampledga)
 
-           host    domain tld class subclass  entropy length    gram3 dictionary
-1    google.com    google com legit    alexa 1.918296      6 7.550393  1.0000000
-2  facebook.com  facebook com legit    alexa 2.750000      8 7.263576  1.0000000
-3   youtube.com   youtube com legit    alexa 2.521641      7 6.674159  1.0000000
-4     yahoo.com     yahoo com legit    alexa 1.921928      5 2.593286  1.0000000
-5     baidu.com     baidu com legit    alexa 2.321928      5 0.698970  0.8000000
-6 wikipedia.org wikipedia org legit    alexa 2.641604      9 7.568363  0.7777778
+           host    domain tld class subclass  entropy length dictionary    gram1     gram2    gram3     gram4     gram5   gram345
+1    google.com    google com legit    alexa 1.918296      6  1.0000000 20.45111 11.552775 7.550393 5.5899686 3.7266457 16.867008
+2  facebook.com  facebook com legit    alexa 2.750000      8  1.0000000 26.66997 14.916048 7.263576 2.8115750 0.9030900 10.978241
+3   youtube.com   youtube com legit    alexa 2.521641      7  1.0000000 23.07979 12.472083 6.674159 2.5105450 0.0000000  9.184704
+4     yahoo.com     yahoo com legit    alexa 1.921928      5  1.0000000 16.77977  8.271564 2.593286 0.9542425 0.4771213  4.024650
+5     baidu.com     baidu com legit    alexa 2.321928      5  0.8000000 16.66165  8.393773 0.698970 0.0000000 0.0000000  0.698970
+6 wikipedia.org wikipedia org legit    alexa 2.641604      9  0.7777778 30.19710 17.108382 7.568363 3.1122698 0.4771213 11.157754
 
 > sampledga[c(sample(5000, 3), sample(5000, 3)+5000),]
 
-                                  host                      domain tld class subclass  entropy length     gram3 dictionary
-25                          tumblr.com                      tumblr com legit    alexa 2.584963      6  2.209515  0.5000000
-534206                        senaf.it                       senaf  it legit    alexa 2.321928      5  2.518514  1.0000000
-465220                    freeradio.cz                   freeradio  cz legit    alexa 2.725481      9 10.315485  1.0000000
-44580    o3kxkf19ttvw1vw801m4fy09h.org   o3kxkf19ttvw1vw801m4fy09h org   dga   newgoz 3.893661     25  0.000000  0.4000000
-51882  1ksosm5sralfu1epvx1s1bm3s48.org 1ksosm5sralfu1epvx1s1bm3s48 org   dga   newgoz 3.954530     27  5.153998  0.5925926
-51092    1de526ck9zea73pu3hjo6op8r.net   1de526ck9zea73pu3hjo6op8r net   dga   newgoz 4.243856     25  0.000000  0.5200000
+                                   host                        domain          tld class     subclass  entropy length dictionary    gram1     gram2      gram3    gram4    gram5    gram345
+437414 carriescornerishere.blogspot.com           carriescornerishere blogspot.com legit        alexa 2.900052     19  1.0000000 66.75973 43.894913 24.2053278 8.077147 2.158362 34.4408377
+321616                   helpmefind.com                    helpmefind          com legit        alexa 3.121928     10  1.0000000 33.40558 19.278485  7.7257379 2.472756 0.000000 10.1984943
+390                           optmd.com                         optmd          com legit        alexa 2.321928      5  0.6000000 16.63749  6.473498  0.9542425 0.000000 0.000000  0.9542425
+36122  gyuklyxgmgqemlbfakzofprclztzp.ru gyuklyxgmgqemlbfakzofprclztzp           ru   dga          goz 4.021268     29  0.4482759 89.36610 33.025804  0.9542425 0.000000 0.000000  0.9542425
+50980   pik8ue1817ka514e4u4m1j6xguh.net   pik8ue1817ka514e4u4m1j6xguh          net   dga       newgoz 3.884155     27  0.5555556 70.02843 14.415488  0.0000000 0.000000 0.000000  0.0000000
+32630                wmgsfxcexscrqhh.ru               wmgsfxcexscrqhh           ru   dga cryptolocker 3.373557     15  0.2000000 45.98314 16.253728  1.1461280 0.000000 0.000000  1.1461280
 ~~~
 
 ### feature visualization
