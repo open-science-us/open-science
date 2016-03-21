@@ -42,6 +42,16 @@
 45591   dga 4.163856     25  0.2800000 71.77578 19.48825 0.602060     0     0 0.602060
 51407   dga 3.893661     25  0.6400000 71.62919 21.67631 3.648848     0     0 3.648848
 
+> summary(sampledga$subclass)
+
+       alexa      opendns cryptolocker          goz       newgoz 
+        4948           52         1667         1667         1666 
+
+> summary(sampledga$subclass[trainindex])
+
+       alexa      opendns cryptolocker          goz       newgoz 
+        3711           39         1251         1251         1250 
+
 
 > test <- sampledga[-trainindex, ]
 
