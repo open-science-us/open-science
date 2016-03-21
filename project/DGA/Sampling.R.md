@@ -47,4 +47,24 @@
 
 > nrow(test)
 [1] 2498
+
+> head(test)
+
+            host    domain   tld class subclass  entropy length dictionary     gram1     gram2    gram3     gram4     gram5   gram345
+6  wikipedia.org wikipedia   org legit    alexa 2.641604      9  0.7777778 30.197104 17.108382 7.568363 3.1122698 0.4771213 11.157754
+18   yahoo.co.jp     yahoo co.jp legit    alexa 1.921928      5  1.0000000 16.779775  8.271564 2.593286 0.9542425 0.4771213  4.024650
+21     yandex.ru    yandex    ru legit    alexa 2.584963      6  1.0000000 19.437571 11.571913 5.693086 2.4983106 1.2041200  9.395517
+23        vk.com        vk   com legit    alexa 1.000000      2  0.0000000  5.751568  0.903090 0.000000 0.0000000 0.0000000  0.000000
+27     weibo.com     weibo   com legit    alexa 2.321928      5  1.0000000 16.714800  8.026804 1.431364 0.0000000 0.0000000  1.431364
+32     tmall.com     tmall   com legit    alexa 1.921928      5  1.0000000 17.112269  8.966795 3.933487 0.7781513 0.0000000  4.711639
+
+> tail(test)
+
+                                  host                       domain tld class subclass  entropy length dictionary    gram1     gram2     gram3 gram4 gram5   gram345
+42148 1kep5tv1a8b3gs18ixqu21w61uo0.net 1kep5tv1a8b3gs18ixqu21w61uo0 net   dga   newgoz 4.249868     28  0.5357143 73.26023 13.738931 0.0000000     0     0 0.0000000
+49698   1wedd0q9d1vk1l8vit01ujy9gr.org   1wedd0q9d1vk1l8vit01ujy9gr org   dga   newgoz 3.979098     26  0.5000000 69.22053 16.691313 1.6232493     0     0 1.6232493
+43523   oxtw5d1vn9afn1qs6zadu1gfbd.biz   oxtw5d1vn9afn1qs6zadu1gfbd biz   dga   newgoz 4.103910     26  0.3461538 73.53179 17.131297 0.7781513     0     0 0.7781513
+43714 19g6afw1xzq6sd1a6ai5m1hukls7.net 19g6afw1xzq6sd1a6ai5m1hukls7 net   dga   newgoz 4.110577     28  0.4642857 74.75867 12.578069 0.4771213     0     0 0.4771213
+47408   c4li3j1b88jcs80jzvb1voekfz.net   c4li3j1b88jcs80jzvb1voekfz net   dga   newgoz 3.950064     26  0.5384615 68.78791 12.097082 0.0000000     0     0 0.0000000
+50826    b05q9rw9lv1d1aq5po08iyjn5.org    b05q9rw9lv1d1aq5po08iyjn5 org   dga   newgoz 4.133661     25  0.4000000 63.44397  7.971196 0.0000000     0     0 0.0000000
 ~~~
