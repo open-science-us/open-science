@@ -30,3 +30,23 @@
 > plot(importance2)
 ~~~
 ![feature_importance2](images/feature_importance2.png)
+
+
+~~~
+> resamp12 <- resamples(list(rf1=rfFit, rf2=rfFit2))
+
+> diff12 <- diff(resamp12)
+ 
+> print(diff12$statistics$ROC$rf1.diff.rf2)
+
+	One Sample t-test
+
+data:  x
+t = 2.3858, df = 49, p-value = 0.02095
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 4.863889e-05 5.682235e-04
+sample estimates:
+   mean of x 
+0.0003084312 
+~~~
