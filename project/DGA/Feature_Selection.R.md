@@ -1,8 +1,6 @@
 ## Feature Selection using Random Forest with R
 
 ~~~
-> install.packages('caret')
-
 > library('caret')
 
 > set.seed(1492)
