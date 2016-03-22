@@ -19,6 +19,17 @@
 ![rp_feature_importance](images/rp_feature_importance.png)
 
 ~~~
+> library('kernlab')
+
+> svmFit <- train(class ~ ., data = traindga, method = "svmRadial", preProc = c("center", "scale"), metric = "ROC", tuneLength = 10, trControl = ctrl)
+
+> svmImp <- varImp(svmFit, scale=F)
+
+> plot(svmImp)
+~~~
+![svm_feature_importance](images/svm_feature_importance.png)
+
+~~~
 > install.packages('pROC')
 
 > library('pROC')
