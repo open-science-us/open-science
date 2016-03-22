@@ -31,7 +31,7 @@
 
 > plot(rpImp2)
 ~~~
-![rp2_feature_importance](images/rp2_feature_importance.png)
+![rp_feature_importance](images/rp_feature_importance2.png)
 
 ~~~
 > rpResamples12 <- resamples(list(rp1 = rpFit, rp2 = rpFit2))
