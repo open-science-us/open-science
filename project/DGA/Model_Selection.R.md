@@ -10,21 +10,21 @@
 
 > library(rpart)
 
-> rpFit <- train(class ~ ., data = train, metric = "ROC", method = "rpart", trControl = ctrl)
+> rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", trControl = ctrl)
 
 
 > install.packages('pROC')
 
 > library('pROC')
 
-> rfFit <- train(class ~ ., data = train, metric = "ROC", method = "rf", trControl = ctrl)
+> rfFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rf", trControl = ctrl)
 
 
 > install.packages('kernlab')
 
 > library('kernlab')
 
-> svmFit <- train(class ~ ., data = train, method = "svmRadial", preProc = c("center", "scale"), metric = "ROC", tuneLength = 10, trControl = ctrl)
+> svmFit <- train(class ~ ., data = traindga, method = "svmRadial", preProc = c("center", "scale"), metric = "ROC", tuneLength = 10, trControl = ctrl)
 
 
 # sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib, re-start R, still does not work so far
@@ -65,33 +65,95 @@ rf  0.9867  0.9947 0.9973 0.9960  0.9973 1.0000    0
 svm 0.9813  0.9920 0.9947 0.9950  0.9973 1.0000    0
 
 
-> pred2 <- predict(rfFit2, test)
+> rpPred2 <- predict(rpFit2, testdga)
 
-> print(confusionMatrix(pred2, test$class))
+> print(confusionMatrix(rpPred2, testdga$class))
 
 Confusion Matrix and Statistics
 
           Reference
 Prediction legit  dga
-     legit  1240    8
-     dga      10 1240
+     legit  1238   64
+     dga      12 1184
+                                         
+               Accuracy : 0.9696         
+                 95% CI : (0.9621, 0.976)
+    No Information Rate : 0.5004         
+    P-Value [Acc > NIR] : < 2.2e-16      
+                                         
+                  Kappa : 0.9391         
+ Mcnemar's Test P-Value : 4.913e-09      
+                                         
+            Sensitivity : 0.9904         
+            Specificity : 0.9487         
+         Pos Pred Value : 0.9508         
+         Neg Pred Value : 0.9900         
+             Prevalence : 0.5004         
+         Detection Rate : 0.4956         
+   Detection Prevalence : 0.5212         
+      Balanced Accuracy : 0.9696         
+                                         
+       'Positive' Class : legit          
+
+
+> rfPred2 <- predict(rfFit2, testdga)
+
+> print(confusionMatrix(rfPred2, testdga$class))
+
+Confusion Matrix and Statistics
+
+          Reference
+Prediction legit  dga
+     legit  1241   13
+     dga       9 1235
                                           
-               Accuracy : 0.9928          
-                 95% CI : (0.9886, 0.9957)
+               Accuracy : 0.9912          
+                 95% CI : (0.9867, 0.9945)
     No Information Rate : 0.5004          
     P-Value [Acc > NIR] : <2e-16          
                                           
-                  Kappa : 0.9856          
- Mcnemar's Test P-Value : 0.8137          
+                  Kappa : 0.9824          
+ Mcnemar's Test P-Value : 0.5224          
                                           
-            Sensitivity : 0.9920          
-            Specificity : 0.9936          
-         Pos Pred Value : 0.9936          
-         Neg Pred Value : 0.9920          
+            Sensitivity : 0.9928          
+            Specificity : 0.9896          
+         Pos Pred Value : 0.9896          
+         Neg Pred Value : 0.9928          
              Prevalence : 0.5004          
-         Detection Rate : 0.4964          
-   Detection Prevalence : 0.4996          
-      Balanced Accuracy : 0.9928          
+         Detection Rate : 0.4968          
+   Detection Prevalence : 0.5020          
+      Balanced Accuracy : 0.9912          
                                           
        'Positive' Class : legit           
+
+
+> svmPred2 <- predict(svmFit2, testdga)
+
+> print(confusionMatrix(svmPred2, testdga$class))
+
+Confusion Matrix and Statistics
+
+          Reference
+Prediction legit  dga
+     legit  1234   29
+     dga      16 1219
+                                         
+               Accuracy : 0.982          
+                 95% CI : (0.976, 0.9868)
+    No Information Rate : 0.5004         
+    P-Value [Acc > NIR] : < 2e-16        
+                                         
+                  Kappa : 0.964          
+ Mcnemar's Test P-Value : 0.07364        
+                                         
+            Sensitivity : 0.9872         
+            Specificity : 0.9768         
+         Pos Pred Value : 0.9770         
+         Neg Pred Value : 0.9870         
+             Prevalence : 0.5004         
+         Detection Rate : 0.4940         
+   Detection Prevalence : 0.5056         
+      Balanced Accuracy : 0.9820         
+                                         
+       'Positive' Class : legit          
 ~~~
