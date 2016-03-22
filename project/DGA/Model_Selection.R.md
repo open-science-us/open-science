@@ -67,7 +67,7 @@ svm 0.9813  0.9920 0.9947 0.9950  0.9973 1.0000    0
 
 > rpPred2 <- predict(rpFit2, testdga)
 
-> print(confusionMatrix(rpPred2, testdga$class))
+> print(confusionMatrix(rpPred2, testdga$class, positive = 'dga'))
 
 Confusion Matrix and Statistics
 
@@ -84,21 +84,21 @@ Prediction legit  dga
                   Kappa : 0.9391         
  Mcnemar's Test P-Value : 4.913e-09      
                                          
-            Sensitivity : 0.9904         
-            Specificity : 0.9487         
-         Pos Pred Value : 0.9508         
-         Neg Pred Value : 0.9900         
-             Prevalence : 0.5004         
-         Detection Rate : 0.4956         
-   Detection Prevalence : 0.5212         
+            Sensitivity : 0.9487         
+            Specificity : 0.9904         
+         Pos Pred Value : 0.9900         
+         Neg Pred Value : 0.9508         
+             Prevalence : 0.4996         
+         Detection Rate : 0.4740         
+   Detection Prevalence : 0.4788         
       Balanced Accuracy : 0.9696         
                                          
-       'Positive' Class : legit          
+       'Positive' Class : dga            
 
 
 > rfPred2 <- predict(rfFit2, testdga)
 
-> print(confusionMatrix(rfPred2, testdga$class))
+> print(confusionMatrix(rfPred2, testdga$class, positive = 'dga'))
 
 Confusion Matrix and Statistics
 
@@ -115,21 +115,21 @@ Prediction legit  dga
                   Kappa : 0.9824          
  Mcnemar's Test P-Value : 0.5224          
                                           
-            Sensitivity : 0.9928          
-            Specificity : 0.9896          
-         Pos Pred Value : 0.9896          
-         Neg Pred Value : 0.9928          
-             Prevalence : 0.5004          
-         Detection Rate : 0.4968          
-   Detection Prevalence : 0.5020          
+            Sensitivity : 0.9896          
+            Specificity : 0.9928          
+         Pos Pred Value : 0.9928          
+         Neg Pred Value : 0.9896          
+             Prevalence : 0.4996          
+         Detection Rate : 0.4944          
+   Detection Prevalence : 0.4980          
       Balanced Accuracy : 0.9912          
                                           
-       'Positive' Class : legit           
+       'Positive' Class : dga             
 
 
 > svmPred2 <- predict(svmFit2, testdga)
 
-> print(confusionMatrix(svmPred2, testdga$class))
+> print(confusionMatrix(svmPred2, testdga$class, positive = 'dga'))
 
 Confusion Matrix and Statistics
 
@@ -146,14 +146,14 @@ Prediction legit  dga
                   Kappa : 0.964          
  Mcnemar's Test P-Value : 0.07364        
                                          
-            Sensitivity : 0.9872         
-            Specificity : 0.9768         
-         Pos Pred Value : 0.9770         
-         Neg Pred Value : 0.9870         
-             Prevalence : 0.5004         
-         Detection Rate : 0.4940         
-   Detection Prevalence : 0.5056         
+            Sensitivity : 0.9768         
+            Specificity : 0.9872         
+         Pos Pred Value : 0.9870         
+         Neg Pred Value : 0.9770         
+             Prevalence : 0.4996         
+         Detection Rate : 0.4880         
+   Detection Prevalence : 0.4944         
       Balanced Accuracy : 0.9820         
                                          
-       'Positive' Class : legit          
+       'Positive' Class : dga            
 ~~~
