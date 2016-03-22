@@ -56,4 +56,35 @@ Spec
       Min. 1st Qu. Median   Mean 3rd Qu. Max. NA's
 rf  0.9893  0.9947 0.9973 0.9962  0.9973    1    0
 svm 0.9840  0.9927 0.9973 0.9954  0.9973    1    0
+
+
+> pred2 <- predict(rfFit2, test)
+
+> print(confusionMatrix(pred2, test$class))
+
+Confusion Matrix and Statistics
+
+          Reference
+Prediction legit  dga
+     legit  1240    8
+     dga      10 1240
+                                          
+               Accuracy : 0.9928          
+                 95% CI : (0.9886, 0.9957)
+    No Information Rate : 0.5004          
+    P-Value [Acc > NIR] : <2e-16          
+                                          
+                  Kappa : 0.9856          
+ Mcnemar's Test P-Value : 0.8137          
+                                          
+            Sensitivity : 0.9920          
+            Specificity : 0.9936          
+         Pos Pred Value : 0.9936          
+         Neg Pred Value : 0.9920          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4964          
+   Detection Prevalence : 0.4996          
+      Balanced Accuracy : 0.9928          
+                                          
+       'Positive' Class : legit           
 ~~~

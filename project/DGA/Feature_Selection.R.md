@@ -1,8 +1,6 @@
 ## Feature Selection using Random Forest with R
 
 ~~~
-> install.packages('caret')
-
 > library('caret')
 
 > set.seed(1492)
@@ -10,23 +8,54 @@
 > ctrl <- trainControl(method = "repeatedcv", repeats = 5, summaryFunction = twoClassSummary, classProbs = TRUE)
 
 
+> library(rpart)
+
+> rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", trControl = ctrl)
+
+> rpImp <- varImp(rpFit, scale=F)
+
+> plot(rpImp)
+~~~
+![rp_feature_importance](images/rp_feature_importance.png)
+
+~~~
 > install.packages('pROC')
 
 > library('pROC')
 
-> rfFit <- train(class ~ ., data = train, metric = "ROC", method = "rf", trControl = ctrl)
+> rfFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rf", trControl = ctrl)
 
-> importance <- varImp(rfFit, scale=F)
+> rfImp <- varImp(rfFit, scale=F)
 
-> plot(importance)
+> plot(rfImp)
 ~~~
-![feature_importance](images/feature_importance.png)
+![rf_feature_importance](images/rf_feature_importance.png)
 
 ~~~
-> rfFit2 <- train(class ~ ., data = train2, metric = "ROC", method = "rf", trControl = ctrl)
+> rfFit2 <- train(class ~ ., data = traindga2, metric = "ROC", method = "rf", trControl = ctrl)
 
-> importance2 <- varImp(rfFit2, scale=F)
+> rfImp2 <- varImp(rfFit2, scale=F)
 
-> plot(importance2)
+> plot(rfImp2)
 ~~~
-![feature_importance2](images/feature_importance2.png)
+![rf_feature_importance2](images/rf_feature_importance2.png)
+
+
+~~~
+> resamp12 <- resamples(list(rf1 = rfFit, rf2 = rfFit2))
+
+> diff12 <- diff(resamp12)
+ 
+> print(diff12$statistics$ROC$rf1.diff.rf2)
+
+	One Sample t-test
+
+data:  x
+t = 2.1105, df = 49, p-value = 0.03994
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 0.0000103543 0.0004227226
+sample estimates:
+   mean of x 
+0.0002165384 
+~~~
