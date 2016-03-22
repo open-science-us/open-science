@@ -19,7 +19,7 @@
 ![rp_feature_importance](images/rp_feature_importance.png)
 
 ~~~
-> rpFields2 <- c("class", "length", "entropy", "dictionary", "gram4")
+> rpFields2 <- c("class", "length", "entropy", "dictionary", "gram4", "gram1")
 
 # fields <- c("class", "entropy", "length",  "dictionary", "gram1", "gram2", "gram3", "gram4", "gram5", "gram345")
 
@@ -43,13 +43,13 @@
 	One Sample t-test
 
 data:  x
-t = -1.6518, df = 49, p-value = 0.105
+t = -2.3784, df = 49, p-value = 0.02133
 alternative hypothesis: true mean is not equal to 0
 95 percent confidence interval:
- -0.0060888850  0.0005950078
+ -0.0075613697 -0.0006355956
 sample estimates:
    mean of x 
--0.002746939 
+-0.004098483 
 ~~~
 
 ~~~
