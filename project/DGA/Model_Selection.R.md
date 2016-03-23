@@ -7,15 +7,13 @@
 
 > ctrl <- trainControl(method = "repeatedcv", repeats = 5, summaryFunction = twoClassSummary, classProbs = TRUE)
 
+> library('pROC')
+
 
 > library(rpart)
 
 > rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", trControl = ctrl)
 
-
-> install.packages('pROC')
-
-> library('pROC')
 
 > rfFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rf", trControl = ctrl)
 
@@ -27,6 +25,23 @@
 > svmFit <- train(class ~ ., data = traindga, method = "svmRadial", preProc = c("center", "scale"), metric = "ROC", tuneLength = 10, trControl = ctrl)
 
 
+> install.packages('deepnet')
+
+> library('deepnet')
+
+grid <- expand.grid(layer1 = 1:5, layer2 = 0:3, layer3 = 0:3)
+grid$hidden_dropout <- 0
+grid$visible_dropout <- 0
+
+> dnnFit <- train(class ~ ., data = traindga, method = "dnn", metric = "ROC", tuneGrid = grid, numepochs = 10, trControl = ctrl)
+
+# Error in { : 
+#  task 80 failed - "arguments imply differing number of rows: 0, 750"
+# In addition: There were 50 or more warnings (use warnings() to see the first 50)
+
+# dnnFit <- train(class ~ ., data = traindga, method = "dnn", preProc = c("center", "scale"), metric = "ROC", tuneGrid = grid, numepochs = 500, trControl = ctrl)
+
+
 # sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib, re-start R, still does not work so far
 
 > install.packages('RWeka')
@@ -36,7 +51,7 @@
 > c45Fit <- train(class ~ ., data = train, method = "J48", metric="ROC", trControl = ctrl)
 
 
-> resamp <- resamples(list(rp = rpFit, rf = rfFit, svm = svmFit))
+> resamp <- resamples(list(rp = rpFit, rf = rfFit, svm = svmFit, dnn = dnnFit))
 
 > print(summary(resamp))
 
@@ -125,6 +140,10 @@ Prediction legit  dga
       Balanced Accuracy : 0.9912          
                                           
        'Positive' Class : dga             
+
+rfSelectedIndices2 <- rfFit2$pred$mtry == 2
+
+plot.roc(rfFit2$pred$obs[rfSelectedIndices2], rfFit2$pred$M[rfSelectedIndices2])
 
 
 > svmPred2 <- predict(svmFit2, testdga)
