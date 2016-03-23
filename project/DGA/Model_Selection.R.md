@@ -286,7 +286,7 @@ Area under the curve: 0.9995
 ![svm_ROC](images/svm_ROC.png)
 
 
-
+~~~
 > install.packages('deepnet')
 
 > library('deepnet')
