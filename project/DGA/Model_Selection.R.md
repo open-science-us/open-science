@@ -197,6 +197,95 @@ Area under the curve: 0.9999
 
 > svmFit <- train(class ~ ., data = traindga, method = "svmRadial", preProc = c("center", "scale"), metric = "ROC", tuneLength = 10, trControl = ctrl)
 
+> svmFit
+
+7502 samples
+   9 predictor
+   2 classes: 'legit', 'dga' 
+
+Pre-processing: centered (9), scaled (9) 
+Resampling: Cross-Validated (10 fold, repeated 5 times) 
+Summary of sample sizes: 6752, 6752, 6752, 6752, 6751, 6751, ... 
+Resampling results across tuning parameters:
+
+  C       ROC        Sens       Spec       ROC SD        Sens SD      Spec SD    
+    0.25  0.9996278  0.9958933  0.9949891  0.0005624158  0.003892804  0.004330501
+    0.50  0.9995732  0.9961067  0.9950957  0.0005700885  0.003701713  0.004287330
+    1.00  0.9994304  0.9961600  0.9958420  0.0006277396  0.004037376  0.003926869
+    2.00  0.9992457  0.9961600  0.9960020  0.0007195931  0.003815614  0.003701305
+    4.00  0.9991500  0.9962667  0.9960552  0.0007857954  0.003532807  0.003415321
+    8.00  0.9989639  0.9962667  0.9956285  0.0009183931  0.003491486  0.003721384
+   16.00  0.9988490  0.9964267  0.9953085  0.0010350071  0.003390690  0.004050198
+   32.00  0.9987704  0.9961067  0.9952020  0.0011035858  0.003929907  0.004065489
+   64.00  0.9988339  0.9958933  0.9951488  0.0010847264  0.004145560  0.003908718
+  128.00  0.9989867  0.9951467  0.9952555  0.0009689829  0.004497497  0.003893977
+
+Tuning parameter 'sigma' was held constant at a value of 0.2745293
+ROC was used to select the optimal model using  the largest value.
+The final values used for the model were sigma = 0.2745293 and C = 0.25. 
+
+> svmPred <- predict(svmFit, testdga)
+
+> confusionMatrix(svmPred, testdga$class, positive = 'dga')
+
+Confusion Matrix and Statistics
+
+          Reference
+Prediction legit  dga
+     legit  1246    8
+     dga       4 1240
+                                          
+               Accuracy : 0.9952          
+                 95% CI : (0.9916, 0.9975)
+    No Information Rate : 0.5004          
+    P-Value [Acc > NIR] : <2e-16          
+                                          
+                  Kappa : 0.9904          
+ Mcnemar's Test P-Value : 0.3865          
+                                          
+            Sensitivity : 0.9936          
+            Specificity : 0.9968          
+         Pos Pred Value : 0.9968          
+         Neg Pred Value : 0.9936          
+             Prevalence : 0.4996          
+         Detection Rate : 0.4964          
+   Detection Prevalence : 0.4980          
+      Balanced Accuracy : 0.9952          
+                                          
+       'Positive' Class : dga             
+
+> svmProb <- predict(svmFit, testdga, type = "prob")
+
+> head(svmProb)
+
+      legit          dga
+1 0.9999708 2.919047e-05
+2 0.9998054 1.945759e-04
+3 0.9939989 6.001117e-03
+4 0.9976727 2.327328e-03
+5 0.9995586 4.414185e-04
+6 0.9995740 4.260372e-04
+
+> summary(svmProb)
+
+     legit                dga           
+ Min.   :0.0000007   Min.   :0.0000074  
+ 1st Qu.:0.0004859   1st Qu.:0.0004578  
+ Median :0.7826420   Median :0.2173580  
+ Mean   :0.5016803   Mean   :0.4983197  
+ 3rd Qu.:0.9995422   3rd Qu.:0.9995141  
+ Max.   :0.9999926   Max.   :0.9999993  
+
+> svmROC <- roc(testdga$class, svmProb[, "dga"])
+
+> plot(svmROC, type = "S", print.thres = .5)
+
+Data: svmProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Area under the curve: 0.9995
+~~~
+![svm_ROC](images/svm_ROC.png)
+
+
 
 > install.packages('deepnet')
 
