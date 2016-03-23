@@ -16,7 +16,7 @@
 ~~~
 ![lr_feature_importance](images/lr_feature_importance.png)
 
-
+~~~
 > library(rpart)
 
 > rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", tuneLength = 10, trControl = ctrl)
