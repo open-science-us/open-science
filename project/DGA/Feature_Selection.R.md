@@ -8,9 +8,18 @@
 > ctrl <- trainControl(method = "repeatedcv", repeats = 5, summaryFunction = twoClassSummary, classProbs = TRUE)
 
 
+> lrFit <- train(class ~ ., data = traindga, metric = "ROC", method = "glm", family = "binomial", tuneLength = 10, trControl = ctrl)
+
+> lrImp <- varImp(lrFit, scale = F)
+
+> plot(lrImp)
+~~~
+![lr_feature_importance](images/lr_feature_importance.png)
+
+
 > library(rpart)
 
-> rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", trControl = ctrl)
+> rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", tuneLength = 10, trControl = ctrl)
 
 > rpImp <- varImp(rpFit, scale = F)
 
