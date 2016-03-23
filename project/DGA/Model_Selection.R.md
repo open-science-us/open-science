@@ -10,6 +10,85 @@
 > library('pROC')
 
 
+> lrFit <- train(class ~ ., data = traindga, metric = "ROC", method = "glm", family = "binomial", tuneLength = 10, trControl = ctrl)
+
+> lrFit
+
+7502 samples
+   9 predictor
+   2 classes: 'legit', 'dga' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold, repeated 5 times) 
+Summary of sample sizes: 6752, 6751, 6752, 6752, 6752, 6752, ... 
+Resampling results
+
+  ROC        Sens     Spec      ROC SD       Sens SD      Spec SD    
+  0.9995965  0.99584  0.994403  0.001005266  0.003456395  0.003582405
+
+> lrPred <- predict(lrFit, testdga)
+
+> confusionMatrix(lrPred, testdga$class, positive = 'dga')
+
+Confusion Matrix and Statistics
+
+          Reference
+Prediction legit  dga
+     legit  1246   12
+     dga       4 1236
+                                          
+               Accuracy : 0.9936          
+                 95% CI : (0.9896, 0.9963)
+    No Information Rate : 0.5004          
+    P-Value [Acc > NIR] : < 2e-16         
+                                          
+                  Kappa : 0.9872          
+ Mcnemar's Test P-Value : 0.08012         
+                                          
+            Sensitivity : 0.9904          
+            Specificity : 0.9968          
+         Pos Pred Value : 0.9968          
+         Neg Pred Value : 0.9905          
+             Prevalence : 0.4996          
+         Detection Rate : 0.4948          
+   Detection Prevalence : 0.4964          
+      Balanced Accuracy : 0.9936          
+                                          
+       'Positive' Class : dga             
+
+> lrProb <- predict(lrFit, testdga, type = "prob")
+
+> head(lrProb)
+
+       legit          dga
+3  0.9999991 8.708440e-07
+5  0.9997794 2.205659e-04
+7  1.0000000 4.534178e-12
+10 1.0000000 1.575337e-10
+18 0.9999989 1.095028e-06
+20 0.9999982 1.754745e-06
+
+> summary(lrProb)
+
+     legit             dga           
+ Min.   :0.0000   Min.   :0.0000000  
+ 1st Qu.:0.0000   1st Qu.:0.0000026  
+ Median :0.8008   Median :0.1991626  
+ Mean   :0.5024   Mean   :0.4975904  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000000  
+ Max.   :1.0000   Max.   :1.0000000  
+
+> lrROC <- roc(testdga$class, lrProb[, "dga"])
+
+> plot(lrROC, type = "S", print.thres = .5)
+
+Data: lrProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Area under the curve: 0.9998
+~~~
+![lr_ROC](images/lr_ROC.png)
+
+
+~~~
 > library(rpart)
 
 > rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", tuneLength = 10, trControl = ctrl)
@@ -286,7 +365,7 @@ Area under the curve: 0.9995
 ![svm_ROC](images/svm_ROC.png)
 
 
-
+~~~
 > install.packages('deepnet')
 
 > library('deepnet')
