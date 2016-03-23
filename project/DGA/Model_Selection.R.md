@@ -102,9 +102,95 @@ Area under the curve: 0.9965
 ![rp_ROC](images/rp_ROC.png)
 
 ~~~
-> rfFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rf", trControl = ctrl)
+> rfFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rf", tuneLength = 10, trControl = ctrl)
+
+> rfFit
+
+7502 samples
+   9 predictor
+   2 classes: 'legit', 'dga' 
+
+No pre-processing
+Resampling: Cross-Validated (10 fold, repeated 5 times) 
+Summary of sample sizes: 6752, 6752, 6752, 6752, 6751, 6752, ... 
+Resampling results across tuning parameters:
+
+  mtry  ROC        Sens       Spec       ROC SD        Sens SD      Spec SD    
+  2     0.9997249  0.9953600  0.9962150  0.0003503768  0.004269727  0.002750584
+  3     0.9997083  0.9950933  0.9961084  0.0004682827  0.004044559  0.002756976
+  4     0.9996349  0.9952000  0.9959485  0.0006318016  0.004138202  0.002758728
+  5     0.9996607  0.9950933  0.9959485  0.0005345223  0.004288380  0.002810842
+  6     0.9995996  0.9948267  0.9957885  0.0005593388  0.004423315  0.002854495
+  7     0.9994539  0.9948800  0.9956817  0.0007849987  0.004338176  0.003402366
+  8     0.9994256  0.9946667  0.9956818  0.0007915805  0.004634486  0.003568541
+  9     0.9991992  0.9944533  0.9957885  0.0012063766  0.004722580  0.003324250
+
+ROC was used to select the optimal model using  the largest value.
+The final value used for the model was mtry = 2. 
+
+> rfPred <- predict(rfFit, testdga)
+
+> confusionMatrix(rfPred, testdga$class, positive = 'dga')
+
+Confusion Matrix and Statistics
+
+          Reference
+Prediction legit  dga
+     legit  1244    9
+     dga       6 1239
+                                          
+               Accuracy : 0.994           
+                 95% CI : (0.9901, 0.9966)
+    No Information Rate : 0.5004          
+    P-Value [Acc > NIR] : <2e-16          
+                                          
+                  Kappa : 0.988           
+ Mcnemar's Test P-Value : 0.6056          
+                                          
+            Sensitivity : 0.9928          
+            Specificity : 0.9952          
+         Pos Pred Value : 0.9952          
+         Neg Pred Value : 0.9928          
+             Prevalence : 0.4996          
+         Detection Rate : 0.4960          
+   Detection Prevalence : 0.4984          
+      Balanced Accuracy : 0.9940          
+                                          
+       'Positive' Class : dga             
+
+> rfProb <- predict(rfFit, testdga, type = "prob")
+
+> head(rfProb)
+ 
+   legit   dga
+3  1.000 0.000
+5  0.986 0.014
+7  0.984 0.016
+10 1.000 0.000
+18 1.000 0.000
+20 1.000 0.000
+
+> summary(rfProb)
+
+     legit             dga        
+ Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.5640   Median :0.4360  
+ Mean   :0.5004   Mean   :0.4996  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.0000  
+
+> rfROC <- roc(testdga$class, rfProb[, "dga"])
+
+> plot(rfROC, type = "S", print.thres = .5)
+
+Data: rfProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Area under the curve: 0.9999
+~~~
+![rf_ROC](images/rf_ROC.png)
 
 
+~~~
 > install.packages('kernlab')
 
 > library('kernlab')
