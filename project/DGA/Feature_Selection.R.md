@@ -16,7 +16,41 @@
 ~~~
 ![lr_feature_importance](images/lr_feature_importance.png)
 
+~~~
+> lrFields2 <- c("class", "length", "entropy", "gram1", "gram2", "gram3", "gram4", "gram5")
 
+> lrTraindga2 <- sampledga[trainindex, lrFields2]
+
+> levels(lrTraindga2$class) <- c("dga", "legit")
+
+> lrFit2 <- train(class ~ ., data = lrTraindga2, metric = "ROC", method = "glm", family = "binomial", tuneLength = 10, trControl = ctrl)
+
+> lrImp2 <- varImp(lrFit2, scale = F)
+
+> plot(lrImp2)
+~~~
+![lr_feature_importance](images/lr_feature_importance2.png)
+
+~~~
+> lrResamples12 <- resamples(list(lr1 = lrFit, lr2 = lrFit2))
+
+> lrDiff12 <- diff(lrResamples12)
+ 
+> print(lrDiff12$statistics$ROC$lr1.diff.lr2)
+
+	One Sample t-test
+
+data:  x
+t = -1.2093, df = 49, p-value = 0.2324
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ -0.0004696462  0.0001167672
+sample estimates:
+    mean of x 
+-0.0001764395 
+~~~ 
+
+~~~
 > library(rpart)
 
 > rpFit <- train(class ~ ., data = traindga, metric = "ROC", method = "rpart", tuneLength = 10, trControl = ctrl)
@@ -28,13 +62,13 @@
 ![rp_feature_importance](images/rp_feature_importance.png)
 
 ~~~
-> rpFields2 <- c("class", "length", "entropy", "dictionary", "gram4", "gram1")
-
-# fields <- c("class", "entropy", "length",  "dictionary", "gram1", "gram2", "gram3", "gram4", "gram5", "gram345")
+> rpFields2 <- c("class", "length", "entropy", "dictionary", "gram4", "gram345", "gram1")
 
 > rpTraindga2 <- sampledga[trainindex, rpFields2]
 
-> rpFit2 <- train(class ~ ., data = rpTraindga2, metric = "ROC", method = "rpart", trControl = ctrl)
+> levels(rpTraindga2$class) <- c("dga", "legit")
+
+> rpFit2 <- train(class ~ ., data = rpTraindga2, metric = "ROC", method = "rpart", tuneLength = 10, trControl = ctrl)
 
 > rpImp2 <- varImp(rpFit2, scale = F)
 
@@ -52,13 +86,13 @@
 	One Sample t-test
 
 data:  x
-t = -2.3784, df = 49, p-value = 0.02133
+t = -0.22352, df = 49, p-value = 0.8241
 alternative hypothesis: true mean is not equal to 0
 95 percent confidence interval:
- -0.0075613697 -0.0006355956
+ -0.0011135578  0.0008906403
 sample estimates:
-   mean of x 
--0.004098483 
+    mean of x 
+-0.0001114587 
 ~~~
 
 ~~~
@@ -75,9 +109,9 @@ sample estimates:
 ~~~
 > svmFields2 <- c("class", "entropy", "dictionary", "length", "gram1")
 
-# fields <- c("class", "entropy", "length",  "dictionary", "gram1", "gram2", "gram3", "gram4", "gram5", "gram345")
-
 > svmTraindga2 <- sampledga[trainindex, svmFields2]
+
+> levels(svmTraindga2$class) <- c("dga", "legit")
 
 > svmFit2 <- train(class ~ ., data = svmTraindga2, method = "svmRadial", preProc = c("center", "scale"), metric = "ROC", tuneLength = 10, trControl = ctrl)
 
@@ -97,13 +131,13 @@ sample estimates:
 	One Sample t-test
 
 data:  x
-t = 11.817, df = 49, p-value = 5.932e-16
+t = 11.897, df = 49, p-value = 4.645e-16
 alternative hypothesis: true mean is not equal to 0
 95 percent confidence interval:
- 0.002664066 0.003755780
+ 0.002350348 0.003305779
 sample estimates:
   mean of x 
-0.003209923 
+0.002828064 
 ~~~
 
 ~~~
@@ -126,6 +160,8 @@ sample estimates:
 
 > rfTraindga2 <- sampledga[trainindex, rfFields2]
 
+> levels(rfTraindga2$class) <- c("dga", "legit")
+
 > rfFit2 <- train(class ~ ., data = rfTraindga2, metric = "ROC", method = "rf", trControl = ctrl)
 
 > rfImp2 <- varImp(rfFit2, scale = F)
@@ -144,11 +180,11 @@ sample estimates:
 	One Sample t-test
 
 data:  x
-t = 4.3992, df = 49, p-value = 5.854e-05
+t = 3.6362, df = 49, p-value = 0.0006634
 alternative hypothesis: true mean is not equal to 0
 95 percent confidence interval:
- 0.0003525197 0.0009454302
+ 0.0002551631 0.0008856377
 sample estimates:
    mean of x 
-0.0006489749 
+0.0005704004 
 ~~~

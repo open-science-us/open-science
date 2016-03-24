@@ -52,6 +52,9 @@
         3711           39         1251         1251         1250 
 
 
+> levels(traindga$class) <- c("dga", "legit")
+
+
 > testdga <- sampledga[-trainindex, ]
 
 > nrow(testdga)
@@ -78,6 +81,9 @@
 51407    9hw0nq1p9binuc6jrifi1noiu.biz    9hw0nq1p9binuc6jrifi1noiu biz   dga   newgoz 3.893661     25  0.6400000 71.62919 21.67631 3.6488477     0     0 3.6488477
 
 
+> levels(testdga$class) <- c("dga", "legit")
+
+
 > fields2 <- c("class", "length",  "dictionary", "gram345")
 
 > traindga2 <- sampledga[trainindex, fields2]
@@ -101,4 +107,6 @@
 50826   dga     25  0.4000000 0.0000000
 52350   dga     25  0.3200000 1.3010300
 45591   dga     25  0.2800000 0.6020600
+
+> levels(traindga2$class) <- c("dga", "legit")
 ~~~
