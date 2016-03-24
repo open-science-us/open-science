@@ -82,31 +82,4 @@
 
 
 > levels(testdga$class) <- c("dga", "legit")
-
-
-> fields2 <- c("class", "length",  "dictionary", "gram345")
-
-> traindga2 <- sampledga[trainindex, fields2]
-
-> head(traindga2)
-
-  class length dictionary   gram345
-1 legit      6  1.0000000 16.867008
-2 legit      8  1.0000000 10.978241
-4 legit      5  1.0000000  4.024650
-6 legit      9  0.7777778 11.157754
-8 legit      6  1.0000000 11.326149
-9 legit      4  1.0000000  4.730459
- 
-> tail(traindga2)
-
-      class length dictionary   gram345
-43523   dga     26  0.3461538 0.7781513
-47408   dga     26  0.5384615 0.0000000
-47771   dga     26  0.4615385 0.0000000
-50826   dga     25  0.4000000 0.0000000
-52350   dga     25  0.3200000 1.3010300
-45591   dga     25  0.2800000 0.6020600
-
-> levels(traindga2$class) <- c("dga", "legit")
 ~~~
