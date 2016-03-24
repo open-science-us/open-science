@@ -391,172 +391,121 @@ grid$visible_dropout <- 0
 > c45Fit <- train(class ~ ., data = traindga, method = "J48", metric="ROC", trControl = ctrl)
 
 
-> resamp <- resamples(list(rp = rpFit, rf = rfFit, svm = svmFit))
+> resamp <- resamples(list(lr = lrFit, rp = rpFit, svm = svmFit, rf = rfFit))
 
 > print(summary(resamp))
 
 Call:
 summary.resamples(object = resamp)
 
-Models: rp, rf, svm 
+Models: lr, rp, svm, rf 
 Number of resamples: 50 
 
 ROC 
-      Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA's
-rp  0.9607  0.9733 0.9790 0.9799  0.9874 0.9974    0
-rf  0.9978  0.9997 0.9999 0.9997  1.0000 1.0000    0
-svm 0.9981  0.9998 0.9999 0.9996  1.0000 1.0000    0
+      Min. 1st Qu. Median   Mean 3rd Qu. Max. NA's
+lr  0.9867  0.9996 0.9999 0.9993  0.9999    1    0
+rp  0.9902  0.9957 0.9971 0.9969  0.9986    1    0
+svm 0.9967  0.9998 0.9999 0.9996  1.0000    1    0
+rf  0.9981  0.9997 0.9998 0.9998  1.0000    1    0
 
 Sens 
       Min. 1st Qu. Median   Mean 3rd Qu. Max. NA's
-rp  0.9680  0.9813 0.9867 0.9865  0.9920    1    0
-rf  0.9867  0.9947 0.9960 0.9955  0.9973    1    0
-svm 0.9787  0.9947 0.9973 0.9959  0.9973    1    0
+lr  0.9893  0.9927 0.9947 0.9955  0.9973    1    0
+rp  0.9813  0.9893 0.9920 0.9916  0.9947    1    0
+svm 0.9867  0.9947 0.9973 0.9959  0.9973    1    0
+rf  0.9867  0.9920 0.9947 0.9953  0.9973    1    0
 
 Spec 
-      Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA's
-rp  0.9413  0.9495 0.9613 0.9668  0.9860 0.9973    0
-rf  0.9867  0.9947 0.9973 0.9960  0.9973 1.0000    0
-svm 0.9813  0.9920 0.9947 0.9950  0.9973 1.0000    0
+      Min. 1st Qu. Median   Mean 3rd Qu. Max. NA's
+lr  0.9813  0.9920 0.9947 0.9941  0.9973    1    0
+rp  0.9627  0.9900 0.9947 0.9928  0.9973    1    0
+svm 0.9787  0.9947 0.9973 0.9950  0.9973    1    0
+rf  0.9867  0.9927 0.9973 0.9959  0.9973    1    0
 
 
-> resamp2 <- resamples(list(rp2 = rpFit2, rf2 = rfFit2, svm2 = svmFit2))
+> resamp2 <- resamples(list(rf2 = rfFit2, svm2 = svmFit2))
 
 > print(summary(resamp2))
 
 Call:
 summary.resamples(object = resamp2)
 
-Models: rp2, rf2, svm2 
+Models: rf2, svm2 
 Number of resamples: 50 
 
 ROC 
        Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA's
-rp2  0.9635  0.9808 0.9864 0.9840  0.9898 0.9962    0
-rf2  0.9966  0.9983 0.9997 0.9991  0.9999 1.0000    0
-svm2 0.9916  0.9955 0.9965 0.9964  0.9976 0.9997    0
+rf2  0.9954  0.9984 0.9997 0.9992  0.9999 1.0000    0
+svm2 0.9927  0.9956 0.9971 0.9968  0.9982 0.9995    0
 
 Sens 
        Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA's
-rp2  0.9653  0.9787 0.9813 0.9819  0.9867 0.9973    0
-rf2  0.9733  0.9893 0.9893 0.9905  0.9940 1.0000    0
-svm2 0.9707  0.9813 0.9867 0.9849  0.9893 0.9973    0
+rf2  0.9787  0.9867 0.9893 0.9899  0.9947 1.0000    0
+svm2 0.9680  0.9813 0.9867 0.9852  0.9893 0.9973    0
 
 Spec 
-       Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA's
-rp2  0.9387  0.9787 0.9840 0.9805  0.9913 0.9973    0
-rf2  0.9813  0.9900 0.9947 0.9930  0.9973 1.0000    0
-svm2 0.9707  0.9767 0.9813 0.9819  0.9860 0.9973    0
-
-
-> rpPred2 <- predict(rpFit2, testdga)
-
-> print(confusionMatrix(rpPred2, testdga$class, positive = 'dga'))
-
-Confusion Matrix and Statistics
-
-          Reference
-Prediction legit  dga
-     legit  1238   64
-     dga      12 1184
-                                         
-               Accuracy : 0.9696         
-                 95% CI : (0.9621, 0.976)
-    No Information Rate : 0.5004         
-    P-Value [Acc > NIR] : < 2.2e-16      
-                                         
-                  Kappa : 0.9391         
- Mcnemar's Test P-Value : 4.913e-09      
-                                         
-            Sensitivity : 0.9487         
-            Specificity : 0.9904         
-         Pos Pred Value : 0.9900         
-         Neg Pred Value : 0.9508         
-             Prevalence : 0.4996         
-         Detection Rate : 0.4740         
-   Detection Prevalence : 0.4788         
-      Balanced Accuracy : 0.9696         
-                                         
-       'Positive' Class : dga            
-
-> rpProb2 <- predict(rpFit2, testdga, type = "prob")
-
-> head(rpProb2)
-
-       legit        dga
-3  0.9519116 0.04808841
-5  0.9519116 0.04808841
-7  1.0000000 0.00000000
-10 0.9519116 0.04808841
-18 0.9519116 0.04808841
-
-> rpROC2 <- roc(testdga$class, rpProb2[, "dga"], levels = rev(testdga$class))
-
-> plot(rpROC2, type = "S", print.thres = .5)
+      Min. 1st Qu. Median   Mean 3rd Qu.   Max. NA's
+rf2  0.984  0.9893  0.992 0.9923  0.9947 1.0000    0
+svm2 0.960  0.9767  0.984 0.9819  0.9867 0.9947    0
 
 
 > rfPred2 <- predict(rfFit2, testdga)
 
-> print(confusionMatrix(rfPred2, testdga$class, positive = 'dga'))
+> print(confusionMatrix(rfPred2, testdga$class))
 
 Confusion Matrix and Statistics
 
           Reference
-Prediction legit  dga
-     legit  1241   13
-     dga       9 1235
+Prediction  dga legit
+     dga   1239    13
+     legit   11  1235
                                           
-               Accuracy : 0.9912          
-                 95% CI : (0.9867, 0.9945)
+               Accuracy : 0.9904          
+                 95% CI : (0.9857, 0.9938)
     No Information Rate : 0.5004          
     P-Value [Acc > NIR] : <2e-16          
                                           
-                  Kappa : 0.9824          
- Mcnemar's Test P-Value : 0.5224          
+                  Kappa : 0.9808          
+ Mcnemar's Test P-Value : 0.8383          
                                           
-            Sensitivity : 0.9896          
-            Specificity : 0.9928          
-         Pos Pred Value : 0.9928          
-         Neg Pred Value : 0.9896          
-             Prevalence : 0.4996          
-         Detection Rate : 0.4944          
-   Detection Prevalence : 0.4980          
-      Balanced Accuracy : 0.9912          
+            Sensitivity : 0.9912          
+            Specificity : 0.9896          
+         Pos Pred Value : 0.9896          
+         Neg Pred Value : 0.9912          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4960          
+   Detection Prevalence : 0.5012          
+      Balanced Accuracy : 0.9904          
                                           
        'Positive' Class : dga             
 
-# rfSelectedIndices2 <- rfFit2$pred$mtry == 2
-
-# plot.roc(rfFit2$pred$obs[rfSelectedIndices2], rfFit2$pred$M[rfSelectedIndices2])
-
-
 > svmPred2 <- predict(svmFit2, testdga)
 
-> print(confusionMatrix(svmPred2, testdga$class, positive = 'dga'))
+> print(confusionMatrix(svmPred2, testdga$class))
 
 Confusion Matrix and Statistics
 
           Reference
-Prediction legit  dga
-     legit  1234   29
-     dga      16 1219
-                                         
-               Accuracy : 0.982          
-                 95% CI : (0.976, 0.9868)
-    No Information Rate : 0.5004         
-    P-Value [Acc > NIR] : < 2e-16        
-                                         
-                  Kappa : 0.964          
- Mcnemar's Test P-Value : 0.07364        
-                                         
-            Sensitivity : 0.9768         
-            Specificity : 0.9872         
-         Pos Pred Value : 0.9870         
-         Neg Pred Value : 0.9770         
-             Prevalence : 0.4996         
-         Detection Rate : 0.4880         
-   Detection Prevalence : 0.4944         
-      Balanced Accuracy : 0.9820         
-                                         
-       'Positive' Class : dga            
+Prediction  dga legit
+     dga   1234    32
+     legit   16  1216
+                                          
+               Accuracy : 0.9808          
+                 95% CI : (0.9746, 0.9858)
+    No Information Rate : 0.5004          
+    P-Value [Acc > NIR] : < 2e-16         
+                                          
+                  Kappa : 0.9616          
+ Mcnemar's Test P-Value : 0.03038         
+                                          
+            Sensitivity : 0.9872          
+            Specificity : 0.9744          
+         Pos Pred Value : 0.9747          
+         Neg Pred Value : 0.9870          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4940          
+   Detection Prevalence : 0.5068          
+      Balanced Accuracy : 0.9808          
+                                          
+       'Positive' Class : dga             
 ~~~
