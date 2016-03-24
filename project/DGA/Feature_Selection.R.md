@@ -15,7 +15,7 @@
 > plot(lrImp)
 ~~~
 ![lr_feature_importance](images/lr_feature_importance.png)
-
+ 
 ~~~
 > library(rpart)
 
