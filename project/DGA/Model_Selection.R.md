@@ -16,26 +16,26 @@
 
 7502 samples
    9 predictor
-   2 classes: 'legit', 'dga' 
+   2 classes: 'dga', 'legit' 
 
 No pre-processing
 Resampling: Cross-Validated (10 fold, repeated 5 times) 
-Summary of sample sizes: 6752, 6751, 6752, 6752, 6752, 6752, ... 
+Summary of sample sizes: 6752, 6752, 6752, 6751, 6751, 6752, ... 
 Resampling results
 
-  ROC        Sens     Spec      ROC SD       Sens SD      Spec SD    
-  0.9995965  0.99584  0.994403  0.001005266  0.003456395  0.003582405
+  ROC        Sens     Spec       ROC SD       Sens SD      Spec SD    
+  0.9992655  0.99552  0.9940838  0.002205468  0.003115436  0.004247934
 
 > lrPred <- predict(lrFit, testdga)
 
-> confusionMatrix(lrPred, testdga$class, positive = 'dga')
+> confusionMatrix(lrPred, testdga$class)
 
 Confusion Matrix and Statistics
 
           Reference
-Prediction legit  dga
-     legit  1246   12
-     dga       4 1236
+Prediction  dga legit
+     dga   1246    12
+     legit    4  1236
                                           
                Accuracy : 0.9936          
                  95% CI : (0.9896, 0.9963)
@@ -45,13 +45,13 @@ Prediction legit  dga
                   Kappa : 0.9872          
  Mcnemar's Test P-Value : 0.08012         
                                           
-            Sensitivity : 0.9904          
-            Specificity : 0.9968          
-         Pos Pred Value : 0.9968          
-         Neg Pred Value : 0.9905          
-             Prevalence : 0.4996          
-         Detection Rate : 0.4948          
-   Detection Prevalence : 0.4964          
+            Sensitivity : 0.9968          
+            Specificity : 0.9904          
+         Pos Pred Value : 0.9905          
+         Neg Pred Value : 0.9968          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4988          
+   Detection Prevalence : 0.5036          
       Balanced Accuracy : 0.9936          
                                           
        'Positive' Class : dga             
@@ -60,7 +60,7 @@ Prediction legit  dga
 
 > head(lrProb)
 
-       legit          dga
+         dga        legit
 3  0.9999991 8.708440e-07
 5  0.9997794 2.205659e-04
 7  1.0000000 4.534178e-12
@@ -70,7 +70,7 @@ Prediction legit  dga
 
 > summary(lrProb)
 
-     legit             dga           
+      dga             legit          
  Min.   :0.0000   Min.   :0.0000000  
  1st Qu.:0.0000   1st Qu.:0.0000026  
  Median :0.8008   Median :0.1991626  
@@ -82,7 +82,7 @@ Prediction legit  dga
 
 > plot(lrROC, type = "S", print.thres = .5)
 
-Data: lrProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Data: lrProb[, "dga"] in 1250 controls (testdga$class dga) > 1248 cases (testdga$class legit).
 Area under the curve: 0.9998
 ~~~
 ![lr_ROC](images/lr_ROC.png)
@@ -97,38 +97,37 @@ Area under the curve: 0.9998
 
 7502 samples
    9 predictor
-   2 classes: 'legit', 'dga' 
+   2 classes: 'dga', 'legit' 
 
 No pre-processing
 Resampling: Cross-Validated (10 fold, repeated 5 times) 
-Summary of sample sizes: 6752, 6752, 6752, 6751, 6752, 6752, ... 
+Summary of sample sizes: 6752, 6751, 6752, 6752, 6752, 6752, ... 
 Resampling results across tuning parameters:
 
   cp            ROC        Sens       Spec       ROC SD       Sens SD      Spec SD    
-  0.0000000000  0.9971525  0.9917867  0.9934957  0.002212055  0.004660715  0.004576550
-  0.0002666667  0.9969247  0.9923733  0.9930692  0.002382251  0.004442957  0.004848959
-  0.0006222222  0.9961066  0.9917333  0.9921634  0.002444771  0.004111816  0.005397416
-  0.0008000000  0.9959514  0.9916267  0.9920569  0.002419395  0.004208101  0.005610530
-  0.0009777778  0.9956633  0.9921600  0.9909909  0.002288933  0.003937286  0.005134984
-  0.0030222222  0.9940510  0.9920533  0.9878462  0.003389121  0.003940234  0.008295180
-  0.0083555556  0.9887115  0.9938133  0.9762826  0.007913414  0.003631657  0.017826706
-  0.0104000000  0.9799661  0.9861867  0.9675384  0.008718752  0.009617671  0.018616878
-  0.1344000000  0.9322103  0.9049067  0.9570882  0.038597960  0.074722253  0.010867058
-  0.8069333333  0.7056319  0.4358933  0.9753705  0.199635315  0.423177643  0.024866960
+  0.0000000000  0.9968530  0.9915733  0.9928043  0.002355562  0.004738533  0.006423238
+  0.0002666667  0.9966385  0.9919467  0.9927513  0.002545329  0.004292777  0.005570218
+  0.0006222222  0.9959458  0.9919467  0.9910450  0.002702068  0.004586958  0.006502037
+  0.0008000000  0.9958785  0.9918933  0.9910980  0.002508261  0.004664450  0.006363932
+  0.0009777778  0.9955988  0.9922133  0.9906719  0.002615989  0.004813888  0.006193028
+  0.0030222222  0.9944756  0.9915200  0.9888583  0.003147831  0.004839445  0.008075244
+  0.0083555556  0.9896473  0.9931200  0.9783067  0.007186621  0.004574285  0.016362575
+  0.0104000000  0.9811309  0.9856533  0.9711091  0.008039449  0.009360737  0.018640337
+  0.1344000000  0.9371145  0.9142400  0.9570887  0.039300761  0.077537352  0.009992878
+  0.8069333333  0.6735267  0.3670400  0.9800133  0.197812472  0.418444851  0.023620995
 
 ROC was used to select the optimal model using  the largest value.
-The final value used for the model was cp = 0. 
 
 > rpPred <- predict(rpFit, testdga)
 
-> confusionMatrix(rpPred, testdga$class, positive = 'dga')
+> confusionMatrix(rpPred, testdga$class)
 
 Confusion Matrix and Statistics
 
           Reference
-Prediction legit  dga
-     legit  1243    8
-     dga       7 1240
+Prediction  dga legit
+     dga   1243     8
+     legit    7  1240
                                           
                Accuracy : 0.994           
                  95% CI : (0.9901, 0.9966)
@@ -138,13 +137,13 @@ Prediction legit  dga
                   Kappa : 0.988           
  Mcnemar's Test P-Value : 1               
                                           
-            Sensitivity : 0.9936          
-            Specificity : 0.9944          
-         Pos Pred Value : 0.9944          
-         Neg Pred Value : 0.9936          
-             Prevalence : 0.4996          
-         Detection Rate : 0.4964          
-   Detection Prevalence : 0.4992          
+            Sensitivity : 0.9944          
+            Specificity : 0.9936          
+         Pos Pred Value : 0.9936          
+         Neg Pred Value : 0.9944          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4976          
+   Detection Prevalence : 0.5008          
       Balanced Accuracy : 0.9940          
                                           
        'Positive' Class : dga             
@@ -163,7 +162,7 @@ Prediction legit  dga
 
 > summary(rpProb)
  
-     legit               dga         
+     dga               legit        
  Min.   :0.000000   Min.   :0.00000  
  1st Qu.:0.001693   1st Qu.:0.00000  
  Median :0.928571   Median :0.07143  
@@ -175,7 +174,7 @@ Prediction legit  dga
 
 > plot(rpROC, type = "S", print.thres = .5)
 
-Data: rpProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Data: rpProb[, "dga"] in 1250 controls (testdga$class dga) > 1248 cases (testdga$class legit).
 Area under the curve: 0.9965
 ~~~
 ![rp_ROC](images/rp_ROC.png)
@@ -187,36 +186,36 @@ Area under the curve: 0.9965
 
 7502 samples
    9 predictor
-   2 classes: 'legit', 'dga' 
+   2 classes: 'dga', 'legit' 
 
 No pre-processing
 Resampling: Cross-Validated (10 fold, repeated 5 times) 
-Summary of sample sizes: 6752, 6752, 6752, 6752, 6751, 6752, ... 
+Summary of sample sizes: 6752, 6752, 6752, 6752, 6752, 6752, ... 
 Resampling results across tuning parameters:
 
   mtry  ROC        Sens       Spec       ROC SD        Sens SD      Spec SD    
-  2     0.9997249  0.9953600  0.9962150  0.0003503768  0.004269727  0.002750584
-  3     0.9997083  0.9950933  0.9961084  0.0004682827  0.004044559  0.002756976
-  4     0.9996349  0.9952000  0.9959485  0.0006318016  0.004138202  0.002758728
-  5     0.9996607  0.9950933  0.9959485  0.0005345223  0.004288380  0.002810842
-  6     0.9995996  0.9948267  0.9957885  0.0005593388  0.004423315  0.002854495
-  7     0.9994539  0.9948800  0.9956817  0.0007849987  0.004338176  0.003402366
-  8     0.9994256  0.9946667  0.9956818  0.0007915805  0.004634486  0.003568541
-  9     0.9991992  0.9944533  0.9957885  0.0012063766  0.004722580  0.003324250
+  2     0.9997594  0.9953067  0.9958956  0.0003228760  0.003074170  0.003496752
+  3     0.9997012  0.9953067  0.9959491  0.0004739956  0.003121021  0.003456059
+  4     0.9997419  0.9953600  0.9958426  0.0003648074  0.003223947  0.003452837
+  5     0.9995715  0.9952533  0.9955227  0.0006008573  0.003245482  0.003627935
+  6     0.9995188  0.9949867  0.9956294  0.0006267543  0.003348916  0.003796736
+  7     0.9995681  0.9949333  0.9954694  0.0005810998  0.003331973  0.003890862
+  8     0.9995079  0.9947200  0.9956294  0.0006168327  0.003470223  0.003872429
+  9     0.9992523  0.9944533  0.9957359  0.0009360204  0.003357572  0.003881873
 
 ROC was used to select the optimal model using  the largest value.
 The final value used for the model was mtry = 2. 
 
 > rfPred <- predict(rfFit, testdga)
 
-> confusionMatrix(rfPred, testdga$class, positive = 'dga')
+> confusionMatrix(rfPred, testdga$class)
 
 Confusion Matrix and Statistics
 
           Reference
-Prediction legit  dga
-     legit  1244    9
-     dga       6 1239
+Prediction  dga legit
+     dga   1244     9
+     legit    6  1239
                                           
                Accuracy : 0.994           
                  95% CI : (0.9901, 0.9966)
@@ -226,13 +225,13 @@ Prediction legit  dga
                   Kappa : 0.988           
  Mcnemar's Test P-Value : 0.6056          
                                           
-            Sensitivity : 0.9928          
-            Specificity : 0.9952          
-         Pos Pred Value : 0.9952          
-         Neg Pred Value : 0.9928          
-             Prevalence : 0.4996          
-         Detection Rate : 0.4960          
-   Detection Prevalence : 0.4984          
+            Sensitivity : 0.9952          
+            Specificity : 0.9928          
+         Pos Pred Value : 0.9928          
+         Neg Pred Value : 0.9952          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4980          
+   Detection Prevalence : 0.5016          
       Balanced Accuracy : 0.9940          
                                           
        'Positive' Class : dga             
@@ -241,21 +240,21 @@ Prediction legit  dga
 
 > head(rfProb)
  
-   legit   dga
+     dga legit
 3  1.000 0.000
-5  0.986 0.014
-7  0.984 0.016
+5  0.998 0.002
+7  0.994 0.006
 10 1.000 0.000
 18 1.000 0.000
 20 1.000 0.000
 
 > summary(rfProb)
 
-     legit             dga        
+      dga             legit       
  Min.   :0.0000   Min.   :0.0000  
  1st Qu.:0.0000   1st Qu.:0.0000  
- Median :0.5640   Median :0.4360  
- Mean   :0.5004   Mean   :0.4996  
+ Median :0.5590   Median :0.4410  
+ Mean   :0.5018   Mean   :0.4982  
  3rd Qu.:1.0000   3rd Qu.:1.0000  
  Max.   :1.0000   Max.   :1.0000  
 
@@ -263,7 +262,7 @@ Prediction legit  dga
 
 > plot(rfROC, type = "S", print.thres = .5)
 
-Data: rfProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Data: rfProb[, "dga"] in 1250 controls (testdga$class dga) > 1248 cases (testdga$class legit).
 Area under the curve: 0.9999
 ~~~
 ![rf_ROC](images/rf_ROC.png)
@@ -280,7 +279,7 @@ Area under the curve: 0.9999
 
 7502 samples
    9 predictor
-   2 classes: 'legit', 'dga' 
+   2 classes: 'dga', 'legit' 
 
 Pre-processing: centered (9), scaled (9) 
 Resampling: Cross-Validated (10 fold, repeated 5 times) 
@@ -288,31 +287,31 @@ Summary of sample sizes: 6752, 6752, 6752, 6752, 6751, 6751, ...
 Resampling results across tuning parameters:
 
   C       ROC        Sens       Spec       ROC SD        Sens SD      Spec SD    
-    0.25  0.9996278  0.9958933  0.9949891  0.0005624158  0.003892804  0.004330501
-    0.50  0.9995732  0.9961067  0.9950957  0.0005700885  0.003701713  0.004287330
-    1.00  0.9994304  0.9961600  0.9958420  0.0006277396  0.004037376  0.003926869
-    2.00  0.9992457  0.9961600  0.9960020  0.0007195931  0.003815614  0.003701305
-    4.00  0.9991500  0.9962667  0.9960552  0.0007857954  0.003532807  0.003415321
-    8.00  0.9989639  0.9962667  0.9956285  0.0009183931  0.003491486  0.003721384
-   16.00  0.9988490  0.9964267  0.9953085  0.0010350071  0.003390690  0.004050198
-   32.00  0.9987704  0.9961067  0.9952020  0.0011035858  0.003929907  0.004065489
-   64.00  0.9988339  0.9958933  0.9951488  0.0010847264  0.004145560  0.003908718
-  128.00  0.9989867  0.9951467  0.9952555  0.0009689829  0.004497497  0.003893977
+    0.25  0.9996203  0.9958933  0.9949904  0.0006865053  0.003458494  0.004523187
+    0.50  0.9995494  0.9961067  0.9951504  0.0007266053  0.003286363  0.004556281
+    1.00  0.9994345  0.9962133  0.9958431  0.0008004339  0.003368360  0.003997448
+    2.00  0.9992645  0.9966400  0.9959499  0.0009660001  0.003399240  0.003737752
+    4.00  0.9991129  0.9962667  0.9959496  0.0011293965  0.003693470  0.003539708
+    8.00  0.9989207  0.9962667  0.9957363  0.0012763879  0.003449671  0.003651290
+   16.00  0.9988973  0.9964800  0.9954698  0.0013026108  0.003296504  0.003853593
+   32.00  0.9989266  0.9964267  0.9949899  0.0012105474  0.003638444  0.004051577
+   64.00  0.9990125  0.9963200  0.9949365  0.0011004687  0.003649595  0.004001436
+  128.00  0.9991429  0.9954667  0.9948824  0.0009385691  0.004040610  0.004166231
 
-Tuning parameter 'sigma' was held constant at a value of 0.2745293
+Tuning parameter 'sigma' was held constant at a value of 0.279101
 ROC was used to select the optimal model using  the largest value.
-The final values used for the model were sigma = 0.2745293 and C = 0.25. 
+The final values used for the model were sigma = 0.279101 and C = 0.25. 
 
 > svmPred <- predict(svmFit, testdga)
 
-> confusionMatrix(svmPred, testdga$class, positive = 'dga')
+> confusionMatrix(svmPred, testdga$class)
 
 Confusion Matrix and Statistics
 
           Reference
-Prediction legit  dga
-     legit  1246    8
-     dga       4 1240
+Prediction  dga legit
+     dga   1246     8
+     legit    4  1240
                                           
                Accuracy : 0.9952          
                  95% CI : (0.9916, 0.9975)
@@ -322,13 +321,13 @@ Prediction legit  dga
                   Kappa : 0.9904          
  Mcnemar's Test P-Value : 0.3865          
                                           
-            Sensitivity : 0.9936          
-            Specificity : 0.9968          
-         Pos Pred Value : 0.9968          
-         Neg Pred Value : 0.9936          
-             Prevalence : 0.4996          
-         Detection Rate : 0.4964          
-   Detection Prevalence : 0.4980          
+            Sensitivity : 0.9968          
+            Specificity : 0.9936          
+         Pos Pred Value : 0.9936          
+         Neg Pred Value : 0.9968          
+             Prevalence : 0.5004          
+         Detection Rate : 0.4988          
+   Detection Prevalence : 0.5020          
       Balanced Accuracy : 0.9952          
                                           
        'Positive' Class : dga             
@@ -337,29 +336,29 @@ Prediction legit  dga
 
 > head(svmProb)
 
-      legit          dga
-1 0.9999708 2.919047e-05
-2 0.9998054 1.945759e-04
-3 0.9939989 6.001117e-03
-4 0.9976727 2.327328e-03
-5 0.9995586 4.414185e-04
-6 0.9995740 4.260372e-04
+        dga        legit
+1 0.9999709 2.910524e-05
+2 0.9998049 1.950968e-04
+3 0.9941531 5.846903e-03
+4 0.9975890 2.410970e-03
+5 0.9995465 4.534824e-04
+6 0.9995588 4.412243e-04
 
 > summary(svmProb)
 
-     legit                dga           
- Min.   :0.0000007   Min.   :0.0000074  
- 1st Qu.:0.0004859   1st Qu.:0.0004578  
- Median :0.7826420   Median :0.2173580  
- Mean   :0.5016803   Mean   :0.4983197  
- 3rd Qu.:0.9995422   3rd Qu.:0.9995141  
- Max.   :0.9999926   Max.   :0.9999993  
+     dga                legit          
+ Min.   :0.0000007   Min.   :0.0000072  
+ 1st Qu.:0.0004546   1st Qu.:0.0004531  
+ Median :0.7767112   Median :0.2232888  
+ Mean   :0.5015888   Mean   :0.4984112  
+ 3rd Qu.:0.9995469   3rd Qu.:0.9995454  
+ Max.   :0.9999928   Max.   :0.9999993  
 
 > svmROC <- roc(testdga$class, svmProb[, "dga"])
 
 > plot(svmROC, type = "S", print.thres = .5)
 
-Data: svmProb[, "dga"] in 1250 controls (testdga$class legit) < 1248 cases (testdga$class dga).
+Data: svmProb[, "dga"] in 1250 controls (testdga$class dga) > 1248 cases (testdga$class legit).
 Area under the curve: 0.9995
 ~~~
 ![svm_ROC](images/svm_ROC.png)
