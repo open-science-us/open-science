@@ -49,3 +49,7 @@
 (2) [Building a DGA Classifier: Part 2, Feature Engineering](http://datadrivensecurity.info/blog/posts/2014/Oct/dga-part2/)
 
 (3) [Building a DGA Classifier: Part 3, Model Selection](http://datadrivensecurity.info/blog/posts/2014/Oct/dga-part3/)
+
+(4) [7 Important Model Evaluation Error Metrics Everyone should know](http://www.analyticsvidhya.com/blog/2016/02/7-important-model-evaluation-error-metrics/)
+
+(5) [Model Training and Tuning](http://topepo.github.io/caret/training.html)
