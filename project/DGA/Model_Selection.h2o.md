@@ -76,7 +76,7 @@ Totals 3750  3752 0.000000  =0/7502
 
 (2) Select an algorithm: "Generalized Linear Modeling"
 
-(3) validation_frame: "testdga"; response_column: "class"; family: binomial
+(3) validation_frame: "testdga"; response_column: "class"; family: binomial; score_each_iteration: checked;
 
 (4) Click "Build Model"
 
@@ -91,11 +91,20 @@ Totals 3750  3752 0.000000  =0/7502
 # go back to R
 
 > h2o.confusionMatrix(h2o.getModel("glm-f477a602-8a31-4da7-8f58-80d3d65653eb"), h2o.getFrame("testdga"))
+
 Confusion Matrix for max f1 @ threshold = 0.417488962038092:
         dga legit    Error      Rate
 dga    1246     4 0.003200   =4/1250
 legit    11  1237 0.008814  =11/1248
 Totals 1257  1241 0.006005  =15/2498
+
+> h2o.confusionMatrix(h2o.getModel("glm-f477a602-8a31-4da7-8f58-80d3d65653eb"), h2o.getFrame("traindga"))
+
+Confusion Matrix for max f1 @ threshold = 0.39645134669577:
+        dga legit    Error      Rate
+dga    3719    31 0.008267  =31/3750
+legit    21  3731 0.005597  =21/3752
+Totals 3740  3762 0.006931  =52/7502
 ~~~
 
 
