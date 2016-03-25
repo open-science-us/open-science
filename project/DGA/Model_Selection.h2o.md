@@ -79,6 +79,27 @@ R is connected to the H2O cluster:
 ~~~
 # go back to R
 
+# using AUC as stopping metric
+
+> h2o.confusionMatrix(h2o.getModel("drf-8c9592db-1500-4092-bdc6-1e2bc2911fda"), h2o.getFrame("testdga"))
+
+Confusion Matrix for max f1 @ threshold = 0.26:
+        dga legit    Error      Rate
+dga    1241     9 0.007200   =9/1250
+legit     2  1246 0.001603   =2/1248
+Totals 1243  1255 0.004404  =11/2498
+
+> h2o.confusionMatrix(h2o.getModel("drf-8c9592db-1500-4092-bdc6-1e2bc2911fda"), h2o.getFrame("traindga"))
+
+Confusion Matrix for max f1 @ threshold = 0.59:
+        dga legit    Error     Rate
+dga    3750     0 0.000000  =0/3750
+legit     0  3752 0.000000  =0/3752
+Totals 3750  3752 0.000000  =0/7502
+
+
+# using logloss as stopping metric
+
 > h2o.confusionMatrix(h2o.getModel("drf-8e1a301f-ea59-4ab4-b5f2-6beab1cc9262"), h2o.getFrame("testdga"))
 
 Confusion Matrix for max f1 @ threshold = 0.42:
@@ -86,6 +107,14 @@ Confusion Matrix for max f1 @ threshold = 0.42:
 dga    1242     8 0.006400   =8/1250
 legit     5  1243 0.004006   =5/1248
 Totals 1247  1251 0.005204  =13/2498
+
+> h2o.confusionMatrix(h2o.getModel("drf-8e1a301f-ea59-4ab4-b5f2-6beab1cc9262"), h2o.getFrame("traindga"))
+
+Confusion Matrix for max f1 @ threshold = 0.54:
+        dga legit    Error     Rate
+dga    3750     0 0.000000  =0/3750
+legit     0  3752 0.000000  =0/3752
+Totals 3750  3752 0.000000  =0/7502
 ~~~
 
 
