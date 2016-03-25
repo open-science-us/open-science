@@ -65,7 +65,7 @@ R is connected to the H2O cluster:
 
 (4) Select an algorithm: "Distributed Random Forest"
 
-(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50
+(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; stopping_metric: AUC
 
 (6) Click "Build Model"
 
