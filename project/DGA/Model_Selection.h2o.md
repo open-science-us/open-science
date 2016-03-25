@@ -17,7 +17,7 @@
 
 (4) Select an algorithm: "Distributed Random Forest"
 
-(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; mtries: -1; stopping_rounds: 10; stopping_metric: "AUC"; stopping_tolerance: 0.001; seed: 1000000
+(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; mtries: -1; score_each_iteration: checked; stopping_rounds: 10; stopping_metric: "AUC"; stopping_tolerance: 0.001; seed: 1000000
 
 (6) Click "Build Model"
 
@@ -105,7 +105,7 @@ Totals 1257  1241 0.006005  =15/2498
 
 (2) Select an algorithm: "Deep Learning"
 
-(3) validation_frame: "testdga"; response_column: "class"; activation: RectifierWithDropout; hidden: 100,100; epochs: 10; stopping_metric: AUC
+(3) validation_frame: "testdga"; response_column: "class"; activation: RectifierWithDropout; hidden: 100,100; epochs: 10; variable_importances: checked; score_each_iteration: checked; stopping_rounds: 10; stopping_metric: "AUC"; stopping_tolerance: 0.001; seed: 1000000
 
 (4) Click "Build Model"
 
@@ -113,6 +113,8 @@ Totals 1257  1241 0.006005  =15/2498
 ~~~
 ![dl_ROC_training_h2o](images/dl_ROC_training_h2o.png)
 ![dl_ROC_validation_h2o](images/dl_ROC_validation_h2o.png)
+![dl_feature_importance_h2o](images/dl_feature_importance_h2o.png)
+![dl_feature_importance_table_h2o](images/dl_feature_importance_table_h2o.png)
 
 ~~~
 # go back to R
@@ -121,35 +123,35 @@ Totals 1257  1241 0.006005  =15/2498
 
 > h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("testdga"))
 
-Confusion Matrix for max f1 @ threshold = 0.976170330303615:
+Confusion Matrix for max f1 @ threshold = 0.0234385055057513:
         dga legit    Error      Rate
-dga    1247     3 0.002400   =3/1250
-legit    18  1230 0.014423  =18/1248
-Totals 1265  1233 0.008407  =21/2498
+dga    1245     5 0.004000   =5/1250
+legit    10  1238 0.008013  =10/1248
+Totals 1255  1243 0.006005  =15/2498
 
 > h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("traindga"))
 
-Confusion Matrix for max f1 @ threshold = 0.957816293636941:
+Confusion Matrix for max f1 @ threshold = 0.0299973457665013:
         dga legit    Error      Rate
-dga    3708    42 0.011200  =42/3750
-legit    27  3725 0.007196  =27/3752
-Totals 3735  3767 0.009198  =69/7502
+dga    3730    20 0.005333  =20/3750
+legit    26  3726 0.006930  =26/3752
+Totals 3756  3746 0.006132  =46/7502
 
 # using logloss as stopping metric
 
 > h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("testdga"))
 
-Confusion Matrix for max f1 @ threshold = 0.837299244789879:
+Confusion Matrix for max f1 @ threshold = 0.729475424630688:
         dga legit    Error      Rate
-dga    1240    10 0.008000  =10/1250
-legit    13  1235 0.010417  =13/1248
-Totals 1253  1245 0.009207  =23/2498
+dga    1246     4 0.003200   =4/1250
+legit    10  1238 0.008013  =10/1248
+Totals 1256  1242 0.005604  =14/2498
 
 > h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("traindga"))
 
-Confusion Matrix for max f1 @ threshold = 0.881617625564135:
+Confusion Matrix for max f1 @ threshold = 0.618384636742149:
         dga legit    Error      Rate
-dga    3712    38 0.010133  =38/3750
-legit    30  3722 0.007996  =30/3752
-Totals 3742  3760 0.009064  =68/7502
+dga    3724    26 0.006933  =26/3750
+legit    20  3732 0.005330  =20/3752
+Totals 3744  3758 0.006132  =46/7502
 ~~~
