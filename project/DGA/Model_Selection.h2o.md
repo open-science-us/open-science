@@ -65,7 +65,7 @@ R is connected to the H2O cluster:
 
 (4) Select an algorithm: "Distributed Random Forest"
 
-(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50
+(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; stopping_metric: AUC
 
 (6) Click "Build Model"
 
@@ -75,6 +75,18 @@ R is connected to the H2O cluster:
 ![rf_ROC_validation_h2o](images/rf_ROC_validation_h2o.png)
 ![rf_feature_importance_h2o](images/rf_feature_importance_h2o.png)
 ![rf_feature_importance_table_h2o](images/rf_feature_importance_table_h2o.png)
+
+~~~
+# go back to R
+
+> h2o.confusionMatrix(h2o.getModel("drf-8e1a301f-ea59-4ab4-b5f2-6beab1cc9262"), h2o.getFrame("testdga"))
+
+Confusion Matrix for max f1 @ threshold = 0.42:
+        dga legit    Error      Rate
+dga    1242     8 0.006400   =8/1250
+legit     5  1243 0.004006   =5/1248
+Totals 1247  1251 0.005204  =13/2498
+~~~
 
 
 ### Logistic Regression with H2O
@@ -94,6 +106,17 @@ R is connected to the H2O cluster:
 ![lr_feature_importance_h2o](images/lr_feature_importance_h2o.png)
 ![lr_feature_importance_table_h2o](images/lr_feature_importance_table_h2o.png)
 
+~~~
+# go back to R
+
+> h2o.confusionMatrix(h2o.getModel("glm-f477a602-8a31-4da7-8f58-80d3d65653eb"), h2o.getFrame("testdga"))
+Confusion Matrix for max f1 @ threshold = 0.417488962038092:
+        dga legit    Error      Rate
+dga    1246     4 0.003200   =4/1250
+legit    11  1237 0.008814  =11/1248
+Totals 1257  1241 0.006005  =15/2498
+~~~
+
 
 ### Deep Learning with H2O
 ~~~
@@ -109,3 +132,15 @@ R is connected to the H2O cluster:
 ~~~
 ![dl_ROC_training_h2o](images/dl_ROC_training_h2o.png)
 ![dl_ROC_validation_h2o](images/dl_ROC_validation_h2o.png)
+
+~~~
+# go back to R
+
+> h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("testdga"))
+
+Confusion Matrix for max f1 @ threshold = 0.837299244789879:
+        dga legit    Error      Rate
+dga    1240    10 0.008000  =10/1250
+legit    13  1235 0.010417  =13/1248
+Totals 1253  1245 0.009207  =23/2498
+~~~
