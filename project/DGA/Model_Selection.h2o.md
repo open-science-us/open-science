@@ -165,6 +165,26 @@ Totals 1257  1241 0.006005  =15/2498
 ~~~
 # go back to R
 
+# using AUC as stopping metric
+
+> h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("testdga"))
+
+Confusion Matrix for max f1 @ threshold = 0.976170330303615:
+        dga legit    Error      Rate
+dga    1247     3 0.002400   =3/1250
+legit    18  1230 0.014423  =18/1248
+Totals 1265  1233 0.008407  =21/2498
+
+> h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("traindga"))
+
+Confusion Matrix for max f1 @ threshold = 0.957816293636941:
+        dga legit    Error      Rate
+dga    3708    42 0.011200  =42/3750
+legit    27  3725 0.007196  =27/3752
+Totals 3735  3767 0.009198  =69/7502
+
+# using logloss as stopping metric
+
 > h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("testdga"))
 
 Confusion Matrix for max f1 @ threshold = 0.837299244789879:
@@ -172,4 +192,11 @@ Confusion Matrix for max f1 @ threshold = 0.837299244789879:
 dga    1240    10 0.008000  =10/1250
 legit    13  1235 0.010417  =13/1248
 Totals 1253  1245 0.009207  =23/2498
+
+> h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("traindga"))
+Confusion Matrix for max f1 @ threshold = 0.881617625564135:
+        dga legit    Error      Rate
+dga    3712    38 0.010133  =38/3750
+legit    30  3722 0.007996  =30/3752
+Totals 3742  3760 0.009064  =68/7502
 ~~~
