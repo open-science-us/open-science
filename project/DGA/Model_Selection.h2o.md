@@ -153,7 +153,7 @@ Totals 1257  1241 0.006005  =15/2498
 
 (2) Select an algorithm: "Deep Learning"
 
-(3) validation_frame: "testdga"; response_column: "class"; activation: RectifierWithDropout; hidden: 100,100; epochs: 10
+(3) validation_frame: "testdga"; response_column: "class"; activation: RectifierWithDropout; hidden: 100,100; epochs: 10; stopping_metric: AUC
 
 (4) Click "Build Model"
 
