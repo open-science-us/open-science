@@ -17,7 +17,7 @@
 
 (4) Select an algorithm: "Distributed Random Forest"
 
-(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; stopping_metric: AUC
+(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; mtries: -1; stopping_rounds: 10; stopping_metric: "AUC"; stopping_tolerance: 0.001; seed: 1000000
 
 (6) Click "Build Model"
 
@@ -35,15 +35,15 @@
 
 > h2o.confusionMatrix(h2o.getModel("drf-8c9592db-1500-4092-bdc6-1e2bc2911fda"), h2o.getFrame("testdga"))
 
-Confusion Matrix for max f1 @ threshold = 0.26:
+Confusion Matrix for max f1 @ threshold = 0.454545454545455:
         dga legit    Error      Rate
-dga    1241     9 0.007200   =9/1250
-legit     2  1246 0.001603   =2/1248
-Totals 1243  1255 0.004404  =11/2498
+dga    1244     6 0.004800   =6/1250
+legit     4  1244 0.003205   =4/1248
+Totals 1248  1250 0.004003  =10/2498
 
 > h2o.confusionMatrix(h2o.getModel("drf-8c9592db-1500-4092-bdc6-1e2bc2911fda"), h2o.getFrame("traindga"))
 
-Confusion Matrix for max f1 @ threshold = 0.59:
+Confusion Matrix for max f1 @ threshold = 0.545454545454545:
         dga legit    Error     Rate
 dga    3750     0 0.000000  =0/3750
 legit     0  3752 0.000000  =0/3752
@@ -146,6 +146,7 @@ legit    13  1235 0.010417  =13/1248
 Totals 1253  1245 0.009207  =23/2498
 
 > h2o.confusionMatrix(h2o.getModel("deeplearning-470eb660-bcab-4598-8bfd-2795de8e65c5"), h2o.getFrame("traindga"))
+
 Confusion Matrix for max f1 @ threshold = 0.881617625564135:
         dga legit    Error      Rate
 dga    3712    38 0.010133  =38/3750
