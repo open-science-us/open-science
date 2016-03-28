@@ -17,12 +17,13 @@
 
 (4) Select an algorithm: "Distributed Random Forest"
 
-(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; mtries: -1; score_each_iteration: checked; stopping_rounds: 10; stopping_metric: "AUC"; stopping_tolerance: 0.001; seed: 1000000
+(5) validation_frame: "testdga"; response_column: "class"; ntrees: 50; mtries: -1; seed: 1000000; score_each_iteration: checked; stopping_rounds: 10; stopping_metric: "AUC"; stopping_tolerance: 0.001; 
 
 (6) Click "Build Model"
 
 (7) Click "View" and "Predict"
 ~~~
+
 ![rf_ROC_training_h2o](images/rf_ROC_training_h2o.png)
 ![rf_ROC_validation_h2o](images/rf_ROC_validation_h2o.png)
 ![rf_feature_importance_h2o](images/rf_feature_importance_h2o.png)
