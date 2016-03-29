@@ -1,4 +1,4 @@
-## Feature Selection using Random Forest with R
+## Feature Selection with R
 
 ~~~
 > library('caret')
