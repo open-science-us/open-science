@@ -682,6 +682,49 @@ squarespace.com
 blogsky.com
 blog.br
 blog.163.com
+
+# manually replace blog.163.com by 163.com
+
+more url_domain2.txt
+tmall.com
+blogspot.com
+tumblr.com
+wordpress.com
+blogspot.co.id
+blogspot.in
+livejournal.com
+myshopify.com
+blogspot.com.br
+sharepoint.com
+blogspot.gr
+blogfa.com
+blogspot.com.eg
+blogspot.ru
+rozblog.com
+appspot.com
+uol.com.br
+altervista.org
+blog.ir
+kiev.ua
+gen.tr
+blogspot.com.es
+wix.com
+blogspot.com.tr
+weebly.com
+16mb.com
+mihanblog.com
+blogspot.it
+jimdo.com
+blogspot.mx
+herokuapp.com
+persianblog.ir
+typepad.com
+ning.com
+azurewebsites.net
+squarespace.com
+blogsky.com
+blog.br
+163.com
 ~~~
 
 
@@ -696,4 +739,22 @@ alexTupleRDD.filter{t => bcTLD.value.contains(t._3)}.count
 
 res35: Long = 956934
 
+
+val urlDomainRDD = sc.textFile("/work/dga/url_domain2.txt")
+
+val urlDomainTupleRDD = urlDomainRDD.map{ line => 
+  val i = line.indexOf(".")
+  
+  val domain = line.substring(0, i)
+  
+  (line, domain, line.substring(i+1), domain.length)
+}
+
+val goodAlexTupleRDD = alexTupleRDD.filter{t => bcTLD.value.contains(t._3)}.union(urlDomainTupleRDD)
+
+goodAlexTupleRDD.count
+
+res43: Long = 956973       
+
+goodAlexTupleRDD.coalesce(1).map{t => (t._1 + "," + t._2 + "," + t._3 + "," + t._4)}.saveAsTextFile("/work/dga/alex_good_legit.csv")
 ~~~
