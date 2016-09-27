@@ -1,6 +1,6 @@
-# [Domain Generation Algorithm] (https://en.wikipedia.org/wiki/Domain_generation_algorithm)
+## [Domain Generation Algorithm] (https://en.wikipedia.org/wiki/Domain_generation_algorithm)
 
-## Using R package 'dga'
+### Using R package 'dga'
 
 ~~~
 > install.packages('devtools')
@@ -42,7 +42,18 @@
 12 kbmqwdsrfzfqpdp   dga 1.00
 ~~~
 
-## References
+### Data Source
+
+(1) [Top 1 Million Alexa domains](http://s3.amazonaws.com/alexa-static/top-1m.csv.zip)
+
+(2) [OpenDNS 10,000 Top Domains](https://raw.githubusercontent.com/opendns/public-domain-lists/master/opendns-top-domains.txt)
+
+(3) [OpenDNS 10,000 Random Domains](https://raw.githubusercontent.com/opendns/public-domain-lists/master/opendns-random-domains.txt)
+
+(4) [Example from click security](https://github.com/ClickSecurity/data_hacking/blob/master/dga_detection/data/dga_domains.txt)
+
+
+### References
 
 (1) [Building a DGA Classifier: Part 1, Data Preparation](http://datadrivensecurity.info/blog/posts/2014/Sep/dga-part1/)
 
