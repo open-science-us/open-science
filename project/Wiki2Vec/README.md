@@ -56,9 +56,13 @@ bzip2 enwiki-20160820-pages-articles-multistream.txt
 (4) [Sentence Similarity using Word2Vec and Word Movers Distance](http://sujitpal.blogspot.com/2015/09/sentence-similarity-using-word2vec-and.html)
 
 
-
 #### Word2Vec
 
+(1) [Efficient Estimation of Word Representations in Vector Space](http://arxiv.org/pdf/1301.3781.pdf)
+
+(2) [Linguistic Regularities in Continuous Space Word Representations](http://msr-waypoint.com/en-us/um/people/gzweig/Pubs/NAACL2013Regularities.pdf)
+
+(3) [The amazing power of word vectors](https://blog.acolyer.org/2016/04/21/the-amazing-power-of-word-vectors/)
 
 
 
