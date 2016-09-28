@@ -3,7 +3,7 @@
 ### Downloading XML files compressed in bz2
 
 ~~~
-cd /mnt/wiki2vec
+cd /work/wiki2vec
 
 curl -OL https://dumps.wikimedia.org/enwiki/20160820/enwiki-20160820-pages-articles-multistream.xml.bz2
 ~~~
