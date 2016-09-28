@@ -42,7 +42,9 @@ bzip2 enwiki-20160820-pages-articles-multistream.txt
 
 (2) [Wiki2Vec](https://github.com/idio/wiki2vec)
 
-(3) [Training word2vec on full Wikipedia](https://groups.google.com/forum/#!topic/gensim/MJWrDw_IvXw)
+(3) [Experiments on english wikipedia. GloVe and word2vec.](https://www.r-bloggers.com/experiments-on-english-wikipedia-glove-and-word2vec/)
+
+(4) [Training word2vec on full Wikipedia](https://groups.google.com/forum/#!topic/gensim/MJWrDw_IvXw)
 
 
 #### Word2Vec on Spark
