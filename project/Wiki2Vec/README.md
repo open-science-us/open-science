@@ -66,6 +66,7 @@ bzip2 enwiki-20160820-pages-articles-multistream.txt
 
 (3) [The amazing power of word vectors](https://blog.acolyer.org/2016/04/21/the-amazing-power-of-word-vectors/)
 
+(4) [Making sense of word2vec](https://rare-technologies.com/making-sense-of-word2vec/)
 
 
 
