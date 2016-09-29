@@ -38,13 +38,17 @@ bzip2 enwiki-20160820-pages-articles-multistream.txt
 
 #### Word2Vec against English Wikipedia
 
-(1) [Training Word2Vec Model on English Wikipedia by Gensim](http://textminingonline.com/training-word2vec-model-on-english-wikipedia-by-gensim)
+(1) [Getting Started with Word2Vec and GloVe](http://textminingonline.com/getting-started-with-word2vec-and-glove)
 
-(2) [Wiki2Vec](https://github.com/idio/wiki2vec)
+(2) [Training Word2Vec Model on English Wikipedia by Gensim](http://textminingonline.com/training-word2vec-model-on-english-wikipedia-by-gensim)
 
-(3) [Experiments on english wikipedia. GloVe and word2vec.](https://www.r-bloggers.com/experiments-on-english-wikipedia-glove-and-word2vec/)
+(3) [Wiki2Vec](https://github.com/idio/wiki2vec)
 
-(4) [Training word2vec on full Wikipedia](https://groups.google.com/forum/#!topic/gensim/MJWrDw_IvXw)
+(4) [Experiments on english wikipedia. GloVe and word2vec.](https://www.r-bloggers.com/experiments-on-english-wikipedia-glove-and-word2vec/)
+
+(5) [Making sense of word2vec](https://rare-technologies.com/making-sense-of-word2vec/)
+
+(6) [Training word2vec on full Wikipedia](https://groups.google.com/forum/#!topic/gensim/MJWrDw_IvXw)
 
 
 #### Word2Vec on Spark
@@ -66,7 +70,6 @@ bzip2 enwiki-20160820-pages-articles-multistream.txt
 
 (3) [The amazing power of word vectors](https://blog.acolyer.org/2016/04/21/the-amazing-power-of-word-vectors/)
 
-(4) [Making sense of word2vec](https://rare-technologies.com/making-sense-of-word2vec/)
 
 
 
