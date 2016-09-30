@@ -13,9 +13,14 @@ cd /work/phishing
 chmod +x mb2md-3.20.pl
 
 ./mb2md-3.20.pl -s /work/phishing/jose/phishing0.mbox -d /work/phishing/jose/phishing0
-
+./mb2md-3.20.pl -s /work/phishing/jose/phishing1.mbox -d /work/phishing/jose/phishing1
+./mb2md-3.20.pl -s /work/phishing/jose/phishing2.mbox -d /work/phishing/jose/phishing2
+./mb2md-3.20.pl -s /work/phishing/jose/phishing3.mbox -d /work/phishing/jose/phishing3
+./mb2md-3.20.pl -s /work/phishing/jose/private-phishing4.mbox -d /work/phishing/jose/private-phishing4
+./mb2md-3.20.pl -s /work/phishing/jose/20051114.mbox -d /work/phishing/jose/20051114
 ~~~
-(2) Good or Ham Email Dataset: Apache SpamAssassin, https://spamassassin.apache.org/publiccorpus/(3) TREC 2005 Email Dataset: http://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/foo
+(2) Good or Ham Email Dataset: Apache SpamAssassin, https://spamassassin.apache.org/publiccorpus/
+(3) TREC 2005 Email Dataset: http://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/foo
 
 ### Reference
 
