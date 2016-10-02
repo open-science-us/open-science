@@ -22,5 +22,9 @@ chmod +x mb2md-3.20.pl
 (2) Good or Ham Email Dataset: Apache SpamAssassin, https://spamassassin.apache.org/publiccorpus/
 (3) TREC 2005 Email Dataset: http://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/foo
 
+
 ### Reference
 
+(1) [Phishing Detection Using Neural Network](http://cs229.stanford.edu/proj2012/ZhangYuan-PhishingDetectionUsingNeuralNetwork.pdf)
+(2) [Classification of Phishing Email Using Random Forest Machine Learning Technique](https://www.hindawi.com/journals/jam/2014/425731/)
+(3) [H2O Ensemble Tree](http://ethen8181.github.io/machine-learning/h2o/h2o_ensemble_tree/h2o_ensemble_tree.html)
