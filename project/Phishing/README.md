@@ -1,6 +1,6 @@
 ## Phishing Email Detection
 
-### Data Set
+### Public Corpus
 
 (1) Phishing Email Dataset: J. Nazario, “Phishingcorpus homepage,” 2006, http://monkey.org/%7Ejose/wiki/doku.php?id=PhishingCorpus
 ~~~
