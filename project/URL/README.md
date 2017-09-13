@@ -1,4 +1,4 @@
-## Malicious URL Detection
+## Malicious URL Detection via CNN (Convolutional Neural Network)
 
 ### Public Dataset
 
@@ -8,4 +8,5 @@
 ### Reference
 
 (1) [Classifying Phishing URLs Using Recurrent Neural Networks](http://blog.easysol.net/classifying-phishing-urls/)
-(2) [Using Machine Learning to detect malicious URLs](https://github.com/faizann24/Using-machine-learning-to-detect-malicious-URLs)
+
+(2) [Using Machine Learning to detect malicious URLs](https://github.com/faizann24/Using-machine-learning-to-detect-malicious-URLs)
