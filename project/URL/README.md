@@ -1,4 +1,4 @@
-## Malicious URL Detection
+## Malicious URL Detection via Deep Learning
 
 ### Public Dataset
 
