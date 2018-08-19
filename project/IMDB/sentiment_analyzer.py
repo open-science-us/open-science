@@ -87,7 +87,7 @@ class SentimentAnalyzer():
   def predict(self, X):
     return self.rf_model.predict(X)
 
-# python3.6 sentiment_analyzer.py params.json train_pos.txt train_neg.txt test_pos.txt test_neg.txt rf_pl.pkl res.json
+# python3.6 sentiment_analyzer.py params.json train_pos.txt train_neg.txt test_pos.txt test_neg.txt rf_model.pkl res.json
 
 def main():
   sa = SentimentAnalyzer(sys.argv[1])
