@@ -20,26 +20,26 @@ from sklearn.pipeline import Pipeline
 class SentimentAnalyzer():
   def __init__(self, json_fn):
     with open(json_fn) as f:
-      params = json.load(f)
+      self.params = json.load(f)
 #
-    nr = params['tfidf'].get('ngram_range', None)
+    nr = self.params['tfidf'].get('ngram_range', None)
     if (nr is None):
       nr = (1,1)
     else:
       nr = tuple(nr)
-    vectorizer = TfidfVectorizer(stop_words=params['tfidf'].get('stop_words', None), ngram_range=nr, use_idf=params['tfidf'].get('use_idf', None), smooth_idf=params['tfidf'].get('smooth_idf', None), sublinear_tf=params['tfidf'].get('sublinear_tf', None))
-    logger.info("TfidfVectorizer\tstop_words:\t{}".format(params['tfidf'].get('stop_words', None)))
+    vectorizer = TfidfVectorizer(stop_words=self.params['tfidf'].get('stop_words', None), ngram_range=nr, use_idf=self.params['tfidf'].get('use_idf', None), smooth_idf=self.params['tfidf'].get('smooth_idf', None), sublinear_tf=self.params['tfidf'].get('sublinear_tf', None))
+    logger.info("TfidfVectorizer\tstop_words:\t{}".format(self.params['tfidf'].get('stop_words', None)))
     logger.info("TfidfVectorizer\tngram_range:\t{}".format(nr))
-    logger.info("TfidfVectorizer\tuse_idf:\t{}".format(params['tfidf'].get('use_idf', None)))
-    logger.info("TfidfVectorizer\tsmooth_idf:\t{}".format(params['tfidf'].get('smooth_idf', None)))
-    logger.info("TfidfVectorizer\tsublinear_tf:\t{}".format(params['tfidf'].get('sublinear_tf', None)))
+    logger.info("TfidfVectorizer\tuse_idf:\t{}".format(self.params['tfidf'].get('use_idf', None)))
+    logger.info("TfidfVectorizer\tsmooth_idf:\t{}".format(self.params['tfidf'].get('smooth_idf', None)))
+    logger.info("TfidfVectorizer\tsublinear_tf:\t{}".format(self.params['tfidf'].get('sublinear_tf', None)))
 #
-    classifier = RandomForestClassifier(n_estimators=params['rf'].get('n_estimators', None), min_samples_leaf=params['rf'].get('min_samples_leaf', None), min_samples_split=params['rf'].get('min_samples_split', None), random_state=params['rf'].get('random_state', None), n_jobs=params['rf'].get('n_jobs', None))
-    logger.info("RandomForestClassifier\tn_estimators:\t{}".format(params['rf'].get('n_estimators', None)))
-    logger.info("RandomForestClassifier\tmin_samples_leaf:\t{}".format(params['rf'].get('min_samples_leaf', None)))
-    logger.info("RandomForestClassifier\tmin_samples_split:\t{}".format(params['rf'].get('min_samples_split', None)))
-    logger.info("RandomForestClassifier\trandom_state:\t{}".format(params['rf'].get('random_state', None)))
-    logger.info("RandomForestClassifier\tn_jobs:\t{}".format(params['rf'].get('n_jobs', None)))
+    classifier = RandomForestClassifier(n_estimators=self.params['rf'].get('n_estimators', None), min_samples_leaf=self.params['rf'].get('min_samples_leaf', None), min_samples_split=self.params['rf'].get('min_samples_split', None), random_state=self.params['rf'].get('random_state', None), n_jobs=self.params['rf'].get('n_jobs', None))
+    logger.info("RandomForestClassifier\tn_estimators:\t{}".format(self.params['rf'].get('n_estimators', None)))
+    logger.info("RandomForestClassifier\tmin_samples_leaf:\t{}".format(self.params['rf'].get('min_samples_leaf', None)))
+    logger.info("RandomForestClassifier\tmin_samples_split:\t{}".format(self.params['rf'].get('min_samples_split', None)))
+    logger.info("RandomForestClassifier\trandom_state:\t{}".format(self.params['rf'].get('random_state', None)))
+    logger.info("RandomForestClassifier\tn_jobs:\t{}".format(self.params['rf'].get('n_jobs', None)))
 #
     self.rf_pl = Pipeline([('tfidf', vectorizer), ('rf', classifier)])
 
@@ -60,17 +60,17 @@ class SentimentAnalyzer():
 #
     return X, Y
 
-  def prepareTrain(self, train_pos_fn, train_neg_fn):
-    return self.preparePair(train_pos_fn, train_neg_fn)
+  def prepareTrain(self):
+    return self.preparePair(self.params['in']['train'][0], self.params['in']['train'][1])
 
-  def prepareTest(self, test_pos_fn, test_neg_fn):
-    return self.preparePair(test_pos_fn, test_neg_fn)
+  def prepareTest(self):
+    return self.preparePair(self.params['in']['test'][0], self.params['in']['test'][1])
 
-  def train(self, X_train, Y_train, X_test, Y_test, rf_model_fn, res_json_fn):
+  def train(self, X_train, Y_train, X_test, Y_test):
     start = time.time()
     self.rf_model = self.rf_pl.fit(X_train, Y_train)
     end = time.time()
-    pickle.dump(self.rf_model, open(rf_model_fn, 'wb'))
+    pickle.dump(self.rf_model, open(self.params['out']['model'], 'wb'))
 #
     rf_predicted = self.rf_model.predict(X_test)
     rf_validated = rf_predicted == Y_test
@@ -81,21 +81,21 @@ class SentimentAnalyzer():
     res = {}
     res['elapse'] = end - start
     res['accuracy'] = accuracy
-    with open(res_json_fn, 'w') as f:
+    with open(self.params['out']['metrics'], 'w') as f:
       json.dump(res, f, ensure_ascii=False)
 
   def predict(self, X):
     return self.rf_model.predict(X)
 
-# python3.6 sentiment_analyzer.py params.json train_pos.txt train_neg.txt test_pos.txt test_neg.txt rf_model.pkl res.json
+# python3.6 sentiment_analyzer.py params.json
 
 def main():
   sa = SentimentAnalyzer(sys.argv[1])
 #
-  X_train, Y_train = sa.prepareTrain(sys.argv[2], sys.argv[3])
-  X_test, Y_test = sa.prepareTest(sys.argv[4], sys.argv[5])
+  X_train, Y_train = sa.prepareTrain()
+  X_test, Y_test = sa.prepareTest()
 #
-  sa.train(X_train, Y_train, X_test, Y_test, sys.argv[6], sys.argv[7])
+  sa.train(X_train, Y_train, X_test, Y_test)
 
 if __name__ == "__main__":
   main()
