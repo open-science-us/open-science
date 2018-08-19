@@ -6,12 +6,8 @@ import json
 import pickle
 
 import logging
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger(__name__)
-logger_hdlr = logging.StreamHandler(sys.stdout)
-logger_hdlr.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
-logger_hdlr.setLevel(logging.INFO)
-logger.addHandler(logger_hdlr)
-logger.setLevel(logging.INFO)
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
