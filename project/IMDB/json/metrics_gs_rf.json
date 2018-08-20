@@ -1,0 +1,15 @@
+{
+  "clf__min_samples_leaf": 2,
+  "clf__min_samples_split": 20,
+  "clf__n_estimators": 300,
+  "tfidf__ngram_range": [
+    1,
+    5
+  ],
+  "tfidf__smooth_idf": true,
+  "tfidf__sublinear_tf": true,
+  "tfidf__use_idf": false,
+  "elapse": 21977.754707813263,
+  "best_score": 0.85188,
+  "accuracy": 0.86576
+}
