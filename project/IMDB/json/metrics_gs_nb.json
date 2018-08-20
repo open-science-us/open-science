@@ -1,0 +1,14 @@
+{
+  "clf__alpha": 0.01,
+  "clf__fit_prior": true,
+  "tfidf__ngram_range": [
+    1,
+    5
+  ],
+  "tfidf__smooth_idf": true,
+  "tfidf__sublinear_tf": true,
+  "tfidf__use_idf": false,
+  "elapse": 8529.678543329239,
+  "best_score": 0.79352,
+  "accuracy": 0.8498
+}
