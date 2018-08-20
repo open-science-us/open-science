@@ -6,7 +6,7 @@
   "tfidf": {
     "stop_words": "english",
     "ngram_range": [1,5],
-    "use_idf": false,
+    "use_idf": true,
     "smooth_idf": true,
     "sublinear_tf": true
   },
