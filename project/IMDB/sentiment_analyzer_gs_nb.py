@@ -1,5 +1,4 @@
 import sys
-import json
 
 import logging
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
