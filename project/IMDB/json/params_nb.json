@@ -5,17 +5,17 @@
   },
   "tfidf": {
     "stop_words": "english",
-    "ngram_range": [1,2],
-    "use_idf": true,
+    "ngram_range": [1,5],
+    "use_idf": false,
     "smooth_idf": true,
     "sublinear_tf": true
   },
   "nb": {
     "alpha": 1e-2,
-    "fit_prior": false
+    "fit_prior": true
   },
   "out": {
-    "model": "model_nb.pkl",
+    "model": "modeli_nb.pkl",
     "metrics": "metrics_nb.json"
   }
 }
