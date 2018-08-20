@@ -5,8 +5,8 @@
   },
   "tfidf": {
     "stop_words": "english",
-    "ngram_range": [1,2],
-    "use_idf": true,
+    "ngram_range": [1,5],
+    "use_idf": false,
     "smooth_idf": true,
     "sublinear_tf": true
   },
