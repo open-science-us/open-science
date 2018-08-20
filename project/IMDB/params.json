@@ -1,0 +1,13 @@
+{
+  "in": {
+    "train": ["train_pos.txt", "train_neg.txt"],
+    "test": ["test_pos.txt", "test_neg.txt"]
+  },
+  "tfidf": {
+    "stop_words": "english",
+    "ngram_range": [1,1],
+    "use_idf": true,
+    "smooth_idf": true,
+    "sublinear_tf": true
+  }
+}
