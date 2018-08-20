@@ -1,4 +1,4 @@
-## IMDB - Sentiment Analysis of Movie Reviews
+## Kaggle-IMDB: Sentiment Analysis of Movie Reviews
 
 ## Public Dataset
 (1) Large Movie Review Dataset, Stanford University,  http://ai.stanford.edu/~amaas/data/sentiment/
