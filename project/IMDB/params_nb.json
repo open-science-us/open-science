@@ -15,7 +15,7 @@
     "fit_prior": false
   },
   "out": {
-    "model": "nb_model.pkl",
-    "metrics": "nb_metrics.json"
+    "model": "model_nb.pkl",
+    "metrics": "metrics_nb.json"
   }
 }
