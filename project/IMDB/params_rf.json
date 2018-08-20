@@ -5,7 +5,7 @@
   },
   "tfidf": {
     "stop_words": "english",
-    "ngram_range": [1,5],
+    "ngram_range": [1,2],
     "use_idf": true,
     "smooth_idf": true,
     "sublinear_tf": true
@@ -18,7 +18,7 @@
     "n_jobs": -1 
   },
   "out": {
-    "model": "rf_model.pkl",
-    "metrics": "metrics.json"
+    "model": "model_rf.pkl",
+    "metrics": "metrics_rf.json"
   }
 }
